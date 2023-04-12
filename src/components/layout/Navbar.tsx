@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import logo from "@/images/logos/daobox.png";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export function Navbar() {
 
@@ -14,7 +15,7 @@ export function Navbar() {
   useEffect(() => {
     const page = window.location.pathname || ""
     setPage(page)
-  }, [])
+  }, [window.location.pathname])
 
   return (
     <Disclosure as="nav" className="bg-slate-800 shadow">
@@ -39,41 +40,41 @@ export function Navbar() {
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <a
+                  <Link
                     href="/"
                     className={`inline-flex items-center border-b-2 ${page == "/" ? "border-indigo-500" : "border-transparent hover:border-gray-300"} 
                     px-1 pt-1 text-sm font-medium text-white`}
                   >
                     Dashboard
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="#"
                     className={`inline-flex items-center border-b-2 ${page == "/team" ? "border-indigo-500" : "border-transparent hover:border-gray-300"} 
                     px-1 pt-1 text-sm font-medium text-white hover:text-gray-700`}
                   >
                     Team
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="#"
                     className={`inline-flex items-center border-b-2  ${page == "/projects" ? "border-indigo-500" : "border-transparent hover:border-gray-300"} 
                     px-1 pt-1 text-sm font-medium text-white hover:text-gray-700`}
                   >
                     Projects
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="#"
                     className={`inline-flex items-center border-b-2  ${page == "/calender" ? "border-indigo-500" : "border-transparent hover:border-gray-300"} 
                     px-1 pt-1 text-sm font-medium text-white hover:text-gray-700`}
                   >
                     Calendar
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/community"
                     className={`inline-flex items-center border-b-2  ${page == "/community" ? "border-indigo-500" : "border-transparent hover:border-gray-300"} 
                     px-1 pt-1 text-sm font-medium text-white hover:text-gray-700`}
                   >
                     Community
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
