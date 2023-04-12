@@ -1,7 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { SwitchTheme } from "@/components/SwitchTheme";
 
 const Home: NextPage = () => {
   return (
@@ -12,8 +10,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center to-[#15162c]">
-        <ConnectButton />
-        <SwitchTheme />
+        <h1>DAOGlobal Hackathon UI</h1>
       </main>
     </>
   );
