@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { wagmiClient, chains } from "../lib/wagmiClient";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { AppShell } from "../components/layout/AppShell";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -16,7 +17,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         initialChain={goerli}
         modalSize="compact"
       >
-        <Component {...pageProps} />;
+        <AppShell>
+          <Component {...pageProps} />
+        </AppShell>
       </RainbowKitProvider>
     </WagmiConfig>
   );

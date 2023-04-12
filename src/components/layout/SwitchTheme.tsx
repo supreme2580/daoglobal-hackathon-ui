@@ -16,7 +16,7 @@ export const SwitchTheme = () => {
 
   return (
     <button
-      className="flex h-10 w-10 items-center justify-center rounded-full focus:outline-none"
+      className="flex h-7 w-7 items-center justify-center rounded-full focus:outline-none"
       onClick={toggleTheme}
     >
       {theme === "dark" ? (
