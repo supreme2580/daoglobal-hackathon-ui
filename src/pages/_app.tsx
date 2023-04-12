@@ -7,8 +7,11 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { wagmiClient, chains } from "../lib/wagmiClient";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { AppShell } from "../components/layout/AppShell";
+import { useEffect, useState } from "react";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
@@ -17,9 +20,11 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         initialChain={goerli}
         modalSize="compact"
       >
-        <AppShell>
+        {
+          mounted && <AppShell>
           <Component {...pageProps} />
         </AppShell>
+        }
       </RainbowKitProvider>
     </WagmiConfig>
   );
