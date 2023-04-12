@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { navbarItems } from "@/constants/constants";
-import { NavItemsType } from "@/typings/typings";
+import { NavItemsType } from "@/types/types";
 
 export function Navbar() {
 

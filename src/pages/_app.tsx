@@ -7,11 +7,11 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { wagmiClient, chains } from "../lib/wagmiClient";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { AppShell } from "../components/layout/AppShell";
-import React from "react";
+import { useEffect, useState } from "react";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
