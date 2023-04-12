@@ -109,30 +109,42 @@ export function Navbar() {
               <Disclosure.Button
                 as="a"
                 href="/"
-                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
+                className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${page == "/" ? 
+                "text-indigo-700 border-indigo-500 bg-indigo-50" : "text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"}`}
               >
                 Dashboard
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
                 href="#"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${page == "/team" ? 
+                "text-indigo-700 border-indigo-500 bg-indigo-50" : "text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"}`}
               >
                 Team
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
                 href="#"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${page == "/projects" ? 
+                "text-indigo-700 border-indigo-500 bg-indigo-50" : "text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"}`}
               >
                 Projects
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
                 href="#"
-                className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${page == "/calender" ? 
+                "text-indigo-700 border-indigo-500 bg-indigo-50" : "text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"}`}
               >
                 Calendar
+              </Disclosure.Button>
+              <Disclosure.Button
+                as="a"
+                href="/community"
+                className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${page == "/community" ? 
+                "text-indigo-700 border-indigo-500 bg-indigo-50" : "text-white hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"}`}
+              >
+                Community
               </Disclosure.Button>
             </div>
             <div className="border-t border-gray-200 pb-3 pt-4">
