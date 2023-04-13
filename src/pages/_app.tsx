@@ -9,6 +9,7 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { SideBar } from "../components/layout/SideBar";
 import { useEffect, useState } from "react";
 import { AragonProvider } from "@daobox/use-aragon";
+import { RecoilRoot } from "recoil"
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const [mounted, setMounted] = useState(false);
@@ -21,11 +22,13 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         initialChain={goerli}
         modalSize="compact"
       >
-        <SideBar>
-          <AragonProvider>
-            {mounted && <Component {...pageProps} />}
-          </AragonProvider>
-        </SideBar>
+        <RecoilRoot>
+          <SideBar>
+            <AragonProvider>
+              {mounted && <Component {...pageProps} />}
+            </AragonProvider>
+          </SideBar>
+        </RecoilRoot>
       </RainbowKitProvider>
     </WagmiConfig>
   );
