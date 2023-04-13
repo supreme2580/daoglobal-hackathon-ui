@@ -2,11 +2,11 @@ import { type AppType } from "next/dist/shared/lib/utils";
 
 import { WagmiConfig, goerli } from "wagmi";
 
-import "@/styles/globals.css";
+import "@styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { wagmiClient, chains } from "../lib/wagmiClient";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { SideBar } from "../components/layout/SideBar";
+import { AppShell } from "../components/layout/AppShell";
 import { useEffect, useState } from "react";
 import { AragonProvider } from "@daobox/use-aragon";
 
@@ -21,11 +21,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         initialChain={goerli}
         modalSize="compact"
       >
-        <SideBar>
-          <AragonProvider>
-            {mounted && <Component {...pageProps} />}
-          </AragonProvider>
-        </SideBar>
+        <AragonProvider>
+          <AppShell>{mounted && <Component {...pageProps} />}</AppShell>
+        </AragonProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
