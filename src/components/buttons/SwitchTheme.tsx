@@ -22,7 +22,7 @@ export const SwitchTheme = () => {
       {theme === "dark" ? (
         <SunIcon className="h-6 w-6 text-yellow-500" />
       ) : (
-        <MoonIcon className="h-6 w-6 text-gray-700" />
+        <MoonIcon className="h-6 w-6 text-white" />
       )}
     </button>
   );
