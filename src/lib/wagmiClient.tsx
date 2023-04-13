@@ -1,23 +1,23 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { createClient, configureChains } from "wagmi";
-import { goerli, polygonMumbai } from "wagmi/chains";
-// import { alchemyProvider } from "wagmi/providers/alchemy";
+import { configureChains, createClient } from "wagmi";
+import { goerli } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
-const { chains, provider } = configureChains(
-  [goerli, polygonMumbai],
-  [publicProvider({ priority: 1 })]
+const { chains, provider, webSocketProvider } = configureChains(
+  [goerli],
+  [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "DAOGlobal UI",
+  appName: "DAO Global UI",
   chains,
 });
 
-export const wagmiClient = createClient({
+export const client = createClient({
   autoConnect: true,
   connectors,
   provider,
+  webSocketProvider,
 });
 
 export { chains };
