@@ -3,12 +3,15 @@ import { type Config } from "tailwindcss";
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        daoboxg: "#5dfdcb",
+      },
+    },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/forms")],
 
   daisyui: {
-    themes: [ "light", "dark", "night" ],
-  }
-
+    themes: ["light", "dark", "night"],
+  },
 } satisfies Config;
