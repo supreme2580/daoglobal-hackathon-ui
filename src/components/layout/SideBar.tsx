@@ -1,36 +1,22 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  CalendarIcon,
-  Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { SwitchTheme } from "./SwitchTheme";
 import logo from "@/images/logos/daobox.png";
-
-const navigation = [
-  { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
-  { name: "Members", href: "/members", icon: UsersIcon, current: false },
-  { name: "Treasury", href: "/treasury", icon: FolderIcon, current: false },
-  { name: "Voting", href: "/voting", icon: CalendarIcon, current: false },
-  { name: "Feed", href: "/feed", icon: DocumentDuplicateIcon, current: false },
-];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import Link from "next/link";
+import { navigation } from "@/constants";
+import { Bars3Icon, Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export function SideBar({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [path, setPath] = useState("")
+  useEffect(() => {
+    setPath(window.location.pathname)
+  }, [window.location.pathname])
+  
   return (
     <>
       {/*
@@ -109,42 +95,35 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                         <li>
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
-                              <li key={item.name}>
-                                <a
+                              <li key={item.name} >
+                                <Link
                                   href={item.href}
-                                  className={classNames(
-                                    item.current
-                                      ? "bg-daoboxg text-black"
-                                      : "text-white hover:bg-daoboxg hover:text-black",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                                  )}
+                                  className={`flex items-center gap-x-3 rounded-md p-2 font-semibold leading-6 
+                                  ${path == item.href ? "bg-daoboxg text-black" : "text-white hover:bg-daoboxg hover:text-black"}`}
                                 >
                                   <item.icon
-                                    className={classNames(
-                                      item.current
-                                        ? "text-black"
-                                        : "text-white group-hover:text-black",
-                                      "h-6 w-6 shrink-0"
-                                    )}
+                                    className={`w-6 h-6 shrink-0 ${path == item.href ? "text-black" : "group-hover:text-white"}`}
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </li>
                         <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-daoboxg hover:text-white"
+                          <Link
+                            href="/settings"
+                            className={`group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6
+                            ${typeof window != "undefined" && window.location.pathname == "/settings" ? "bg-daoboxg text-black" 
+                            : "text-white hover:bg-daoboxg hover:text-black"}`}
                           >
                             <Cog6ToothIcon
                               className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
                               aria-hidden="true"
                             />
                             Settings
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>
@@ -173,32 +152,22 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-daoboxg text-black"
-                              : "text-white hover:bg-daoboxg hover:text-black",
-                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                          )}
+                        <Link href={item.href}
+                          className={`flex items-center gap-x-3 rounded-md p-2 font-semibold leading-6 
+                          ${path == item.href ? "bg-daoboxg text-black" : "text-white hover:bg-daoboxg hover:text-black"}`}
                         >
                           <item.icon
-                            className={classNames(
-                              item.current
-                                ? "text-black"
-                                : "text-white group-hover:text-black",
-                              "h-6 w-6 shrink-0"
-                            )}
+                            className={`w-6 h-6 shrink-0 ${path == item.href ? "text-black" : "group-hover:text-white"}`}
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </li>
                 <li className="mt-auto">
-                  <a
+                  <Link
                     href="/settings"
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-white hover:bg-daoboxg hover:text-black"
                   >
@@ -207,7 +176,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                       aria-hidden="true"
                     />
                     Settings
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -232,7 +201,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
             />
 
             <div className="flex flex-1 justify-end gap-x-4 self-stretch lg:gap-x-6">
-              <div className="flex items-center  gap-x-4 lg:gap-x-6">
+              <div className="flex items-center  gap-x-4 lg:gap-x-1">
                 <SwitchTheme />
 
                 {/* Separator */}

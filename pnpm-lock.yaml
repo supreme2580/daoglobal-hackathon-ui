@@ -23,7 +23,7 @@ dependencies:
     specifier: ^2.51.5
     version: 2.51.5(autoprefixer@10.4.14)(postcss@8.4.21)
   ethers:
-    specifier: ^5
+    specifier: ^5.7.2
     version: 5.7.2
   next:
     specifier: ^13.2.4
