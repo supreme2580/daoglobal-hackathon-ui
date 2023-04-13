@@ -1,10 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useFetchDao } from "@daobox/use-aragon";
-import { daoAddressOrEns } from "@/constants";
+import { daoAddressOrEns } from "@constants/daoConfig";
 
 const Home: NextPage = () => {
-  // const { data, status } = useFetchDao({ daoAddressOrEns, });
+  const { status } = useFetchDao({ daoAddressOrEns });
 
   return (
     <>
@@ -13,11 +13,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Hacking Away Is Always Awesome" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center to-[#15162c]">
-        {/* <h3>Status: {status}</h3> */}
-        <pre>
-        </pre>
-      </main>
+      <h3>Status: {status}</h3>
     </>
   );
 };
