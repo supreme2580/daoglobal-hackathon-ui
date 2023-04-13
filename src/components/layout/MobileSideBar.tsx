@@ -12,9 +12,10 @@ export default function MobileMenu() {
 
     const [open, setOpen] = useRecoilState(navigationAtom);
     const [path, setPath] = useState("")
-    typeof window != "undefined" &&
     useEffect(() => {
-      setPath(window.location.pathname)
+      if (typeof window != "undefined") {
+        setPath(window.location.pathname)
+      }
     }, [window.location.pathname])
 
     return(

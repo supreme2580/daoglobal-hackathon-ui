@@ -8,9 +8,10 @@ import logo from "@/images/logos/daobox.png";
 export default function DesktopMenu() {
 
     const [path, setPath] = useState("")
-    typeof window != "undefined" &&
     useEffect(() => {
-      setPath(window.location.pathname)
+      if (typeof window != "undefined") {
+        setPath(window.location.pathname)
+      }
     }, [window.location.pathname])
 
     return(
