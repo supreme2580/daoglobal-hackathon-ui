@@ -15,6 +15,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { SwitchTheme } from "./SwitchTheme";
 import logo from "@/images/logos/daobox.png";
+import Link from "next/link";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
@@ -110,7 +111,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
+                                <Link
                                   href={item.href}
                                   className={classNames(
                                     item.current
@@ -129,13 +130,13 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </li>
                         <li className="mt-auto">
-                          <a
+                          <Link
                             href="#"
                             className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-daoboxg hover:text-white"
                           >
@@ -144,7 +145,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                               aria-hidden="true"
                             />
                             Settings
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>
@@ -173,7 +174,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(
                             item.current
@@ -192,13 +193,13 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </li>
                 <li className="mt-auto">
-                  <a
+                  <Link
                     href="/settings"
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-white hover:bg-daoboxg hover:text-black"
                   >
@@ -207,7 +208,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
                       aria-hidden="true"
                     />
                     Settings
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
