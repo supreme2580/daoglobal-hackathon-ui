@@ -3,10 +3,10 @@ import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 import { useLocalStorage } from "usehooks-ts";
 
 export const SwitchTheme = () => {
-  const [theme, setTheme] = useLocalStorage("theme", "dark");
+  const [theme, setTheme] = useLocalStorage("theme", "darkmode");
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(theme === "darkmode" ? "lightmode" : "darkmode");
   };
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const SwitchTheme = () => {
       className="flex h-7 w-7 items-center justify-center rounded-full focus:outline-none"
       onClick={toggleTheme}
     >
-      {theme === "dark" ? (
+      {theme === "lightmode" ? (
         <SunIcon className="h-6 w-6 text-yellow-500" />
       ) : (
         <MoonIcon className="h-6 w-6 text-white" />
