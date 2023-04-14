@@ -15,7 +15,7 @@ export const SwitchTheme = () => {
   }, [theme]);
 
   return (
-    <button
+    <span
       className="flex h-7 w-7 items-center justify-center rounded-full focus:outline-none"
       onClick={toggleTheme}
     >
@@ -24,6 +24,6 @@ export const SwitchTheme = () => {
       ) : (
         <MoonIcon className="h-6 w-6 text-white" />
       )}
-    </button>
+    </span>
   );
 };
