@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import MembersCardCount from "@/components/MembersCardCount";
 import InputSearch from "@/components/InputSearch";
+import MemberCardList from "@/components/MemberCardList";
 
 const Home: NextPage = () => {
   // const { data, status } = useFetchDao({ daoAddressOrEns, });
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
         <div className="max-w-7xl w-full space-y-6">
           <MembersCardCount />
           <InputSearch />
+          <MemberCardList />
         </div>
       </main>
     </>
