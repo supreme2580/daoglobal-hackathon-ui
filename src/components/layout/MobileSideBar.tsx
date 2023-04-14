@@ -7,16 +7,15 @@ import { Fragment, useEffect, useState } from "react";
 import logo from "@/images/logos/daobox.png";
 import { useRecoilState } from "recoil";
 import { navigation as navigationAtom } from "atom/atoms";
+import { getWindow } from "@/lib/window";
 
 export default function MobileMenu() {
 
     const [open, setOpen] = useRecoilState(navigationAtom);
     const [path, setPath] = useState("")
     useEffect(() => {
-      if (typeof window != "undefined") {
-        setPath(window.location.pathname)
-      }
-    }, [window.location.pathname])
+      setPath(getWindow()?.location.pathname || "")
+    }, [getWindow()?.location.pathname])
 
     return(
         <Transition.Root show={open} as={Fragment}>
