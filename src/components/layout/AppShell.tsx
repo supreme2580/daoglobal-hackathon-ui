@@ -8,7 +8,7 @@ import MobileMenu from "./MobileSideBar";
 import { useRecoilState } from "recoil";
 import { navigation } from "atom/atoms";
 
-export function SideBar({ children }: { children: React.ReactNode }) {
+export function AppShell({ children }: { children: React.ReactNode }) {
 
   const [open, setOpen] = useRecoilState(navigation);
 
@@ -24,7 +24,8 @@ export function SideBar({ children }: { children: React.ReactNode }) {
 
         {/* Header */}
         <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-black bg-white px-4 shadow-sm dark:bg-black sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-black bg-white px-4 shadow-sm
+           dark:bg-black sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
               className="-m-2.5 p-2.5 text-white lg:hidden"
@@ -56,7 +57,7 @@ export function SideBar({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <main className="py-10">
+          <main className="py-10 bg-gray min-h-[calc(100vh-65px)]">
             <div className="px-4 sm:px-6 lg:px-8">{children}</div>
           </main>
         </div>

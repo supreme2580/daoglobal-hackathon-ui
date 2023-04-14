@@ -1,2 +1,2 @@
-export * from "./SideBar";
+export * from "./AppShell";
 export * from "./SwitchTheme";

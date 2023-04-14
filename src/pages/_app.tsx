@@ -6,7 +6,7 @@ import "@/styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { wagmiClient, chains } from "../lib/wagmiClient";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { SideBar } from "../components/layout/SideBar";
+import { AppShell } from "../components/layout/AppShell";
 import { useEffect, useState } from "react";
 import { AragonProvider } from "@daobox/use-aragon";
 import { RecoilRoot } from "recoil"
@@ -23,11 +23,11 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         modalSize="compact"
       >
         <RecoilRoot>
-          <SideBar>
+          <AppShell>
             <AragonProvider>
               {mounted && <Component {...pageProps} />}
             </AragonProvider>
-          </SideBar>
+          </AppShell>
         </RecoilRoot>
       </RainbowKitProvider>
     </WagmiConfig>
