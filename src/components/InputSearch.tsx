@@ -4,9 +4,9 @@ export default function InputSearch() {
     return(
         <div className="form-control w-full">
             <div className="input-group w-full">
-                <input type="text" placeholder="Search…" className="input input-ghost bg-black w-full md:w-[535px] !outline-0 focus:border-none" />
+                <input type="text" placeholder="Search…" className="input input-ghost bg-black w-full md:w-[535px] !outline-0 focus:border-none placeholder-white" />
                 <button className="btn btn-square bg-black">
-                    <MagnifyingGlassIcon className="w-6 h-6" />
+                    <MagnifyingGlassIcon className="w-6 h-6 text-white" />
                 </button>
             </div>
         </div>
