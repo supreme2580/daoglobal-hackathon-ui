@@ -1,8 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useFetchDao } from "@daobox/use-aragon";
-import { daoAddressOrEns } from "@/constants";
 import MembersCardCount from "@/components/MembersCardCount";
+import InputSearch from "@/components/InputSearch";
 
 const Home: NextPage = () => {
   // const { data, status } = useFetchDao({ daoAddressOrEns, });
@@ -15,8 +14,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full h-full flex justify-center">
-        <div className="max-w-7xl w-full">
+        <div className="max-w-7xl w-full space-y-6">
           <MembersCardCount />
+          <InputSearch />
         </div>
       </main>
     </>
