@@ -57,13 +57,21 @@ export const ProposalsTab = () => {
         ))}
       </Tab.List>
       <Tab.Panels>
-        {["All", ...TabStates].map((tab) => (
-          <Tab.Panel key={tab}>
-            {proposals(tab as ProposalStatus | "All").map((proposal) => (
-              <ProposalCard key={proposal.id} {...proposal} />
-            ))}
-          </Tab.Panel>
-        ))}
+        {["All", ...TabStates].map((tab) => {
+          const filteredProposals = proposals(tab as ProposalStatus | "All");
+
+          return (
+            <Tab.Panel key={tab} className="grid grid-cols-4 gap-4">
+              {filteredProposals.length ? (
+                filteredProposals.map((proposal) => (
+                  <ProposalCard key={proposal.id} {...proposal} />
+                ))
+              ) : (
+                <p key={tab}>No {tab === "All" ? "" : tab} Proposals</p>
+              )}
+            </Tab.Panel>
+          );
+        })}
       </Tab.Panels>
     </Tab.Group>
   );
