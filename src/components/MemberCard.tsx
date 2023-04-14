@@ -5,7 +5,7 @@ import truncateEthAddress from 'truncate-eth-address'
 
 export default function MemberCard() {
     return(
-        <div className="card w-full bg-black text-neutral-content">
+        <div className="card w-full bg-secondary text-neutral-content">
             <div className="card-body items-center text-center space-y-1">
                 <div className="w-full flex justify-between items-center">
                     <div className="flex items-center space-x-3 w-full">

@@ -1,25 +1,15 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import MembersCardCount from "@/components/MembersCardCount";
-import InputSearch from "@/components/InputSearch";
-import MemberCardList from "@/components/MemberCardList";
 
 const Home: NextPage = () => {
-
   return (
     <>
       <Head>
-        <title>DAOGlobal Hackathon UI</title>
-        <meta name="description" content="Hacking Away Is Always Awesome" />
+        <title>DAOGlobal Members UI</title>
+        <meta name="description" content="DAOBox DAO Members" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-full h-full flex justify-center">
-        <div className="max-w-7xl w-full space-y-6">
-          <MembersCardCount />
-          <InputSearch />
-          <MemberCardList />
-        </div>
-      </main>
+      <h1 className="text-3xl text-daoboxg">DAOGlobal Members UI</h1>
     </>
   );
 };
