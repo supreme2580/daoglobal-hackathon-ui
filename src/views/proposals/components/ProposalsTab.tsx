@@ -61,7 +61,7 @@ export const ProposalsTab = () => {
           const filteredProposals = proposals(tab as ProposalStatus | "All");
 
           return (
-            <Tab.Panel key={tab} className="grid grid-cols-4 gap-4">
+            <Tab.Panel key={tab} className="grid grid-cols-2 gap-4">
               {filteredProposals.length ? (
                 filteredProposals.map((proposal) => (
                   <ProposalCard key={proposal.id} {...proposal} />

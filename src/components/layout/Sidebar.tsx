@@ -19,8 +19,8 @@ export function Sidebar() {
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" className="-mx-2 space-y-1">
-              {navigation.map((item) => (
-                <li key={item.name}>
+              {navigation.map((item, index) => (
+                <li key={item.name + `${index}`}>
                   <a
                     href={item.href}
                     className={classNames(

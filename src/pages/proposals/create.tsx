@@ -1,8 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { ProposalsView } from "../views/proposals";
+import { CreateProposalsView } from "views";
 
-const Proposals: NextPage = () => {
+const CreateProposals: NextPage = () => {
   return (
     <>
       <Head>
@@ -11,9 +11,9 @@ const Proposals: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ProposalsView />
+      <CreateProposalsView />
     </>
   );
 };
 
-export default Proposals;
+export default CreateProposals;
