@@ -9,7 +9,6 @@ import { client as wagmiClient, chains } from "../lib/wagmiClient";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { AppShell } from "../components/layout/AppShell";
 import { useEffect, useState } from "react";
-import { RecoilRoot } from "recoil"
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const [mounted, setMounted] = useState(false);
@@ -22,7 +21,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         initialChain={goerli}
         modalSize="compact"
       >
-        <RecoilRoot>
         <AragonProvider>
           {mounted && (
             <AppShell>
@@ -30,7 +28,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             </AppShell>
           )}
         </AragonProvider>
-        </RecoilRoot>
       </RainbowKitProvider>
     </WagmiConfig>
   );

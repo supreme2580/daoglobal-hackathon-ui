@@ -1,4 +1,4 @@
-import { ClickType } from "@/types/types";
+import { ClickType } from "../types/typings";
 
 export default function Button({ clickFunction }: ClickType) {
     return(
