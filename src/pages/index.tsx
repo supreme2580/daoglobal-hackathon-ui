@@ -9,7 +9,7 @@ const Home: NextPage = () => {
         <meta name="description" content="DAOBox DAO Members" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className="text-3xl text-daoboxg">DAOGlobal Members UI</h1>
+      <h1 className="text-3xl text-daoboxg">DAOGlobal Dashboard UI</h1>
     </>
   );
 };
