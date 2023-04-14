@@ -1,5 +1,6 @@
 import { ArrowRightIcon, IdentificationIcon } from "@heroicons/react/24/outline"
 import Image from "next/legacy/image"
+import Link from "next/link"
 import truncateEthAddress from 'truncate-eth-address'
 
 export default function MemberCard() {
@@ -30,10 +31,14 @@ export default function MemberCard() {
                         </div>
                         <p className="text-start">voting power: 2.07</p>
                     </div>
-                    <div className="flex items-center justify-start w-40">
-                        <p className="text-sm text-start w-10">View member profile</p>
-                        <ArrowRightIcon className="w-4 h-4 text-daoboxg" />
-                    </div>
+                    <Link href={"/"} className="flex items-center justify-start w-40 space-x-0.5">
+                        <div>
+                            <p className="text-sm text-start text-daoboxg">View member profile</p>
+                        </div>
+                        <div>
+                            <ArrowRightIcon className="w-4 h-4 text-daoboxg" />
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>
