@@ -1,7 +1,7 @@
 import { ArrowRightIcon, IdentificationIcon } from "@heroicons/react/24/outline"
 import Image from "next/legacy/image"
 import Link from "next/link"
-import truncateEthAddress from 'truncate-eth-address'
+import truncateEthAddress from "truncate-eth-address"
 
 export default function MemberCard() {
     return(
