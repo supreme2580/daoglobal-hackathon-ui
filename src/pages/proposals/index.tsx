@@ -1,7 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { ProposalsView } from "../../views/proposals";
 
-const Voting: NextPage = () => {
+const Proposals: NextPage = () => {
   return (
     <>
       <Head>
@@ -10,9 +11,9 @@ const Voting: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>DAOGlobal Voting UI</h1>
+      <ProposalsView />
     </>
   );
 };
 
-export default Voting;
+export default Proposals;

@@ -5,7 +5,6 @@ import InputSearch from "@/components/InputSearch";
 import MemberCardList from "@/components/MemberCardList";
 
 const Home: NextPage = () => {
-  // const { data, status } = useFetchDao({ daoAddressOrEns, });
 
   return (
     <>
