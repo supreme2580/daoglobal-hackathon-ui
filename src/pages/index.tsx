@@ -1,19 +1,15 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useFetchDao } from "@daobox/use-aragon";
-import { daoAddressOrEns } from "@constants/daoConfig";
 
 const Home: NextPage = () => {
-  const { status } = useFetchDao({ daoAddressOrEns });
-
   return (
     <>
       <Head>
-        <title>DAOGlobal Hackathon UI</title>
-        <meta name="description" content="Hacking Away Is Always Awesome" />
+        <title>DAOGlobal Members UI</title>
+        <meta name="description" content="DAOBox DAO Members" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h3>Status: {status}</h3>
+      <h1 className="text-3xl text-daoboxg">DAOGlobal Dashboard UI</h1>
     </>
   );
 };

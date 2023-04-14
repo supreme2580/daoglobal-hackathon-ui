@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         daoboxg: "#5dfdcb",
+        gray: "#292D32",
       },
     },
     fontFamily: {

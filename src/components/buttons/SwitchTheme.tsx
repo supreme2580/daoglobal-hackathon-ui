@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { useLocalStorage } from "usehooks-ts";
 
 export const SwitchTheme = () => {
@@ -22,7 +22,7 @@ export const SwitchTheme = () => {
       {theme === "lightmode" ? (
         <SunIcon className="h-6 w-6 text-yellow-500" />
       ) : (
-        <MoonIcon className="h-6 w-6 text-white" />
+        <MoonIcon className="h-10 min-w-[40px] text-black rounded-full p-2 bg-white" />
       )}
     </span>
   );

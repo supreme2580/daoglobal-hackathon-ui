@@ -3,3 +3,7 @@ export interface NavItemsType {
     title: string;
     href: string;
 }
+
+export interface ClickType {
+    clickFunction: () => void
+}
