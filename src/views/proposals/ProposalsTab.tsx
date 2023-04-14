@@ -1,6 +1,6 @@
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import {
   useFetchDao,
   useFetchDaos,
@@ -8,29 +8,37 @@ import {
   useFetchMembers,
   useFetchVotingSettings,
   useFetchProposal,
+  ProposalStatus,
 } from "@daobox/use-aragon";
 import { capitalize } from "lodash";
 import { daoAddressOrEns } from "@constants/daoConfig";
+import { MockProposals, Proposal } from "@constants/mocks/MockProposals";
+import { ProposalCard } from "./ProposalCard";
 
 const TabStates = [
-  "all",
-  "pending",
-  "active",
-  "succeeded",
-  "executed",
-  "defeated",
+  ProposalStatus.PENDING,
+  ProposalStatus.ACTIVE,
+  ProposalStatus.SUCCEEDED,
+  ProposalStatus.EXECUTED,
+  ProposalStatus.DEFEATED,
 ];
 
 export const ProposalsTab = () => {
-  const { data, error, isLoading } = useFetchProposal({
-    proposalId: "0xc41e25d5e7cf5457b635d94c2262f914bb9d36e8_0x5",
-  });
+  const proposals = useCallback((status: ProposalStatus | "All") => {
+    if (status === "All") {
+      return MockProposals;
+    } else {
+      const filteredProposals = MockProposals.filter(
+        ({ status: pStat }) => status === pStat
+      );
+      return filteredProposals;
+    }
+  }, []);
 
-  console.log({ data, error, isLoading });
   return (
     <Tab.Group>
       <Tab.List>
-        {TabStates.map((tab, tabIndex) => (
+        {["All", ...TabStates].map((tab, tabIndex) => (
           <Tab as={Fragment} key={tab}>
             {({ selected }) => {
               return (
@@ -49,8 +57,12 @@ export const ProposalsTab = () => {
         ))}
       </Tab.List>
       <Tab.Panels>
-        {TabStates.map((tab) => (
-          <Tab.Panel key={tab}>{capitalize(`${tab}`)} proposals</Tab.Panel>
+        {["All", ...TabStates].map((tab) => (
+          <Tab.Panel key={tab}>
+            {proposals(tab as ProposalStatus | "All").map((proposal) => (
+              <ProposalCard key={proposal.id} {...proposal} />
+            ))}
+          </Tab.Panel>
         ))}
       </Tab.Panels>
     </Tab.Group>
