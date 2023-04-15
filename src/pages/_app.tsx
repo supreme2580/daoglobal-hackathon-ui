@@ -5,9 +5,9 @@ import { WagmiConfig, goerli } from "wagmi";
 
 import "@styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { client as wagmiClient, chains } from "../lib/wagmiClient";
-import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
-import { AppShell } from "../components/layout/AppShell";
+import { wagmiClient, chains } from "../lib/wagmiClient";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { AppShell } from "@components/layout/AppShell";
 import { useEffect, useState } from "react";
 
 const MyApp: AppType = ({ Component, pageProps }) => {

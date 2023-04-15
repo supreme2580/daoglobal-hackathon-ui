@@ -1,7 +1,10 @@
+import { daoAddressOrEns } from "@constants/daoConfig";
+import { useFetchProposals } from "@daobox/use-aragon";
 import { type NextPage } from "next";
 import Head from "next/head";
 
 const Voting: NextPage = () => {
+  useFetchProposals({ daoAddressOrEns });
   return (
     <>
       <Head>
