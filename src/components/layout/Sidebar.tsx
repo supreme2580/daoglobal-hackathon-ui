@@ -2,7 +2,8 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import logo from "@images/logos/daobox.png";
 import { classNames } from "@utils/classNames";
-import { navigation } from "@constants/index";
+import { navigation } from "@constants/navigation";
+import Link from "next/link";
 
 export function Sidebar() {
   return (
@@ -19,9 +20,9 @@ export function Sidebar() {
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" className="-mx-2 space-y-1">
-              {navigation.map((item, index) => (
+              {navigation().map((item, index) => (
                 <li key={item.name + `${index}`}>
-                  <a
+                  <Link
                     href={item.href}
                     className={classNames(
                       item.current
@@ -40,13 +41,13 @@ export function Sidebar() {
                       aria-hidden="true"
                     />
                     {item.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </li>
           <li className="mt-auto">
-            <a
+            <Link
               href="#"
               className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-daoboxg hover:text-white"
             >
@@ -55,7 +56,7 @@ export function Sidebar() {
                 aria-hidden="true"
               />
               Settings
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
