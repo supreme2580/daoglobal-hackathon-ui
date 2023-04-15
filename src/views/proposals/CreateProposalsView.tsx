@@ -18,7 +18,7 @@ export const CreateProposalsView = () => {
         </div>
 
         <div>
-          <p>Step {currentStep}3</p>
+          <p>Step {currentStep}/3</p>
           <progress
             className="progress progress-primary h-4 w-full"
             value={Math.round(100 * (currentStep / 3))}

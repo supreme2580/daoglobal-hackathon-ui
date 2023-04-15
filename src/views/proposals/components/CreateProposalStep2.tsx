@@ -1,17 +1,8 @@
-import {
-  PrimaryButton,
-  SelectInput,
-  TextArea,
-  TextInput,
-} from "@components/inputs";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MinusSmallIcon,
-  PlusSmallIcon,
-} from "@heroicons/react/24/outline";
+import { PrimaryButton, SelectInput } from "@components/inputs";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { SpecificDatePicker } from "./SpecificDatePicker";
 
 interface Props {
   onComplete: () => void;
@@ -22,22 +13,20 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
   onComplete,
   onCancel,
 }) => {
-  const { register, watch, handleSubmit } = useForm({
+  const { register, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
       end_date: "now",
       vote_type: "null",
       start_time: "now",
+      specifiedEndDate: "",
+      specifiedStartDate: "",
     },
   });
-
-  const [endDate, startDate] = watch(["end_date", "start_time"]) as string[];
 
   const onSubmit = (values: unknown) => {
     console.log({ values });
     onComplete();
   };
-
-  console.log({ endDate: watch("end_date"), startDate });
 
   return (
     <form
@@ -87,11 +76,11 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
           </div>
 
           {watch("start_time") === "later" && (
-            <div>
-              <div>Minutes</div>
-              <div>Hours</div>
-              <div>Days</div>
-            </div>
+            <SpecificDatePicker
+              onValueChange={(value: number) =>
+                setValue("specifiedStartDate", `${value}`)
+              }
+            />
           )}
         </div>
       </div>
@@ -105,7 +94,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
           </p>
         </div>
 
-        <div className="mt-5  grid grid-cols-2  items-center justify-stretch gap-5">
+        <div className="mt-5  grid grid-cols-2 items-center justify-stretch gap-5">
           <div className="form-control flex-1 rounded-lg border-2 border-accent p-2">
             <label className="label cursor-pointer">
               <span className="label-text">Now</span>
@@ -130,68 +119,11 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
           </div>
 
           {watch("end_date") === "later" && (
-            <div className="col-span-2 flex items-center justify-evenly gap-3 rounded-lg border-2 border-accent p-5">
-              <div className="flex-1 rounded-lg border-2 border-accent p-3">
-                <label className="label">
-                  <span className="label-text">Minutes</span>
-                </label>
-                <div className="flex  items-center justify-evenly gap-2">
-                  <button type="button">
-                    <PlusSmallIcon width={16} height={16} />
-                  </button>
-                  <div className="form-control w-full max-w-xs">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      className="input w-full max-w-xs"
-                    />
-                  </div>
-                  <button type="button">
-                    <MinusSmallIcon width={16} height={16} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex-1 rounded-lg  border-2 border-accent p-3">
-                <label className="label">
-                  <span className="label-text">Hours</span>
-                </label>
-                <div className="flex items-center justify-evenly gap-2">
-                  <button type="button">
-                    <PlusSmallIcon width={16} height={16} />
-                  </button>
-                  <div className="form-control w-full max-w-xs">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      className="input input w-full max-w-xs"
-                    />
-                  </div>
-                  <button type="button">
-                    <MinusSmallIcon width={16} height={16} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex-1 rounded-lg border-2 border-accent p-3">
-                <label className="label">
-                  <span className="label-text">Days</span>
-                </label>
-                <div className="flex items-center justify-evenly gap-2">
-                  <button type="button">
-                    <PlusSmallIcon width={16} height={16} />
-                  </button>
-                  <div className="form-control w-full max-w-xs">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      className="input input w-full max-w-xs"
-                    />
-                  </div>
-                  <button type="button">
-                    <MinusSmallIcon width={16} height={16} />
-                  </button>
-                </div>
-              </div>
-            </div>
+            <SpecificDatePicker
+              onValueChange={(value: number) =>
+                setValue("specifiedEndDate", `${value}`)
+              }
+            />
           )}
         </div>
       </div>
