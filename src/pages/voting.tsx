@@ -1,5 +1,8 @@
 import { daoAddressOrEns } from "@constants/daoConfig";
-import { useFetchProposals } from "@daobox/use-aragon";
+import {
+  TokenVotingProposalListItem,
+  useFetchProposals,
+} from "@daobox/use-aragon";
 import { type NextPage } from "next";
 import Head from "next/head";
 
@@ -13,7 +16,7 @@ const Voting: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>DAOGlobal Voting UI</h1>
-      {data?.map((proposal: any, index: React.Key) => (
+      {data?.map((proposal: TokenVotingProposalListItem, index: React.Key) => (
         <pre key={index}>
           {JSON.stringify(
             proposal,
