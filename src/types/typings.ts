@@ -4,6 +4,7 @@ export interface NavItemsType {
     href: string;
 }
 
-export interface ClickType {
+export interface ButtonType {
+    text: string;
     clickFunction: () => void
 }

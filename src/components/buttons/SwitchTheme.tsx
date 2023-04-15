@@ -20,9 +20,9 @@ export const SwitchTheme = () => {
       onClick={toggleTheme}
     >
       {theme === "lightmode" ? (
-        <SunIcon className="h-6 w-6 text-yellow-500" />
+        <SunIcon className="h-6 w-6 text-yellow-500 hover:cursor-pointer" />
       ) : (
-        <MoonIcon className="h-10 min-w-[40px] text-black rounded-full p-2 bg-white" />
+        <MoonIcon className="h-10 min-w-[40px] text-black rounded-full p-2 bg-white hover:cursor-pointer" />
       )}
     </span>
   );

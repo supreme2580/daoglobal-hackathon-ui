@@ -9,7 +9,7 @@ export default function MembersCardCount() {
                     <p className="font-semibold text-white">Wallet based</p>
                 </div>
                 <div>
-                    <Button clickFunction={() => {
+                    <Button text="Manage Members" clickFunction={() => {
                         console.log("Clicked");
                     }} />
                 </div>
