@@ -12,7 +12,7 @@ const Members: NextPage = () => {
         <meta name="description" content="Hacking Away Is Always Awesome" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-full w-full justify-center">
+      <main className="flex h-full bg-base w-full justify-center">
         <div className="w-full max-w-7xl space-y-6">
           <MembersCardCount />
           <InputSearch />

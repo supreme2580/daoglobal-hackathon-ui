@@ -23,13 +23,13 @@ export default function MemberCard() {
                         <div className="w-4 h-4 relative">
                             <Image src={"/bal-light.png"} layout="fill" alt="image" />
                         </div>
-                        <p className="text-start">Token balance: 0.07 ETH</p>
+                        <p className="text-start text-white">Token balance: 0.07 ETH</p>
                     </div>
                     <div className="flex space-x-2 items-center justify-start w-full">
                         <div className="w-4 h-4 relative">
                             <Image src={"/voting-power-light.png"} layout="fill" alt="image" />
                         </div>
-                        <p className="text-start">Voting power: 2.07</p>
+                        <p className="text-start text-white">Voting power: 2.07</p>
                     </div>
                     <Link href={"/"} className="flex items-center justify-start space-x-0.5 max-w-fit">
                         <div>
