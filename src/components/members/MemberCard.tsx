@@ -18,7 +18,7 @@ export default function MemberCard() {
                         <IdentificationIcon className="w-6 h-6 text-white" />
                     </div>
                 </div>
-                <div className="w-full space-y-1">
+                <div className="w-full space-y-2.5">
                     <div className="flex space-x-2 items-center justify-start w-full">
                         <div className="w-4 h-4 relative">
                             <Image src={"/bal-light.png"} layout="fill" alt="image" />
@@ -29,9 +29,9 @@ export default function MemberCard() {
                         <div className="w-4 h-4 relative">
                             <Image src={"/voting-power-light.png"} layout="fill" alt="image" />
                         </div>
-                        <p className="text-start">voting power: 2.07</p>
+                        <p className="text-start">Voting power: 2.07</p>
                     </div>
-                    <Link href={"/"} className="flex items-center justify-start w-40 space-x-0.5">
+                    <Link href={"/"} className="flex items-center justify-start space-x-0.5 max-w-fit">
                         <div>
                             <p className="text-sm text-start text-daoboxg">View member profile</p>
                         </div>
