@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export function Sidebar() {
   return (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black px-6 pb-4">
+    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
         <Image
           src={logo}
@@ -49,10 +49,10 @@ export function Sidebar() {
           <li className="mt-auto">
             <Link
               href="#"
-              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-daoboxg hover:text-white"
+              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-white hover:bg-daoboxg hover:text-white"
             >
               <Cog6ToothIcon
-                className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
+                className="h-6 w-6 shrink-0 text-white group-hover:text-white"
                 aria-hidden="true"
               />
               Settings

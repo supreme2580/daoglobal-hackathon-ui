@@ -23,11 +23,11 @@ export default {
     themes: [
       {
         darkmode: {
-          primary: "#5dfdcb",
-          secondary: "#7eb2ff",
+          primary: "#2fffbe",
+          secondary: "#191B1E",
           accent: "#978cd8",
           neutral: "#d2c47e",
-          "base-100": "#0F172A",
+          "base-100": "#292D32",
           info: "#1986EB",
           success: "#119C65",
           warning: "#F4D371",
