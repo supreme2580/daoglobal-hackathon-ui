@@ -4,7 +4,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 const Voting: NextPage = () => {
-  useFetchProposals({ daoAddressOrEns });
+  const { data } = useFetchProposals({ daoAddressOrEns });
   return (
     <>
       <Head>
@@ -12,8 +12,16 @@ const Voting: NextPage = () => {
         <meta name="description" content="DAOBox DAO Voting" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <h1>DAOGlobal Voting UI</h1>
+      {data?.map((proposal: any, index: React.Key) => (
+        <pre key={index}>
+          {JSON.stringify(
+            proposal,
+            (_, v) => (typeof v === "bigint" ? v.toString() : v),
+            2
+          )}
+        </pre>
+      ))}
     </>
   );
 };
