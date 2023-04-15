@@ -1,8 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import MembersCardCount from "@components/MembersCardCount";
-import InputSearch from "@components/InputSearch";
-import MemberCardList from "@components/MemberCardList";
+import MembersCardCount from "@components/members/MembersCardCount";
+import InputSearch from "@components/members/InputSearch";
+import MemberCardList from "@components/members/MemberCardList";
 
 const Members: NextPage = () => {
   return (
