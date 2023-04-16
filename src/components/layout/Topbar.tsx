@@ -1,5 +1,5 @@
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
 import { SwitchTheme } from "@components/buttons";
 
 interface TopbarProps {
@@ -8,6 +8,7 @@ interface TopbarProps {
 
 export function Topbar(props: TopbarProps) {
   const { setSidebarOpen } = props;
+  const { openConnectModal } = useConnectModal();
   return (
     <div className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-secondary bg-secondary px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
       <button
@@ -33,7 +34,11 @@ export function Topbar(props: TopbarProps) {
           />
 
           {/* RainbowKit Injector */}
-          <ConnectButton />
+          {
+            openConnectModal ? <button className="btn btn-xs btn-md remove-text-transform btn-success text-white w-full sm:w-auto" onClick={openConnectModal}>
+              Connect Wallet
+            </button> : <ConnectButton />
+          }
         </div>
       </div>
     </div>
