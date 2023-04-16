@@ -11,7 +11,7 @@ type Props = Proposal;
 
 export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
   return (
-    <div className="card col-span-2 w-full bg-base-100 shadow-xl">
+    <div className="card col-span-1 w-full bg-base-100 shadow-xl">
       <div className="card-body">
         <div className="card-actions justify-between">
           <div className="flex flex-1 items-center justify-start gap-2 text-sm font-medium">
