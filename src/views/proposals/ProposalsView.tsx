@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { PlusSmallIcon } from "@heroicons/react/24/outline";
 import { ProposalsTab } from "./components/ProposalsTab";
-import { PrimaryButton } from "@components/buttons";
+import { PrimaryButton } from "@components/inputs";
 import React from "react";
 import { useRouter } from "next/router";
 
