@@ -18,8 +18,8 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
       end_date: "now",
       vote_type: "null",
       start_time: "now",
-      specifiedEndDate: "",
-      specifiedStartDate: "",
+      specifiedEndDate: [0, 0, 0],
+      specifiedStartDate: [0, 0, 0],
     },
   });
 
@@ -77,8 +77,8 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
 
           {watch("start_time") === "later" && (
             <SpecificDatePicker
-              onValueChange={(value: number) =>
-                setValue("specifiedStartDate", `${value}`)
+              onValueChange={(value: [number, number, number]) =>
+                setValue("specifiedStartDate", value)
               }
             />
           )}
@@ -120,8 +120,8 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
 
           {watch("end_date") === "later" && (
             <SpecificDatePicker
-              onValueChange={(value: number) =>
-                setValue("specifiedEndDate", `${value}`)
+              onValueChange={(value: [number, number, number]) =>
+                setValue("specifiedEndDate", value)
               }
             />
           )}

@@ -3,9 +3,11 @@ import {
   CreateProposalDetailsStep,
   CreateProposalVoteOptionsStep,
 } from "./components";
+import { useRouter } from "next/router";
 
 export const CreateProposalsView = () => {
-  const [currentStep, setStep] = useState<1 | 2 | 3>(1);
+  const [currentStep, setStep] = useState<1 | 2>(1);
+  const router = useRouter();
   return (
     <React.Fragment>
       <div className="flex h-full w-full max-w-5xl flex-1 flex-col gap-10 px-20">
@@ -21,7 +23,7 @@ export const CreateProposalsView = () => {
           <p>Step {currentStep}/3</p>
           <progress
             className="progress progress-primary h-4 w-full"
-            value={Math.round(100 * (currentStep / 3))}
+            value={Math.round(100 * (currentStep / 2))}
             max="100"
           ></progress>
         </div>
@@ -33,7 +35,7 @@ export const CreateProposalsView = () => {
 
           {currentStep === 2 && (
             <CreateProposalVoteOptionsStep
-              onComplete={() => setStep(3)}
+              onComplete={() => router.back()}
               onCancel={() => setStep(1)}
             />
           )}

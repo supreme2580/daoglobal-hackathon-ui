@@ -2,7 +2,7 @@ import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 
 interface Props {
-  onValueChange: (value: number) => void;
+  onValueChange: (value: [number, number, number]) => void;
 }
 
 export const SpecificDatePicker: React.FC<Props> = ({ onValueChange }) => {
@@ -22,7 +22,7 @@ export const SpecificDatePicker: React.FC<Props> = ({ onValueChange }) => {
         hourToSec = hours * 60 * 60,
         dayToSec = hours * 60 * 60 * 24;
 
-      onValueChange(minuteToSec + hourToSec + dayToSec);
+      onValueChange([minuteToSec, hourToSec, dayToSec]);
     }
     return () => setTime({ minutes: 0, hours: 0, days: 0 });
   }, [minutes, hours, days, onValueChange]);
