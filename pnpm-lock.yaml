@@ -50,17 +50,20 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   next:
-    specifier: ^13.0.0
+    specifier: ^13.2.4
     version: 13.2.4(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
   react:
-    specifier: ^18.2.0
+    specifier: 18.2.0
     version: 18.2.0
   react-blockies:
     specifier: ^1.4.1
     version: 1.4.1(react@18.2.0)
   react-dom:
-    specifier: ^18.2.0
+    specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-hook-form:
+    specifier: ^7.43.9
+    version: 7.43.9(react@18.2.0)
   react-hot-toast:
     specifier: ^2.4.0
     version: 2.4.0(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
@@ -6219,6 +6222,15 @@ packages:
       react: '>=16.13.1'
     dependencies:
       '@babel/runtime': 7.21.0
+      react: 18.2.0
+    dev: false
+
+  /react-hook-form@7.43.9(react@18.2.0):
+    resolution: {integrity: sha512-AUDN3Pz2NSeoxQ7Hs6OhQhDr6gtF9YRuutGDwPQqhSUAHJSgGl2VeY3qN19MG0SucpjgDiuMJ4iC5T5uB+eaNQ==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
       react: 18.2.0
     dev: false
 

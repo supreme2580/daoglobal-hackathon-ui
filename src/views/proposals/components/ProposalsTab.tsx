@@ -24,6 +24,9 @@ const TabStates = [
 ];
 
 export const ProposalsTab = () => {
+  const { data } = useFetchProposals({ daoAddressOrEns });
+
+  console.log({ data });
   const proposals = useCallback((status: ProposalStatus | "All") => {
     if (status === "All") {
       return MockProposals;
