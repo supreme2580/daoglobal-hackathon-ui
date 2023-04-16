@@ -13,9 +13,22 @@ import { useReadLocalStorage } from "usehooks-ts";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), [useReadLocalStorage("theme")]);
   const mode = useReadLocalStorage("theme")
-
+  function currentMode() {
+    if (mode === "darkmode") {
+      return darkTheme()
+    }
+    else if (mode === "lightmode") {
+      return lightTheme()
+    }
+    else {
+      return darkTheme()
+    }
+  }
+  useEffect(() => {
+    setMounted(true)
+    currentMode()
+  }, [currentMode()]);
   return (
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
@@ -23,7 +36,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           showRecentTransactions={true}
           initialChain={goerli}
           modalSize="compact"
-          theme={mode == "darkmode" ? darkTheme() : lightTheme()}
+          theme={currentMode()}
         >
           <AragonProvider>
             {mounted && (
