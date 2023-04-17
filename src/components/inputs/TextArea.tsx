@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import { type UseFormRegister } from "react-hook-form";
+import { AllowedFormData } from "./TextInput";
 
 interface Props extends React.InputHTMLAttributes<HTMLTextAreaElement> {
-  register: UseFormRegister<Record<string, string>>;
+  register: UseFormRegister<AllowedFormData>;
   label: string;
   name: string;
   inputClass?: string;
@@ -32,7 +33,7 @@ export const TextArea: React.FC<Props> = ({
       ></textarea>
       {hasError && (
         <label className="label">
-          <span className="label-text-alt">{hasError}</span>
+          <span className="label-text-alt text-error">{hasError}</span>
         </label>
       )}
     </div>

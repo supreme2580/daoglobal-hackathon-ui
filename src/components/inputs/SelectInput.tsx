@@ -37,7 +37,7 @@ export const SelectInput: React.FC<Props> = ({
       </select>
       {hasError && (
         <label className="label">
-          <span className="label-text-alt">Alt label</span>
+          <span className="label-text-alt">{hasError}</span>
         </label>
       )}
     </div>

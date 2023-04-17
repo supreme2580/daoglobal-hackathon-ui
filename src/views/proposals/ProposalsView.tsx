@@ -4,9 +4,15 @@ import { ProposalsTab } from "./components/ProposalsTab";
 import { PrimaryButton } from "@components/inputs";
 import React from "react";
 import { useRouter } from "next/router";
+import { useFetchMembers } from "@daobox/use-aragon";
+import { votingPluginAddress } from "@constants/daoConfig";
 
 export const ProposalsView: React.FC = () => {
   const router = useRouter();
+  const { data } = useFetchMembers({
+    pluginAddress: votingPluginAddress,
+  });
+  console.log({ members: data });
   return (
     <React.Fragment>
       <div className="flex h-full w-full flex-1 flex-col gap-10">

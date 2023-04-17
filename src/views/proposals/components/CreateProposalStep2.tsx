@@ -3,43 +3,96 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { SpecificDatePicker } from "./SpecificDatePicker";
+import { VoteValues, useNewProposal } from "@daobox/use-aragon";
+import { ProposalVotingSchema, type CreateProposalDetail } from "types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { votingPluginAddress } from "@constants/daoConfig";
 
 interface Props {
-  onComplete: () => void;
+  proposal: CreateProposalDetail;
+  onComplete?: () => void;
   onCancel?: () => void;
+}
+
+function convertTupletoDate(data: number[]): Date {
+  if (data.length !== 3) {
+    return new Date();
+  }
+  return new Date(
+    data
+      .map((time, index) =>
+        index === 0
+          ? time * 60
+          : index === 1
+          ? time * 60 * 60
+          : time * 24 * 60 * 60
+      )
+      .reduce((acc, curr) => acc + curr, 0)
+  );
 }
 
 export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
   onComplete,
+  proposal,
   onCancel,
 }) => {
-  const { register, watch, handleSubmit, setValue } = useForm({
+  const {
+    register,
+    watch,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       end_date: "now",
-      vote_type: "null",
+      vote_type: undefined,
       start_time: "now",
       specifiedEndDate: [0, 0, 0],
       specifiedStartDate: [0, 0, 0],
     },
+    resolver: zodResolver(ProposalVotingSchema),
+  });
+  const { mutate } = useNewProposal({
+    pluginAddress: votingPluginAddress,
+    title: proposal.title,
+    summary: proposal.summary,
+    description: proposal.description,
+    resources:
+      proposal.resources?.map(({ name, link }) => ({ name, url: link })) ?? [],
+    endDate: watch("end_date")
+      ? new Date()
+      : convertTupletoDate(watch("specifiedEndDate")),
+    startDate:
+      watch("start_time") === "now"
+        ? new Date()
+        : convertTupletoDate(watch("specifiedStartDate")),
+    creatorVote: watch("vote_type"),
   });
 
   const onSubmit = (values: unknown) => {
     console.log({ values });
-    onComplete();
+    mutate?.();
+    onComplete?.();
   };
+  console.log({ voteType: watch("vote_type") });
 
   return (
     <form
       className="flex w-full flex-col gap-10"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <SelectInput name="vote_type" register={register} label="Options">
+      <SelectInput
+        name="vote_type"
+        hasError={errors.vote_type?.message}
+        register={register}
+        label="Options"
+      >
         <option disabled value="null">
           Select an option
         </option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-        <option value="Abstain">Abstain</option>
+        <option value={VoteValues.YES}>Yes</option>
+        <option value={VoteValues.NO}>No</option>
+        <option value={VoteValues.ABSTAIN}>Abstain</option>
       </SelectInput>
 
       <div className="w-full">
@@ -140,6 +193,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
 
         <PrimaryButton
           type="submit"
+          // disabled={!isValid}
           endIcon={<ChevronRightIcon width={20} height={20} />}
         >
           Next
