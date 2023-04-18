@@ -12,7 +12,7 @@
     "@aragon/osx-ethers": "^1.2.1",
     "@aragon/sdk-client": "^1.4.0",
     "@babel/core": "^7.21.4",
-    "@daobox/use-aragon": "0.0.5-beta.4",
+    "@daobox/use-aragon": "0.0.5-beta.2",
     "@ethersproject/bignumber": "^5.7.0",
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.17",
@@ -33,7 +33,6 @@
     "react-hook-form": "^7.43.9",
     "react-hot-toast": "^2.4.0",
     "sharp": "^0.32.0",
-    "truncate-eth-address": "^1.0.2",
     "usehooks-ts": "^2.9.1",
     "wagmi": "~0.12.10",
     "zod": "^3.21.4"
