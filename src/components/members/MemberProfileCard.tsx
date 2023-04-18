@@ -3,6 +3,7 @@ import Button from "./Button";
 import { truncateAddress } from "@utils/addresses";
 import { ClipboardDocumentIcon, CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { error } from "console";
 
 export default function MemberProfileCard() {
     const [clipped, setClipped] = useState("")
@@ -19,7 +20,7 @@ export default function MemberProfileCard() {
                     <div className="flex items-center space-x-1">
                         <p className="font-semibold text-white text-sm">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</p>
                         <button onClick={() => {
-                            navigator.clipboard.writeText("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")
+                            navigator.clipboard.writeText("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73").catch(error => console.log(error))
                             setClipped("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")
                         }}>
                             {
