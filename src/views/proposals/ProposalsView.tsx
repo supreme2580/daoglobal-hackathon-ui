@@ -9,10 +9,6 @@ import { votingPluginAddress } from "@constants/daoConfig";
 
 export const ProposalsView: React.FC = () => {
   const router = useRouter();
-  const { data } = useFetchMembers({
-    pluginAddress: votingPluginAddress,
-  });
-  console.log({ members: data });
   return (
     <React.Fragment>
       <div className="flex h-full w-full flex-1 flex-col gap-10">
