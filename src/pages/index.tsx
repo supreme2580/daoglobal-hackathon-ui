@@ -5,13 +5,11 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>DAOGlobal Hackathon UI</title>
-        <meta name="description" content="Hacking Away Is Always Awesome" />
+        <title>DAOGlobal Members UI</title>
+        <meta name="description" content="DAOBox DAO Members" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center to-[#15162c]">
-        <h1>DAOGlobal Hackathon UI</h1>
-      </main>
+      <h1 className="text-3xl text-daoboxg">DAOGlobal Dashboard UI</h1>
     </>
   );
 };
