@@ -6,11 +6,6 @@ import { useFetchMembers } from "@daobox/use-aragon"
 import { votingPluginAddress } from "@constants/daoConfig"
 
 export default function MemberCard() {
-    const pluginAddress = "0x8eaf189dbe3524667d25684645aba1c71c02d8db";
-    const { data } = useFetchMembers({
-        pluginAddress
-    })
-    console.log(data)
     return(
         <div className="card w-full bg-secondary text-neutral-content">
             <div className="card-body items-center text-center space-y-1">

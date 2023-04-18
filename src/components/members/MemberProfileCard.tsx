@@ -18,7 +18,10 @@ export default function MemberProfileCard() {
                     </div>
                     <div className="flex items-center space-x-1">
                         <p className="font-semibold text-white text-sm">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</p>
-                        <button onClick={() => setClipped("hehehe")}>
+                        <button onClick={() => {
+                            navigator.clipboard.writeText("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")
+                            setClipped("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")
+                        }}>
                             {
                                 clipped !== "" ? <CheckBadgeIcon className="w-5 h-5 text-white" /> : <ClipboardDocumentIcon className="w-5 h-5 text-white" />
                             }
