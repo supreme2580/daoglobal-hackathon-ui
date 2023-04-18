@@ -1,13 +1,13 @@
-import { Proposal } from "@constants/mocks/MockProposals";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import { truncateAddress } from "@utils/addresses";
 import { upperCase } from "lodash";
+import { TokenVotingProposalListItem } from "@aragon/sdk-client";
 
 dayjs.extend(relativeTime);
 
-type Props = Proposal;
+type Props = TokenVotingProposalListItem;
 
 export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
   return (
