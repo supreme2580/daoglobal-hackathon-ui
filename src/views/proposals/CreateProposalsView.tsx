@@ -3,11 +3,17 @@ import {
   CreateProposalDetailsStep,
   CreateProposalVoteOptionsStep,
 } from "./components";
-import { useRouter } from "next/router";
+import { type CreateProposalDetail } from "types";
 
 export const CreateProposalsView = () => {
   const [currentStep, setStep] = useState<1 | 2>(1);
-  const router = useRouter();
+  const [proposalsDetail, setDetail] = useState<CreateProposalDetail>();
+
+  const proceedToStep2 = (value: CreateProposalDetail) => {
+    setDetail(value);
+    setStep(2);
+  };
+
   return (
     <React.Fragment>
       <div className="flex h-full w-full max-w-5xl flex-1 flex-col gap-10 px-20">
@@ -20,7 +26,7 @@ export const CreateProposalsView = () => {
         </div>
 
         <div>
-          <p>Step {currentStep}/3</p>
+          <p>Step {currentStep}/2</p>
           <progress
             className="progress progress-primary h-4 w-full"
             value={Math.round(100 * (currentStep / 2))}
@@ -30,12 +36,15 @@ export const CreateProposalsView = () => {
 
         <div className="w-full rounded-lg border-2 border-accent px-16 py-10 shadow-lg">
           {currentStep === 1 && (
-            <CreateProposalDetailsStep onComplete={() => setStep(2)} />
+            <CreateProposalDetailsStep
+              proposal={proposalsDetail}
+              onComplete={proceedToStep2}
+            />
           )}
 
           {currentStep === 2 && (
             <CreateProposalVoteOptionsStep
-              onComplete={() => router.back()}
+              proposal={proposalsDetail!}
               onCancel={() => setStep(1)}
             />
           )}

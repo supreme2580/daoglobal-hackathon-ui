@@ -1,8 +1,11 @@
 import classNames from "classnames";
 import { type UseFormRegister } from "react-hook-form";
+import { CreateProposalDetail } from "types";
+
+export type AllowedFormData = CreateProposalDetail | any;
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegister<Record<string, string>>;
+  register: UseFormRegister<AllowedFormData>;
   label: string;
   name: string;
   inputClass?: string;

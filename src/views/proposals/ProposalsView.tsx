@@ -4,6 +4,8 @@ import { ProposalsTab } from "./components/ProposalsTab";
 import { PrimaryButton } from "@components/inputs";
 import React from "react";
 import { useRouter } from "next/router";
+import { useFetchMembers } from "@daobox/use-aragon";
+import { votingPluginAddress } from "@constants/daoConfig";
 
 export const ProposalsView: React.FC = () => {
   const router = useRouter();

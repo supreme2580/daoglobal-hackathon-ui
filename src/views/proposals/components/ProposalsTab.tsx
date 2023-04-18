@@ -12,7 +12,6 @@ import {
 } from "@daobox/use-aragon";
 import { capitalize } from "lodash";
 import { daoAddressOrEns } from "@constants/daoConfig";
-import { MockProposals, Proposal } from "@constants/mocks/MockProposals";
 import { ProposalCard } from "./ProposalCard";
 
 const TabStates = [
@@ -24,23 +23,35 @@ const TabStates = [
 ];
 
 export const ProposalsTab = () => {
-  const { data } = useFetchProposals({ daoAddressOrEns });
+  const { data, isLoading } = useFetchProposals({ daoAddressOrEns });
 
-  console.log({ data });
-  const proposals = useCallback((status: ProposalStatus | "All") => {
-    if (status === "All") {
-      return MockProposals;
-    } else {
-      const filteredProposals = MockProposals.filter(
-        ({ status: pStat }) => status === pStat
-      );
-      return filteredProposals;
-    }
-  }, []);
+  const proposals = useCallback(
+    (status: ProposalStatus | "All") => {
+      if (data) {
+        if (status === "All") {
+          return data;
+        } else {
+          const filteredProposals = data.filter(
+            ({ status: pStat }) => status === pStat
+          );
+          return filteredProposals;
+        }
+      }
+    },
+    [data]
+  );
+
+  if (isLoading) {
+    return (
+      <div className="centered">
+        <button className="loading btn-square btn"></button>
+      </div>
+    );
+  }
 
   return (
     <Tab.Group>
-      <Tab.List>
+      <Tab.List className="col-span-1">
         {["All", ...TabStates].map((tab, tabIndex) => (
           <Tab as={Fragment} key={tab}>
             {({ selected }) => {
@@ -65,7 +76,7 @@ export const ProposalsTab = () => {
 
           return (
             <Tab.Panel key={tab} className="grid grid-cols-2 gap-4">
-              {filteredProposals.length ? (
+              {filteredProposals?.length ? (
                 filteredProposals.map((proposal) => (
                   <ProposalCard key={proposal.id} {...proposal} />
                 ))
