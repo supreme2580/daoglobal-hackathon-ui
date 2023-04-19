@@ -1,6 +1,6 @@
+import { CreateProposalsView } from "@components/proposals";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { CreateProposalsView } from "views";
 
 const CreateProposals: NextPage = () => {
   return (

@@ -58,8 +58,9 @@ export const ProposalsTab = () => {
               return (
                 <button
                   className={classNames(
-                    "btn rounded-none border-0 bg-transparent px-4 py-1 text-neutral hover:bg-transparent focus:outline-none",
-                    selected && "rounded-2 border-b-2 bg-white",
+                    "btn rounded-none border-0 bg-transparent px-4 py-1 hover:border-success hover:bg-transparent focus:outline-none",
+                    selected &&
+                      "rounded-2 border-b-2 border-success text-success",
                     tabIndex > 0 && "ml-3"
                   )}
                 >
@@ -75,7 +76,7 @@ export const ProposalsTab = () => {
           const filteredProposals = proposals(tab as ProposalStatus | "All");
 
           return (
-            <Tab.Panel key={tab} className="grid grid-cols-2 gap-4">
+            <Tab.Panel key={tab} className="grid grid-cols-1 gap-4">
               {filteredProposals?.length ? (
                 filteredProposals.map((proposal) => (
                   <ProposalCard key={proposal.id} {...proposal} />
