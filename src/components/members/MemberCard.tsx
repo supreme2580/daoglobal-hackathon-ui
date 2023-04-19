@@ -1,7 +1,9 @@
 import { ArrowRightIcon, IdentificationIcon } from "@heroicons/react/24/outline"
 import Image from "next/legacy/image"
 import Link from "next/link"
-import truncateEthAddress from "truncate-eth-address"
+import { truncateAddress } from "../../utils/addresses"
+import { useFetchMembers } from "@daobox/use-aragon"
+import { votingPluginAddress } from "@constants/daoConfig"
 
 export default function MemberCard() {
     return(
@@ -12,7 +14,7 @@ export default function MemberCard() {
                         <div className="w-10 h-10 relative shrink-0">
                             <Image src={"/profile.png"} layout="fill" alt="Profile image" />
                         </div>
-                        <h2 className="card-title max-w-full truncate text-white">{truncateEthAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</h2>
+                        <h2 className="card-title max-w-full truncate text-white">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</h2>
                     </div>
                     <div>
                         <IdentificationIcon className="w-6 h-6 text-white" />
@@ -31,7 +33,7 @@ export default function MemberCard() {
                         </div>
                         <p className="text-start text-white">Voting power: 2.07</p>
                     </div>
-                    <Link href={"/"} className="flex items-center justify-start space-x-0.5 max-w-fit">
+                    <Link href={"/members/member"} className="flex items-center justify-start space-x-0.5 max-w-fit">
                         <div>
                             <p className="text-sm text-start text-daoboxg">View member profile</p>
                         </div>
