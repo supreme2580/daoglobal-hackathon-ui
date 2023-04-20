@@ -2,12 +2,10 @@ import { ArrowRightIcon, IdentificationIcon } from "@heroicons/react/24/outline"
 import Image from "next/legacy/image"
 import Link from "next/link"
 import { truncateAddress } from "../../utils/addresses"
-import { useFetchMembers } from "@daobox/use-aragon"
-import { votingPluginAddress } from "@constants/daoConfig"
 
 export default function MemberCard() {
     return(
-        <div className="card w-full bg-secondary text-neutral-content">
+        <Link href={"/members/member"} className="card w-full bg-secondary text-neutral-content hover:bg-secondary/50">
             <div className="card-body items-center text-center space-y-1">
                 <div className="w-full flex justify-between items-center">
                     <div className="flex items-center space-x-3 w-full">
@@ -43,6 +41,6 @@ export default function MemberCard() {
                     </Link>
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
