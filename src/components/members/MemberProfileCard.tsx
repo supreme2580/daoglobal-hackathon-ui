@@ -3,7 +3,6 @@ import Button from "./Button";
 import { truncateAddress } from "@utils/addresses";
 import { ClipboardDocumentIcon, CheckBadgeIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { error } from "console";
 
 export default function MemberProfileCard() {
     const [clipped, setClipped] = useState("")
