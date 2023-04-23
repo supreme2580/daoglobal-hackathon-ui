@@ -13,12 +13,13 @@ export const ProposalsView: React.FC = () => {
     <React.Fragment>
       <div className="flex h-full w-full flex-1 flex-col gap-10">
         <div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between rounded-lg bg-black px-4 py-8 text-white">
             <h1 className="text-4xl font-bold">Proposals</h1>
 
             <PrimaryButton
               onClick={() => router.push("/proposals/create")}
               startIcon={<PlusSmallIcon width={25} height={25} />}
+              className="text-white"
             >
               <span className="flex-1">New Proposal</span>
             </PrimaryButton>

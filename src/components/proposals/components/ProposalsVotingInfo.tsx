@@ -3,6 +3,7 @@ import {
   useFetchProposal,
   useVoteOnProposal,
 } from "@daobox/use-aragon";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { truncateAddress } from "@utils/addresses";
 import classNames from "classnames";
 import dayjs from "dayjs";
@@ -194,6 +195,13 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                     </tbody>
                   </table>
                 </div>
+
+                {proposal.votes.length > 5 && (
+                  <button className="text-md btn-ghost btn flex items-center gap-3 text-accent">
+                    Show {showCount === 5 ? "More" : "Less"}{" "}
+                    <ChevronDownIcon width={20} height={20} />
+                  </button>
+                )}
               </>
             ) : (
               <p className="border-t-2 border-neutral p-1 text-center text-lg text-error">

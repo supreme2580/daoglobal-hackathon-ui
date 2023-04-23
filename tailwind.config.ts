@@ -1,12 +1,14 @@
 import { type Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
+        ...colors,
         daoboxg: "#5dfdcb",
-        gray: "#292D32",
+        black: "#1B212D",
       },
     },
     fontFamily: {
@@ -23,18 +25,18 @@ export default {
     themes: [
       {
         darkmode: {
-          primary: "#2fffbe",
-          secondary: "#191B1E",
+          primary: "#02AB76",
+          secondary: "#d9d9d9",
           accent: "#978cd8",
           "base-100": "#292D32",
           info: "#1986EB",
           success: "#119C65",
           warning: "#F4D371",
           error: "#F15232",
-          neutral: "#d2c47e",
+          neutral: "#191B1E",
         },
         lightmode: {
-          primary: "#5dfdcb",
+          primary: "#02AB76",
           secondary: "#808191",
           accent: "#978cd8",
           neutral: "#DEF1FF",

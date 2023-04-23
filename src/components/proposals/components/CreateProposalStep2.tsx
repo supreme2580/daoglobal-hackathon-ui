@@ -46,9 +46,9 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
       end_date: new Date(),
       voteDuration: data?.minDuration ?? 86400,
     },
-    resolver: zodResolver(ProposalVotingSchema),
+    // resolver: zodResolver(ProposalVotingSchema),
   });
-  const { mutate } = useNewProposal({
+  const { mutate, error } = useNewProposal({
     pluginAddress: votingPluginAddress,
     title: proposal.title,
     summary: proposal.summary,
@@ -62,7 +62,8 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
     endDate: watch("end_date"),
     creatorVote: Number(watch("creator_vote")),
     onSuccess: () => {
-      router.back();
+      // router.back();
+      console.log("Successful");
       onComplete?.();
     },
   });
@@ -71,6 +72,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
     console.log({ values });
     mutate?.();
   };
+  console.log({ error });
 
   return (
     <form

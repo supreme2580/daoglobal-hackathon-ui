@@ -13,9 +13,9 @@ type Props = TokenVotingProposalListItem;
 export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
   const router = useRouter();
   return (
-    <div className="card col-span-1 w-full bg-base-100 shadow-xl">
+    <div className="border-neutral card col-span-1 w-full scale-95 rounded-lg border-2 bg-base-100 shadow-xl transition hover:scale-100">
       <div
-        className="card-body"
+        className="card-body cursor-pointer"
         onClick={() => router.push(`/proposals/${proposal.id}`)}
       >
         <div className="card-actions justify-between">
