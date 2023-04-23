@@ -7,6 +7,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { truncateAddress } from "@utils/addresses";
 import classNames from "classnames";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   PieChart,
@@ -20,6 +21,7 @@ import {
 type Props = {
   proposalId: string;
 };
+dayjs.extend(relativeTime);
 
 const VoteOptions = [
   { id: VoteValues.YES, value: "Yes" },
@@ -50,6 +52,22 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     return Math.round(percentage);
   };
 
+  const [days, hours, minutes] = useMemo(() => {
+    let timeLeft = Math.floor(dayjs(proposal?.endDate).diff(new Date()) / 1000);
+
+    //convert to hours
+    const days = timeLeft / (60 * 60 * 24);
+    //get what's left
+    timeLeft = timeLeft % (60 * 60 * 24);
+    //convert to minutes
+    const hours = timeLeft / (60 * 60);
+    // get what's left
+    timeLeft = timeLeft % (60 * 60);
+    const minutes = timeLeft / 60;
+
+    return [Math.floor(days), Math.floor(hours), Math.floor(minutes)];
+  }, [proposal]);
+
   const chartData = useMemo(
     () => [
       {
@@ -78,7 +96,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
   return (
     <div className="p-10">
       <div className="flex w-full items-stretch justify-start gap-3">
-        <div className="flex flex-1 flex-col rounded-lg border-2 border-neutral p-4">
+        <div className="border-neutral flex flex-1 flex-col rounded-lg border-2 p-4">
           <h2 className="text-lg font-bold">{proposal?.metadata.title}</h2>
 
           <p>
@@ -90,17 +108,17 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             <div className="mt-8 flex items-end gap-2">
               <p className="flex flex-1 items-center gap-2 text-lg">
                 <span className="flex flex-col items-center text-sm">
-                  <strong>{dayjs(proposal?.endDate).format("DD")}</strong>
+                  <strong>{days}</strong>
                   Days
                 </span>
                 :
                 <span className="flex flex-col items-center text-sm">
-                  <strong>{dayjs(proposal?.endDate).format("HH")}</strong>
+                  <strong>{hours}</strong>
                   Hours
                 </span>
                 :
                 <span className="flex  flex-col items-center text-sm">
-                  <strong>{dayjs(proposal?.endDate).format("mm")}</strong>
+                  <strong>{minutes}</strong>
                   Minutes
                 </span>
               </p>
@@ -131,7 +149,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             </div>
           </div>
         </div>
-        <div className="rounded-lg border-2 border-neutral p-4">
+        <div className="border-neutral rounded-lg border-2 p-4">
           <h2 className="text-lg font-bold">Vote Summary</h2>
 
           <div className="mt-3 h-full w-full min-w-fit">
@@ -163,7 +181,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
       </div>
 
       <div className="mt-4 flex w-full items-stretch justify-start gap-3">
-        <div className="flex-1 rounded-lg border-2 border-neutral p-4">
+        <div className="border-neutral flex-1 rounded-lg border-2 p-4">
           <h2 className="text-lg font-bold">
             {proposal?.votes.length ?? 0} Voters
           </h2>
@@ -182,7 +200,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                     </thead>
                     <tbody>
                       {proposal.votes.slice(0, showCount).map((vote, id) => (
-                        <tr key={id} className="border-t-2 border-neutral">
+                        <tr key={id} className="border-neutral border-t-2">
                           <td>{truncateAddress(vote.address)}</td>
                           <td>
                             {
@@ -204,25 +222,25 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                 )}
               </>
             ) : (
-              <p className="border-t-2 border-neutral p-1 text-center text-lg text-error">
+              <p className="border-neutral border-t-2 p-1 text-center text-lg text-error">
                 No votes recorded
               </p>
             )}
           </div>
         </div>
-        <div className="flex-1 rounded-lg border-2 border-neutral p-4">
+        <div className="border-neutral flex-1 rounded-lg border-2 p-4">
           <h2 className="text-lg font-bold">Voting Info</h2>
 
           <div className="mt-4">
             <p className="flex justify-between text-black">
-              <span className="text-gray-500 font-bold">Start Date</span>
+              <span className="font-bold text-gray-500">Start Date</span>
 
               <span>
                 {dayjs(proposal?.startDate).format("YYYY/MM/DD HH:mm A")}
               </span>
             </p>
             <p className="mt-2 flex justify-between text-black">
-              <span className="text-gray-500 font-bold">End Date</span>
+              <span className="font-bold text-gray-500">End Date</span>
 
               <span>
                 {dayjs(proposal?.endDate).format("YYYY/MM/DD HH:mm A")}
@@ -234,17 +252,17 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
 
           <div className="mt-4 flex flex-col gap-2">
             <p className="flex justify-between text-black">
-              <span className="text-gray-500 font-bold">Options</span>
+              <span className="font-bold text-gray-500">Options</span>
 
               <span>Approve</span>
             </p>
             <p className="flex justify-between text-black">
-              <span className="text-gray-500 font-bold">Minimum Approval</span>
+              <span className="font-bold text-gray-500">Minimum Approval</span>
 
-              <span>{proposal?.settings.minParticipation ?? 0 * 100}</span>
+              <span>{(proposal?.settings.minParticipation ?? 0) * 100}%</span>
             </p>
             <p className="flex justify-between text-black">
-              <span className="text-gray-500 font-bold">Strategy</span>
+              <span className="font-bold text-gray-500">Strategy</span>
 
               <span>Token Weighted</span>
             </p>
