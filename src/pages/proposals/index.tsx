@@ -1,6 +1,6 @@
+import { ProposalsView } from "@components/proposals";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { ProposalsView } from "../../views/proposals";
 
 const Proposals: NextPage = () => {
   return (

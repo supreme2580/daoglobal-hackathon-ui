@@ -24,6 +24,7 @@ export const CreateProposalDetailsStep: React.FC<Props> = ({
   proposal,
   onCancel,
 }) => {
+  console.log({ proposal });
   const {
     register,
     handleSubmit,

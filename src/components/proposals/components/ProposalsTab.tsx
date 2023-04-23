@@ -9,6 +9,7 @@ import {
   useFetchVotingSettings,
   useFetchProposal,
   ProposalStatus,
+  SortDirection,
 } from "@daobox/use-aragon";
 import { capitalize } from "lodash";
 import { daoAddressOrEns } from "@constants/daoConfig";
@@ -23,7 +24,10 @@ const TabStates = [
 ];
 
 export const ProposalsTab = () => {
-  const { data, isLoading } = useFetchProposals({ daoAddressOrEns });
+  const { data, isLoading } = useFetchProposals({
+    daoAddressOrEns,
+    direction: SortDirection.DESC,
+  });
 
   const proposals = useCallback(
     (status: ProposalStatus | "All") => {
@@ -58,8 +62,12 @@ export const ProposalsTab = () => {
               return (
                 <button
                   className={classNames(
-                    "btn rounded-none border-0 bg-transparent px-4 py-1 text-neutral hover:bg-transparent focus:outline-none",
-                    selected && "rounded-2 border-b-2 bg-white",
+                    `btn rounded-none border-0 bg-transparent px-4 py-1 ${
+                      selected
+                        ? "font-bold text-black"
+                        : "font-normal text-secondary"
+                    } hover:border-success hover:bg-transparent focus:outline-none`,
+                    selected && "border-b-2 border-primary",
                     tabIndex > 0 && "ml-3"
                   )}
                 >
