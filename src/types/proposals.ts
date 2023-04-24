@@ -22,7 +22,7 @@ export const ProposalVotingSchema = z
   .object({
     vote_type: z.string(),
     creator_vote: z.string(),
-    end_date: z.date(),
+    end_date: z.string(),
     voteDuration: z
       .number()
       .min(1000, { message: "Vote duration is too small" }),
@@ -62,3 +62,17 @@ export enum VotingTypes {
   Token_Voting = "Token_Voting",
   Optimistic_Proposal = "Optimistic_Proposal",
 }
+
+export const defaultProposalVotingValues = (
+  _?: CreateProposalVoting,
+  minDuration?: number
+) => {
+  const data: CreateProposalVoting = {
+    vote_type: "null",
+    creator_vote: "",
+    end_date: new Date().toString(),
+    voteDuration: minDuration ?? 86400,
+  };
+
+  return data;
+};

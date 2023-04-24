@@ -12,18 +12,13 @@ import {
   useFetchVotingSettings,
   useNewProposal,
 } from "@daobox/use-aragon";
-import {
-  ProposalVotingSchema,
-  type CreateProposalDetail,
-  VotingTypes,
-} from "types";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { type CreateProposalDetail, type CreateProposalVoting } from "types";
 import { votingPluginAddress } from "@constants/daoConfig";
 import { useRouter } from "next/router";
 
 interface Props {
-  proposal?: CreateProposalDetail;
-  votings?: any;
+  proposal: CreateProposalDetail;
+  voting: CreateProposalVoting;
   onComplete?: (actions?: unknown) => void;
   onCancel?: () => void;
 }
@@ -32,14 +27,34 @@ type LoadingStatuses = "loading" | "success" | "error" | "idle";
 export const CreateProposalsActionStep: React.FC<Props> = ({
   onComplete,
   proposal,
+  voting,
   onCancel,
 }) => {
   const [submitMode, setMode] = useState<LoadingStatuses>("idle");
-  const router = useRouter();
+  const { mutate } = useNewProposal({
+    pluginAddress: votingPluginAddress,
+    title: proposal.title,
+    summary: proposal.summary,
+    description: "",
+    resources: proposal.resources?.length
+      ? proposal.resources?.map(({ name, link }) => ({
+          name: name ?? "",
+          url: link ?? "",
+        }))
+      : [],
+    endDate: new Date(voting.end_date),
+    creatorVote: Number(voting.creator_vote),
+    onSuccess: (_, variables, context) => {
+      console.log("Successful");
+      setMode("success");
+      onComplete?.(context);
+    },
+    onError: () => setMode("error"),
+  });
 
-  const onSubmit = (values: unknown) => {
-    console.log({ values });
-    onComplete?.();
+  const handleCreateProposal = () => {
+    setMode("loading");
+    mutate();
   };
 
   return (
@@ -72,9 +87,17 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
           Back
         </PrimaryButton>
 
-        <PrimaryButton type="submit" className="text-white">
-          Submit
-        </PrimaryButton>
+        {submitMode === "loading" ? (
+          <button className="loading btn-square btn"></button>
+        ) : (
+          <PrimaryButton
+            type="button"
+            onClick={() => handleCreateProposal()}
+            className="text-white"
+          >
+            Submit
+          </PrimaryButton>
+        )}
       </div>
     </div>
   );

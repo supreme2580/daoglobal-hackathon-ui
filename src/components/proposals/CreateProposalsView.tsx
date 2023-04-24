@@ -4,7 +4,7 @@ import {
   CreateProposalVoteOptionsStep,
 } from "./components";
 import { Dialog } from "@headlessui/react";
-import { CreateProposalVoting, type CreateProposalDetail } from "types";
+import { type CreateProposalVoting, type CreateProposalDetail } from "types";
 import { PrimaryButton } from "@components/inputs";
 import { PlusSmallIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CreateProposalsActionStep } from "./components/CreateProposalStep3";
@@ -69,9 +69,9 @@ export const CreateProposalsView = () => {
 
               {currentStep === 2 && (
                 <CreateProposalVoteOptionsStep
-                  proposal={proposalsDetail!}
-                  onComplete={(data) => {
+                  onComplete={(data: CreateProposalVoting) => {
                     console.log("DATA ", data);
+                    setVoteDetail(data);
                     setStep(3);
                   }}
                   onCancel={() => setStep(1)}
@@ -82,9 +82,10 @@ export const CreateProposalsView = () => {
                 <CreateProposalsActionStep
                   onComplete={(actions) => {
                     console.log("ACTIONS", actions);
+                    setOpen(false);
                   }}
-                  proposal={proposalsDetail}
-                  votings={proposalVote}
+                  proposal={proposalsDetail!}
+                  voting={proposalVote!}
                   onCancel={() => setStep(2)}
                 />
               )}
