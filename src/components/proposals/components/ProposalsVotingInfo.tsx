@@ -1,4 +1,5 @@
 import {
+  ProposalStatus,
   VoteValues,
   useFetchProposal,
   useVoteOnProposal,
@@ -8,15 +9,10 @@ import { truncateAddress } from "@utils/addresses";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { capitalize, lowerCase } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  PieChart,
-  Pie,
-  ResponsiveContainer,
-  Legend,
-  Cell,
-  Tooltip,
-} from "recharts";
+import { PieChart, Pie, Legend, Cell, Tooltip } from "recharts";
+import { useAccount } from "wagmi";
 
 type Props = {
   proposalId: string;
@@ -30,10 +26,13 @@ const VoteOptions = [
 ];
 
 export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
-  const [proposedVote, setProposedVote] = useState<VoteValues>(VoteValues.YES);
+  const [proposedVote, setProposedVote] = useState<VoteValues | undefined>(
+    undefined
+  );
+  const { address } = useAccount();
   const { mutate } = useVoteOnProposal({
     proposalId,
-    vote: proposedVote,
+    vote: proposedVote!,
   });
   const { data: proposal, isLoading } = useFetchProposal({
     proposalId,
@@ -51,6 +50,15 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     const percentage = ((now - startTime) * 100) / endTime;
     return Math.round(percentage);
   };
+
+  const voteOfAddress = useMemo(() => {
+    const vote_of_address = proposal?.votes.find(({ address: addr }) => {
+      console.log({ addr: lowerCase(addr), address: lowerCase(address) });
+      return lowerCase(addr) == lowerCase(address);
+    });
+    console.log({ vote_of_address, votes: proposal?.votes });
+    return vote_of_address?.vote;
+  }, [proposal?.votes]);
 
   const [days, hours, minutes] = useMemo(() => {
     let timeLeft = Math.floor(dayjs(proposal?.endDate).diff(new Date()) / 1000);
@@ -88,10 +96,13 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     ],
     [proposal]
   );
+  console.log({ chartData });
 
   useEffect(() => {
-    mutate();
-  }, [proposedVote]);
+    if (proposedVote) {
+      mutate();
+    }
+  }, [proposedVote, mutate]);
 
   return (
     <div className="p-10">
@@ -105,36 +116,42 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
           </p>
 
           <div className="flex flex-1 flex-col justify-evenly">
-            <div className="mt-8 flex items-end gap-2">
-              <p className="flex flex-1 items-center gap-2 text-lg">
-                <span className="flex flex-col items-center text-sm">
-                  <strong>{days}</strong>
-                  Days
-                </span>
-                :
-                <span className="flex flex-col items-center text-sm">
-                  <strong>{hours}</strong>
-                  Hours
-                </span>
-                :
-                <span className="flex  flex-col items-center text-sm">
-                  <strong>{minutes}</strong>
-                  Minutes
-                </span>
+            {proposal?.status === ProposalStatus.ACTIVE ? (
+              <div className="mt-8 flex items-end gap-2">
+                <p className="flex flex-1 items-center gap-2 text-lg">
+                  <span className="flex flex-col items-center text-sm">
+                    <strong>{days}</strong>
+                    Days
+                  </span>
+                  :
+                  <span className="flex flex-col items-center text-sm">
+                    <strong>{hours}</strong>
+                    Hours
+                  </span>
+                  :
+                  <span className="flex  flex-col items-center text-sm">
+                    <strong>{minutes}</strong>
+                    Minutes
+                  </span>
+                </p>
+                {VoteOptions.map(({ id, value }) => (
+                  <button
+                    key={id}
+                    className={classNames(
+                      "btn ",
+                      voteOfAddress === id ? "btn-primary" : "btn-outline"
+                    )}
+                    onClick={() => setProposedVote(id)}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="badge rounded-md px-10 py-4 text-info">
+                Proposal {capitalize(proposal?.status)}
               </p>
-              {VoteOptions.map(({ id, value }) => (
-                <button
-                  key={id}
-                  className={classNames(
-                    "btn ",
-                    proposedVote === id ? "" : "btn-outline"
-                  )}
-                  onClick={() => setProposedVote(id)}
-                >
-                  {value}
-                </button>
-              ))}
-            </div>
+            )}
 
             <div className="mt-4 w-full">
               <progress
@@ -153,29 +170,27 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
           <h2 className="text-lg font-bold">Vote Summary</h2>
 
           <div className="mt-3 h-full w-full min-w-fit">
-            <ResponsiveContainer width={300} height={215}>
-              <PieChart margin={{ top: 50 }}>
-                <Legend
-                  wrapperStyle={{ top: 0 }}
-                  formatter={(value, { color }) => (
-                    <span style={{ color: "black" }}>{value}</span>
-                  )}
-                  align="left"
-                />
-                <Pie
-                  data={chartData}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                  nameKey="name"
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <PieChart width={300} height={215} margin={{ top: 50 }}>
+              <Legend
+                wrapperStyle={{ top: 0 }}
+                formatter={(value, { color }) => (
+                  <span style={{ color: "black" }}>{value}</span>
+                )}
+                align="left"
+              />
+              <Pie
+                data={chartData}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+                nameKey="name"
+              >
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
           </div>
         </div>
       </div>
@@ -215,7 +230,12 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                 </div>
 
                 {proposal.votes.length > 5 && (
-                  <button className="text-md btn-ghost btn flex items-center gap-3 text-accent">
+                  <button
+                    className="text-md btn-ghost btn flex items-center gap-3 text-accent"
+                    onClick={() =>
+                      setShowCount((prev) => (prev === 5 ? 10 : 5))
+                    }
+                  >
                     Show {showCount === 5 ? "More" : "Less"}{" "}
                     <ChevronDownIcon width={20} height={20} />
                   </button>

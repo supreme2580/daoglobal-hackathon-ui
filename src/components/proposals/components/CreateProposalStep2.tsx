@@ -1,4 +1,4 @@
-import { PrimaryButton, SelectInput } from "@components/inputs";
+import { PrimaryButton, SelectInput, TextInput } from "@components/inputs";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 
 interface Props {
   proposal: CreateProposalDetail;
-  onComplete?: () => void;
+  onComplete?: (data?: any) => void;
   onCancel?: () => void;
 }
 
@@ -28,8 +28,8 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
   proposal,
   onCancel,
 }) => {
-  const router = useRouter();
   const [isEndTimeNow, setEndTime] = useState(true);
+  const [isStartTimeNow, setStartTime] = useState(true);
   const { data } = useFetchVotingSettings({
     pluginAddress: votingPluginAddress,
   });
@@ -44,15 +44,16 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
       vote_type: undefined,
       creator_vote: undefined,
       end_date: new Date(),
+      start_time: "" as string | Date,
       voteDuration: data?.minDuration ?? 86400,
     },
     // resolver: zodResolver(ProposalVotingSchema),
   });
-  const { mutate, error } = useNewProposal({
+  const { mutate } = useNewProposal({
     pluginAddress: votingPluginAddress,
     title: proposal.title,
     summary: proposal.summary,
-    description: proposal.description,
+    description: "",
     resources: proposal.resources?.length
       ? proposal.resources?.map(({ name, link }) => ({
           name: name ?? "",
@@ -61,10 +62,9 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
       : [],
     endDate: watch("end_date"),
     creatorVote: Number(watch("creator_vote")),
-    onSuccess: () => {
-      // router.back();
+    onSuccess: (_, variables, context) => {
       console.log("Successful");
-      onComplete?.();
+      onComplete?.(context);
     },
   });
 
@@ -72,7 +72,6 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
     console.log({ values });
     mutate?.();
   };
-  console.log({ error });
 
   return (
     <form
@@ -83,7 +82,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
         name="vote_type"
         hasError={errors.vote_type?.message}
         register={register}
-        label="Options"
+        label="Vote Type"
       >
         <option disabled value="null">
           Select an option
@@ -93,6 +92,43 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
           Optimistic Voting
         </option>
       </SelectInput>
+
+      {/* <div className="w-full">
+        <div>
+          <h3 className="text-xl font-bold">Start Time</h3>
+          <p className="text-sm text-secondary">
+            Define when a proposal should be active to receive approvals. If now
+            is selected, the proposal is immediately active after publishing.
+          </p>
+        </div>
+
+        <div className="mt-5  grid grid-cols-2 items-stretch justify-stretch gap-5">
+          <div className="form-control flex-1 rounded-lg border-2 border-accent p-2">
+            <label className="label cursor-pointer">
+              <span className="label-text">Now</span>
+              <input
+                type="radio"
+                checked={isStartTimeNow}
+                onChange={() => setStartTime(true)}
+                className="radio-accent radio checked:bg-blue-500"
+                value="now"
+              />
+            </label>
+          </div>
+          <div className="form-control flex-1 flex-col items-center justify-center rounded-lg border-2 border-accent p-2">
+            <TextInput
+              label=""
+              type="datetime-local"
+              register={register}
+              className="border-none outline-none focus:shadow-transparent focus:outline-none"
+              name="start_time"
+              hasError={errors.start_time?.message}
+              onBlur={() => setStartTime(false)}
+              placeholder="Specified date & time"
+            />
+          </div>
+        </div>
+      </div> */}
 
       <div className="w-full">
         <div>
@@ -116,30 +152,18 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
               />
             </label>
           </div>
-          <div className="form-control flex-1 rounded-lg border-2 border-accent p-2">
-            <label className="label cursor-pointer">
-              <span className="label-text">Specified date & time</span>
-              <input
-                type="radio"
-                checked={!isEndTimeNow}
-                onChange={() => setEndTime(false)}
-                className="radio-accent radio checked:bg-blue-500"
-                value="later"
-              />
-            </label>
-          </div>
-
-          {!isEndTimeNow && (
-            <SpecificDatePicker
-              onValueChange={(value: Date) => setValue("end_date", value)}
+          <div className="form-control flex-1 flex-col items-center justify-center rounded-lg border-2 border-accent p-2">
+            <TextInput
+              label=""
+              type="datetime-local"
+              register={register}
+              className="border-none shadow-transparent outline-none focus:shadow-transparent focus:outline-none"
+              name="end_date"
+              hasError={errors.end_date?.message}
+              onBlur={() => setEndTime(false)}
+              placeholder="Specified date & time"
             />
-          )}
-
-          {errors.end_date?.message ? (
-            <div className="label-alt-text text-error">
-              {errors.end_date.message}
-            </div>
-          ) : null}
+          </div>
         </div>
       </div>
 
@@ -147,7 +171,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
         name="creator_vote"
         hasError={errors.creator_vote?.message}
         register={register}
-        label="Options"
+        label="Creator's Vote"
       >
         <option disabled value="null">
           Select an option
@@ -157,22 +181,17 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
         <option value={VoteValues.ABSTAIN}>Abstain</option>
       </SelectInput>
 
-      <div className="mt-6 flex w-full items-center justify-between">
+      <div className="mt-6 flex w-full items-center justify-end gap-4">
         <PrimaryButton
-          className="btn-outline"
+          className="btn-ghost"
           type="reset"
           onClick={() => onCancel?.()}
-          startIcon={<ChevronLeftIcon width={20} height={20} />}
         >
           Back
         </PrimaryButton>
 
-        <PrimaryButton
-          type="submit"
-          // disabled={!isValid}
-          endIcon={<ChevronRightIcon width={20} height={20} />}
-        >
-          Next
+        <PrimaryButton type="submit" className="text-white">
+          Continue
         </PrimaryButton>
       </div>
     </form>

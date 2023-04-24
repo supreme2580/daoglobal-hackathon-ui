@@ -22,9 +22,11 @@ export const TextInput: React.FC<Props> = ({
 }) => {
   return (
     <div className="form-control w-full">
-      <label className="label">
-        <span className="label-text font-semibold">{label}</span>
-      </label>
+      {!!label && (
+        <label className="label">
+          <span className="label-text font-semibold">{label}</span>
+        </label>
+      )}
       <input
         className={classNames(
           "input-bordered input-accent input w-full",

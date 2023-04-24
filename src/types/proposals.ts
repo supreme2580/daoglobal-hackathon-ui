@@ -3,7 +3,10 @@ import { z } from "zod";
 
 export const ProposalDetailSchema = z.object({
   title: z.string().min(1, { message: "Title must be provided" }),
-  description: z.string().min(10, { message: "Please enter a description" }),
+  // description: z
+  //   .string()
+  //   .min(0, { message: "Please enter a description" })
+  //   .optional(),
   summary: z.string().min(10, { message: "Provide a summary of proposal" }),
   resources: z
     .object({
@@ -43,8 +46,13 @@ export const defaultProposalDetailsValue = (_?: CreateProposalDetail) => {
   const data: CreateProposalDetail = {
     title: "",
     summary: "",
-    description: "",
-    resources: [],
+    // description: "",
+    resources: [
+      {
+        name: "",
+        link: "",
+      },
+    ],
   };
 
   return data;

@@ -3,11 +3,17 @@ import {
   CreateProposalDetailsStep,
   CreateProposalVoteOptionsStep,
 } from "./components";
-import { type CreateProposalDetail } from "types";
+import { Dialog } from "@headlessui/react";
+import { CreateProposalVoting, type CreateProposalDetail } from "types";
+import { PrimaryButton } from "@components/inputs";
+import { PlusSmallIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { CreateProposalsActionStep } from "./components/CreateProposalStep3";
 
 export const CreateProposalsView = () => {
-  const [currentStep, setStep] = useState<1 | 2>(1);
+  const [isOpen, setOpen] = useState(false);
+  const [currentStep, setStep] = useState<1 | 2 | 3>(1);
   const [proposalsDetail, setDetail] = useState<CreateProposalDetail>();
+  const [proposalVote, setVoteDetail] = useState<CreateProposalVoting>();
 
   const proceedToStep2 = (value: CreateProposalDetail) => {
     setDetail(value);
@@ -16,40 +22,76 @@ export const CreateProposalsView = () => {
 
   return (
     <React.Fragment>
-      <div className="flex h-full w-full max-w-5xl flex-1 flex-col gap-10 px-20">
-        <div>
-          <h1 className="text-4xl font-bold">Create Proposals</h1>
-          <h4>
-            Provide the information voters will need to make their decision
-            here.
-          </h4>
-        </div>
+      <PrimaryButton
+        onClick={() => setOpen(true)}
+        startIcon={<PlusSmallIcon width={25} height={25} />}
+        className="text-white"
+      >
+        <span className="flex-1">New Proposal</span>
+      </PrimaryButton>
+      <Dialog
+        open={isOpen}
+        onClose={() => setOpen(false)}
+        className="relative z-50"
+      >
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
+          aria-hidden="true"
+        >
+          <Dialog.Panel className="m relative max-h-full w-full max-w-2xl overflow-auto rounded-lg bg-white p-10">
+            <button
+              onClick={() => setOpen(false)}
+              className="btn-ghost btn absolute right-0 top-0 text-black"
+            >
+              <XMarkIcon width={18} height={18} />
+            </button>
+            <Dialog.Title className="text-4xl font-bold">
+              Create Proposal
+            </Dialog.Title>
 
-        <div>
-          <p>Step {currentStep}/2</p>
-          <progress
-            className="progress progress-primary h-4 w-full"
-            value={Math.round(100 * (currentStep / 2))}
-            max="100"
-          ></progress>
-        </div>
+            <div className="mt-4">
+              <p>
+                <span className="text-secondary">Step {currentStep}/3: </span>
+                <span className="font-bold text-black">
+                  {currentStep === 3 ? "Set Actions" : "Proposal Detail"}
+                </span>
+              </p>
+            </div>
 
-        <div className="w-full rounded-lg border-2 border-accent px-16 py-10 shadow-lg">
-          {currentStep === 1 && (
-            <CreateProposalDetailsStep
-              proposal={proposalsDetail}
-              onComplete={proceedToStep2}
-            />
-          )}
+            <div className="mt-4 w-full">
+              {currentStep === 1 && (
+                <CreateProposalDetailsStep
+                  proposal={proposalsDetail}
+                  onComplete={proceedToStep2}
+                  onCancel={() => setOpen(false)}
+                />
+              )}
 
-          {currentStep === 2 && (
-            <CreateProposalVoteOptionsStep
-              proposal={proposalsDetail!}
-              onCancel={() => setStep(1)}
-            />
-          )}
+              {currentStep === 2 && (
+                <CreateProposalVoteOptionsStep
+                  proposal={proposalsDetail!}
+                  onComplete={(data) => {
+                    console.log("DATA ", data);
+                    setStep(3);
+                  }}
+                  onCancel={() => setStep(1)}
+                />
+              )}
+
+              {currentStep === 3 && (
+                <CreateProposalsActionStep
+                  onComplete={(actions) => {
+                    console.log("ACTIONS", actions);
+                  }}
+                  proposal={proposalsDetail}
+                  votings={proposalVote}
+                  onCancel={() => setStep(2)}
+                />
+              )}
+            </div>
+          </Dialog.Panel>
         </div>
-      </div>
+      </Dialog>
     </React.Fragment>
   );
 };
