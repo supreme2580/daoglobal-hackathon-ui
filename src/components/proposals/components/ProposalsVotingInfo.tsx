@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { capitalize, lowerCase } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import { PieChart, Pie, Legend, Cell, Tooltip } from "recharts";
 import { useAccount } from "wagmi";
 
@@ -30,9 +31,14 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     undefined
   );
   const { address } = useAccount();
-  const { mutate } = useVoteOnProposal({
+  const { mutate, isLoading: isVoting } = useVoteOnProposal({
     proposalId,
     vote: proposedVote!,
+    onSuccess: () => toast("Voting Successful"),
+    onError: (error) => {
+      console.log({ error });
+      toast.error(error.message);
+    },
   });
   const { data: proposal, isLoading } = useFetchProposal({
     proposalId,
@@ -53,12 +59,10 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
 
   const voteOfAddress = useMemo(() => {
     const vote_of_address = proposal?.votes.find(({ address: addr }) => {
-      console.log({ addr: lowerCase(addr), address: lowerCase(address) });
       return lowerCase(addr) == lowerCase(address);
     });
-    console.log({ vote_of_address, votes: proposal?.votes });
     return vote_of_address?.vote;
-  }, [proposal?.votes]);
+  }, [proposal?.votes, address]);
 
   const [days, hours, minutes] = useMemo(() => {
     let timeLeft = Math.floor(dayjs(proposal?.endDate).diff(new Date()) / 1000);
@@ -80,23 +84,22 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     () => [
       {
         name: "Yes",
-        value: Number(proposal?.result.yes.toString()) || 7,
+        value: Number(proposal?.result.yes) || 7,
         color: "#02AB76",
       },
       {
         name: "Abstain",
-        value: Number(proposal?.result.abstain.toString()) || 2,
+        value: Number(proposal?.result.abstain) || 2,
         color: "#D7FFF2",
       },
       {
         name: "No",
-        value: Number(proposal?.result.no.toString()) || 10,
+        value: Number(proposal?.result.no) || 10,
         color: "#59E9AB",
       },
     ],
     [proposal]
   );
-  console.log({ chartData });
 
   useEffect(() => {
     if (proposedVote) {
@@ -104,8 +107,17 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     }
   }, [proposedVote, mutate]);
 
+  if (isLoading) {
+    return (
+      <div className="items center flex w-full justify-center pt-6">
+        <button className="loading btn">Please wait</button>
+      </div>
+    );
+  }
+
   return (
     <div className="p-10">
+      {/* <ToastContainer /> */}
       <div className="flex w-full items-stretch justify-start gap-3">
         <div className="border-neutral flex flex-1 flex-col rounded-lg border-2 p-4">
           <h2 className="text-lg font-bold">{proposal?.metadata.title}</h2>
@@ -117,7 +129,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
 
           <div className="flex flex-1 flex-col justify-evenly">
             {proposal?.status === ProposalStatus.ACTIVE ? (
-              <div className="mt-8 flex items-end gap-2">
+              <div className="mt-8 flex items-end gap-2" key="NULL">
                 <p className="flex flex-1 items-center gap-2 text-lg">
                   <span className="flex flex-col items-center text-sm">
                     <strong>{days}</strong>
@@ -135,20 +147,29 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                   </span>
                 </p>
                 {VoteOptions.map(({ id, value }) => (
-                  <button
-                    key={id}
-                    className={classNames(
-                      "btn ",
-                      voteOfAddress === id ? "btn-primary" : "btn-outline"
+                  <>
+                    {isVoting && proposedVote === id ? (
+                      <button
+                        className="loading btn-square btn"
+                        key={id}
+                      ></button>
+                    ) : (
+                      <button
+                        key={id}
+                        className={classNames(
+                          "btn",
+                          voteOfAddress === id ? "btn-primary" : "btn-outline"
+                        )}
+                        onClick={() => setProposedVote(id)}
+                      >
+                        {value}
+                      </button>
                     )}
-                    onClick={() => setProposedVote(id)}
-                  >
-                    {value}
-                  </button>
+                  </>
                 ))}
               </div>
             ) : (
-              <p className="badge rounded-md px-10 py-4 text-info">
+              <p className="badge rounded-md px-10 py-4 text-info" key="STATUS">
                 Proposal {capitalize(proposal?.status)}
               </p>
             )}

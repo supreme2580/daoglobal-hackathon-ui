@@ -43,7 +43,6 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
     console.log({ values });
     onComplete?.(values);
   };
-  console.log({ errors });
 
   return (
     <form

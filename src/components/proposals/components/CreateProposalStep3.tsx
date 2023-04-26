@@ -1,5 +1,6 @@
 import { PrimaryButton, SelectInput, TextInput } from "@components/inputs";
 import {
+  CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   PlusIcon,
@@ -15,6 +16,8 @@ import {
 import { type CreateProposalDetail, type CreateProposalVoting } from "types";
 import { votingPluginAddress } from "@constants/daoConfig";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { Dialog } from "@headlessui/react";
 
 interface Props {
   proposal: CreateProposalDetail;
@@ -30,8 +33,9 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
   voting,
   onCancel,
 }) => {
-  const [submitMode, setMode] = useState<LoadingStatuses>("idle");
-  const { mutate } = useNewProposal({
+  const [proposalSubmitted, setProposalSubmitted] = useState(false);
+  // const [submitMode, setMode] = useState<LoadingStatuses>("idle");
+  const { mutate, isLoading } = useNewProposal({
     pluginAddress: votingPluginAddress,
     title: proposal.title,
     summary: proposal.summary,
@@ -45,16 +49,18 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
     endDate: new Date(voting.end_date),
     creatorVote: Number(voting.creator_vote),
     onSuccess: (_, variables, context) => {
-      console.log("Successful");
-      setMode("success");
-      onComplete?.(context);
+      setProposalSubmitted(true);
+      // onComplete?.(context);
     },
-    onError: () => setMode("error"),
+    onError: (error) => {
+      console.log({ error });
+      toast.error(error.message);
+    },
   });
 
-  const handleCreateProposal = () => {
-    setMode("loading");
-    mutate();
+  const closeNotifModal = () => {
+    setProposalSubmitted(false);
+    onComplete?.();
   };
 
   return (
@@ -87,18 +93,51 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
           Back
         </PrimaryButton>
 
-        {submitMode === "loading" ? (
-          <button className="loading btn-square btn"></button>
+        {isLoading ? (
+          <button className="loading btn">Submit</button>
         ) : (
           <PrimaryButton
             type="button"
-            onClick={() => handleCreateProposal()}
-            className="text-white"
+            onClick={() => mutate()}
+            className={"text-white"}
           >
             Submit
           </PrimaryButton>
         )}
       </div>
+
+      <Dialog
+        open={proposalSubmitted}
+        onClose={() => closeNotifModal()}
+        className="relative z-50"
+      >
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
+          aria-hidden="true"
+        >
+          <Dialog.Panel className="m relative flex max-h-full w-full max-w-2xl flex-col items-center justify-center overflow-auto rounded-lg bg-white p-10">
+            <div>
+              <CheckIcon width={40} height={40} stroke="green" />
+            </div>
+
+            <div className="mt-8 text-center">
+              <p>Your Proposal is Submitted</p>
+              <p className="mt-4">
+                Lorem ipsum dolor sit amet consectetur. Pellentesque scelerisque
+                in pellentesque viverra id urna.
+              </p>
+            </div>
+
+            <div className="mt-8">
+              <PrimaryButton onClick={() => closeNotifModal()}>
+                Back home
+              </PrimaryButton>
+            </div>
+
+            {/* ... */}
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </div>
   );
 };
