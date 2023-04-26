@@ -20,7 +20,7 @@ export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
         <div className="card-actions justify-between">
           <div className="flex flex-1 items-center justify-start gap-2 text-sm font-medium">
             <div className="placeholder avatar">
-              <div className="w-8 rounded-full bg-neutral-focus text-neutral-content">
+              <div className="w-8 rounded-full bg-success text-neutral-content">
                 <span className="text-xs">
                   {upperCase(proposal.dao.name.substring(0, 2))}
                 </span>
@@ -32,7 +32,7 @@ export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
             </p>
           </div>
 
-          <span className="badge badge-md rounded-xl">{status}</span>
+          <span className="badge badge-md bg-secondary text-primary rounded-xl">{status}</span>
         </div>
         <h2 className="card-title mt-5 text-primary">{proposal.metadata.title}</h2>
         <p>{proposal.metadata.summary}</p>
