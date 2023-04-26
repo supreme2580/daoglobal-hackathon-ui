@@ -3,7 +3,10 @@ import { z } from "zod";
 
 export const ProposalDetailSchema = z.object({
   title: z.string().min(1, { message: "Title must be provided" }),
-  description: z.string().min(10, { message: "Please enter a description" }),
+  // description: z
+  //   .string()
+  //   .min(0, { message: "Please enter a description" })
+  //   .optional(),
   summary: z.string().min(10, { message: "Provide a summary of proposal" }),
   resources: z
     .object({
@@ -19,7 +22,7 @@ export const ProposalVotingSchema = z
   .object({
     vote_type: z.string(),
     creator_vote: z.string(),
-    end_date: z.date(),
+    end_date: z.string(),
     voteDuration: z
       .number()
       .min(1000, { message: "Vote duration is too small" }),
@@ -43,8 +46,13 @@ export const defaultProposalDetailsValue = (_?: CreateProposalDetail) => {
   const data: CreateProposalDetail = {
     title: "",
     summary: "",
-    description: "",
-    resources: [],
+    // description: "",
+    resources: [
+      {
+        name: "",
+        link: "",
+      },
+    ],
   };
 
   return data;
@@ -54,3 +62,17 @@ export enum VotingTypes {
   Token_Voting = "Token_Voting",
   Optimistic_Proposal = "Optimistic_Proposal",
 }
+
+export const defaultProposalVotingValues = (
+  _?: CreateProposalVoting,
+  minDuration?: number
+) => {
+  const data: CreateProposalVoting = {
+    vote_type: "null",
+    creator_vote: "",
+    end_date: new Date().toString(),
+    voteDuration: minDuration ?? 86400,
+  };
+
+  return data;
+};

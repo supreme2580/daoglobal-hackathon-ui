@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { PrimaryButton, TextArea, TextInput } from "@components/inputs";
 import {
   ChevronRightIcon,
@@ -62,13 +63,6 @@ export const CreateProposalDetailsStep: React.FC<Props> = ({
         placeholder="Give your proposal a title"
       />
       <TextArea
-        label="Description"
-        name="description"
-        register={register}
-        hasError={errors.description?.message?.toString()}
-        placeholder="Describe your proposal in 2 - 3 sentences. This will appear in the proposal overview"
-      />
-      <TextArea
         name="summary"
         label="Body"
         register={register}
@@ -119,22 +113,17 @@ export const CreateProposalDetailsStep: React.FC<Props> = ({
         </PrimaryButton>
       </div>
 
-      <div className="mt-6 flex w-full items-center justify-between">
+      <div className="mt-6 flex w-full items-center justify-end gap-4">
         <PrimaryButton
-          className="btn-outline"
+          className="btn-ghost"
           type="reset"
           onClick={() => onCancel?.()}
-          startIcon={<XMarkIcon width={20} height={20} />}
         >
           Cancel
         </PrimaryButton>
 
-        <PrimaryButton
-          type="submit"
-          disabled={!isValid}
-          endIcon={<ChevronRightIcon width={20} height={20} />}
-        >
-          Next
+        <PrimaryButton type="submit" className="text-white" disabled={!isValid}>
+          Continue
         </PrimaryButton>
       </div>
     </form>
