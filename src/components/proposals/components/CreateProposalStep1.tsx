@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { PrimaryButton, TextArea, TextInput } from "@components/inputs";
 import {
-  ChevronRightIcon,
   PlusIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
@@ -72,7 +70,7 @@ export const CreateProposalDetailsStep: React.FC<Props> = ({
       <div className="w-full">
         <div>
           <h3 className="text-xl font-bold">Resources</h3>
-          <p className="text-sm text-secondary">
+          <p className="text-sm text-primary">
             Share external Resources here
           </p>
         </div>

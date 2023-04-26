@@ -28,7 +28,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div>
         <MobileNav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <DesktopNav />
-
         <div className="lg:pl-72">
           <Topbar setSidebarOpen={setSidebarOpen} />
           <Viewport>{children}</Viewport>

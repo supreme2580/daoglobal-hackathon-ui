@@ -56,7 +56,7 @@ export function MobileNav({ sidebarOpen, setSidebarOpen }: MobileNavProps) {
                   >
                     <span className="sr-only">Close sidebar</span>
                     <XMarkIcon
-                      className="h-6 w-6 text-white"
+                      className="h-6 w-6 text-primary"
                       aria-hidden="true"
                     />
                   </button>

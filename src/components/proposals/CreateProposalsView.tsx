@@ -38,7 +38,7 @@ export const CreateProposalsView = () => {
           className="fixed inset-0 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
           aria-hidden="true"
         >
-          <Dialog.Panel className="m relative max-h-full w-full max-w-2xl overflow-auto rounded-lg bg-white p-10">
+          <Dialog.Panel className="m relative max-h-full w-full max-w-2xl overflow-auto rounded-lg bg-secondary p-10">
             <button
               onClick={() => setOpen(false)}
               className="btn-ghost btn absolute right-0 top-0 text-black"
@@ -51,8 +51,8 @@ export const CreateProposalsView = () => {
 
             <div className="mt-4">
               <p>
-                <span className="text-secondary">Step {currentStep}/3: </span>
-                <span className="font-bold text-black">
+                <span className="text-primary">Step {currentStep}/3: </span>
+                <span className="font-bold text-primary">
                   {currentStep === 3 ? "Set Actions" : "Proposal Detail"}
                 </span>
               </p>

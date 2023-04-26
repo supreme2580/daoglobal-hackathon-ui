@@ -115,7 +115,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
           className="fixed inset-0 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
           aria-hidden="true"
         >
-          <Dialog.Panel className="m relative flex max-h-full w-full max-w-2xl flex-col items-center justify-center overflow-auto rounded-lg bg-white p-10">
+          <Dialog.Panel className="m relative flex max-h-full w-full max-w-2xl flex-col items-center justify-center overflow-auto rounded-lg bg-secondary p-10">
             <div>
               <CheckIcon width={40} height={40} stroke="green" />
             </div>

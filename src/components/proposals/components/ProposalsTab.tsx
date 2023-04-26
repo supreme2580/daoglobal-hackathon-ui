@@ -64,8 +64,8 @@ export const ProposalsTab = () => {
                   className={classNames(
                     `btn rounded-none border-0 bg-transparent px-4 py-1 ${
                       selected
-                        ? "font-bold text-black"
-                        : "font-normal text-secondary"
+                        ? "font-bold text-primary"
+                        : "font-normal text-primary"
                     } hover:border-success hover:bg-transparent focus:outline-none`,
                     selected && "border-b-2 border-primary",
                     tabIndex > 0 && "ml-3"

@@ -1,4 +1,3 @@
-import { ClockIcon } from "@heroicons/react/24/outline";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import { truncateAddress } from "@utils/addresses";
@@ -13,7 +12,7 @@ type Props = TokenVotingProposalListItem;
 export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
   const router = useRouter();
   return (
-    <div className="border-neutral card col-span-1 w-full scale-95 rounded-lg border-2 bg-base-100 shadow-xl transition hover:scale-100">
+    <div className="border-neutral card col-span-1 w-full scale-95 rounded-lg bg-secondary shadow-xl transition hover:scale-100">
       <div
         className="card-body cursor-pointer"
         onClick={() => router.push(`/proposals/${proposal.id}`)}
@@ -35,7 +34,7 @@ export const ProposalCard: React.FC<Props> = ({ status, ...proposal }) => {
 
           <span className="badge badge-md rounded-xl">{status}</span>
         </div>
-        <h2 className="card-title mt-5">{proposal.metadata.title}</h2>
+        <h2 className="card-title mt-5 text-primary">{proposal.metadata.title}</h2>
         <p>{proposal.metadata.summary}</p>
       </div>
     </div>
