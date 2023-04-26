@@ -14,6 +14,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { PieChart, Pie, Legend, Cell, Tooltip } from "recharts";
 import { useAccount } from "wagmi";
+import { ProposalChartSummary } from "../ProposalChart";
 
 type Props = {
   proposalId: string;
@@ -73,27 +74,6 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
 
     return [Math.floor(days), Math.floor(hours), Math.floor(minutes)];
   }, [proposal]);
-
-  const chartData = useMemo(
-    () => [
-      {
-        name: "Yes",
-        value: Number(proposal?.result.yes) || 0,
-        color: "#02AB76",
-      },
-      {
-        name: "Abstain",
-        value: Number(proposal?.result.abstain) || 0,
-        color: "#F4D371",
-      },
-      {
-        name: "No",
-        value: Number(proposal?.result.no) || 0,
-        color: "#F15232",
-      },
-    ],
-    [proposal]
-  );
 
   useEffect(() => {
     if (proposedVote) {
@@ -177,25 +157,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             </div>
           </div>
         </div>
-        <div className="rounded-lg bg-secondary p-4">
-          <h2 className="text-lg font-bold">Vote Summary</h2>
-
-          <div className="mt-3 h-full w-full min-w-fit">
-            <PieChart width={300} height={215} margin={{ top: 50 }}>
-              <Legend
-                wrapperStyle={{ top: 0 }}
-                formatter={(value, { color }) => <span style={{ color: "green" }}>{value}</span>}
-                align="left"
-              />
-              <Pie data={chartData} outerRadius={80} fill="#8884d8" dataKey="value" nameKey="name">
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </div>
-        </div>
+        <ProposalChartSummary proposal={proposal!} />
       </div>
 
       <div className="mt-4 flex w-full items-stretch justify-start gap-3">
