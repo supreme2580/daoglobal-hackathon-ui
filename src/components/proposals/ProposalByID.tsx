@@ -26,7 +26,7 @@ export const ProposalsByIDView: React.FC<Props> = ({ pid }) => {
                     className={classNames(
                       `btn rounded-none border-0 bg-transparent px-4 py-1 ${
                         selected
-                          ? "font-bold text-black"
+                          ? "font-bold text-primary"
                           : "font-normal text-secondary"
                       } hover:border-success hover:bg-transparent focus:outline-none disabled:bg-transparent`,
                       selected && "rounded-2 border-b-2 border-primary",
