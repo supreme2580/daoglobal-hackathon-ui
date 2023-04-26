@@ -12,10 +12,10 @@ export default function MemberCard() {
                         <div className="w-10 h-10 relative shrink-0">
                             <Image src={"/profile.png"} layout="fill" alt="Profile image" />
                         </div>
-                        <h2 className="card-title max-w-full truncate text-white">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</h2>
+                        <h2 className="card-title max-w-full truncate text-primary">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</h2>
                     </div>
                     <div>
-                        <IdentificationIcon className="w-6 h-6 text-white" />
+                        <IdentificationIcon className="w-6 h-6 text-primary" />
                     </div>
                 </div>
                 <div className="w-full space-y-2.5">
@@ -23,13 +23,13 @@ export default function MemberCard() {
                         <div className="w-4 h-4 relative">
                             <Image src={"/bal-light.png"} layout="fill" alt="image" />
                         </div>
-                        <p className="text-start text-white">Token balance: 0.07 ETH</p>
+                        <p className="text-start text-primary">Token balance: 0.07 ETH</p>
                     </div>
                     <div className="flex space-x-2 items-center justify-start w-full">
                         <div className="w-4 h-4 relative">
                             <Image src={"/voting-power-light.png"} layout="fill" alt="image" />
                         </div>
-                        <p className="text-start text-white">Voting power: 2.07</p>
+                        <p className="text-start text-primary">Voting power: 2.07</p>
                     </div>
                     <Link href={"/members/member"} className="flex items-center justify-start space-x-0.5 max-w-fit">
                         <div>
