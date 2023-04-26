@@ -1,7 +1,8 @@
 import { type AppType } from "next/dist/shared/lib/utils";
 import { AragonProvider } from "@daobox/use-aragon";
-
+import { ToastContainer } from "react-toastify";
 import { WagmiConfig, goerli } from "wagmi";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import "@styles/globals.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -47,6 +48,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
               <Component {...pageProps} />
             </AppShell>
           )}
+          <ToastContainer position="bottom-right" />
         </AragonProvider>
       </RainbowKitProvider>
     </WagmiConfig>

@@ -10,8 +10,8 @@ export const ProposalDetailSchema = z.object({
   summary: z.string().min(10, { message: "Provide a summary of proposal" }),
   resources: z
     .object({
-      name: z.string().optional(),
-      link: z.string().url().optional(),
+      name: z.string().min(0).optional().or(z.literal("")),
+      link: z.string().min(0).url().optional().or(z.literal("")),
     })
     .array()
     .min(0)
@@ -69,7 +69,7 @@ export const defaultProposalVotingValues = (
 ) => {
   const data: CreateProposalVoting = {
     vote_type: "null",
-    creator_vote: "",
+    creator_vote: "null",
     end_date: new Date().toString(),
     voteDuration: minDuration ?? 86400,
   };
