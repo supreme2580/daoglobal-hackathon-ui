@@ -16,7 +16,7 @@ export const PrimaryButton: React.FC<Props> = ({
   return (
     <button
       className={classnames(
-        "btn-primary btn flex items-center gap-2 rounded-md",
+        "btn-primary bg-success text-white btn flex items-center gap-2 rounded-md",
         className
       )}
       {...props}

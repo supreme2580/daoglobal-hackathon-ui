@@ -90,12 +90,12 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
       {
         name: "Abstain",
         value: Number(proposal?.result.abstain) || 2,
-        color: "#D7FFF2",
+        color: "#F4D371",
       },
       {
         name: "No",
         value: Number(proposal?.result.no) || 10,
-        color: "#59E9AB",
+        color: "#F15232",
       },
     ],
     [proposal]
@@ -119,8 +119,8 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     <div className="p-10">
       {/* <ToastContainer /> */}
       <div className="flex w-full items-stretch justify-start gap-3">
-        <div className="border-neutral flex flex-1 flex-col rounded-lg border-2 p-4">
-          <h2 className="text-lg font-bold">{proposal?.metadata.title}</h2>
+        <div className="flex flex-1 flex-col rounded-lg bg-secondary p-4">
+          <h2 className="text-lg font-bold pb-2">{proposal?.metadata.title}</h2>
 
           <p>
             {proposal?.metadata.summary}{" "}
@@ -176,7 +176,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
 
             <div className="mt-4 w-full">
               <progress
-                className="progress progress-accent w-full"
+                className="progress progress-success w-full"
                 value={calculateVotePercentage(
                   new Date().getTime(),
                   proposal?.endDate ?? "",
@@ -187,7 +187,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             </div>
           </div>
         </div>
-        <div className="border-neutral rounded-lg border-2 p-4">
+        <div className="rounded-lg bg-secondary p-4">
           <h2 className="text-lg font-bold">Vote Summary</h2>
 
           <div className="mt-3 h-full w-full min-w-fit">
@@ -195,7 +195,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
               <Legend
                 wrapperStyle={{ top: 0 }}
                 formatter={(value, { color }) => (
-                  <span style={{ color: "black" }}>{value}</span>
+                  <span style={{ color: "green" }}>{value}</span>
                 )}
                 align="left"
               />
@@ -217,7 +217,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
       </div>
 
       <div className="mt-4 flex w-full items-stretch justify-start gap-3">
-        <div className="border-neutral flex-1 rounded-lg border-2 p-4">
+        <div className="flex-1 rounded-lg bg-secondary p-4">
           <h2 className="text-lg font-bold">
             {proposal?.votes.length ?? 0} Voters
           </h2>
@@ -269,21 +269,21 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             )}
           </div>
         </div>
-        <div className="border-neutral flex-1 rounded-lg border-2 p-4">
+        <div className="flex-1 rounded-lg bg-secondary p-4">
           <h2 className="text-lg font-bold">Voting Info</h2>
 
           <div className="mt-4">
             <p className="flex justify-between text-black">
               <span className="font-bold text-gray-500">Start Date</span>
 
-              <span>
+              <span className="text-primary">
                 {dayjs(proposal?.startDate).format("YYYY/MM/DD HH:mm A")}
               </span>
             </p>
             <p className="mt-2 flex justify-between text-black">
               <span className="font-bold text-gray-500">End Date</span>
 
-              <span>
+              <span className="text-primary">
                 {dayjs(proposal?.endDate).format("YYYY/MM/DD HH:mm A")}
               </span>
             </p>
@@ -295,17 +295,19 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             <p className="flex justify-between text-black">
               <span className="font-bold text-gray-500">Options</span>
 
-              <span>Approve</span>
+              <span className="text-primary">Approve</span>
             </p>
             <p className="flex justify-between text-black">
               <span className="font-bold text-gray-500">Minimum Approval</span>
 
-              <span>{(proposal?.settings.minParticipation ?? 0) * 100}%</span>
+              <span className="text-primary">
+                {(proposal?.settings.minParticipation ?? 0) * 100}%
+              </span>
             </p>
             <p className="flex justify-between text-black">
               <span className="font-bold text-gray-500">Strategy</span>
 
-              <span>Token Weighted</span>
+              <span className="text-primary">Token Weighted</span>
             </p>
           </div>
         </div>

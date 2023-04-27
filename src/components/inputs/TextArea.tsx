@@ -21,7 +21,7 @@ export const TextArea: React.FC<Props> = ({
   return (
     <div className="form-control">
       <label className="label">
-        <span className="label-text font-semibold">{label}</span>
+        <span className="label-text font-semibold text-primary">{label}</span>
       </label>
       <textarea
         className={classNames(

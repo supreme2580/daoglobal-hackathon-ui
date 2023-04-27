@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Button from "./Button";
 import { truncateAddress } from "@utils/addresses";
 import { ClipboardDocumentIcon, CheckBadgeIcon } from "@heroicons/react/24/outline";
@@ -14,16 +14,16 @@ export default function MemberProfileCard() {
                         <div className="w-10 h-10 relative shrink-0">
                             <Image src={"/profile.png"} layout="fill" alt="image" />
                         </div>
-                        <h2 className="card-title text-white">Okhai.eth</h2>
+                        <h2 className="card-title text-primary">Okhai.eth</h2>
                     </div>
                     <div className="flex items-center space-x-1">
-                        <p className="font-semibold text-white text-sm">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</p>
+                        <p className="font-semibold text-primary text-sm">{truncateAddress("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")}</p>
                         <button onClick={() => {
                             navigator.clipboard.writeText("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73").catch(error => console.log(error))
                             setClipped("0x5C04F69c9603A808BF4157Ef959F1Ed1e16c0F73")
                         }}>
                             {
-                                clipped !== "" ? <CheckBadgeIcon className="w-5 h-5 text-white" /> : <ClipboardDocumentIcon className="w-5 h-5 text-white" />
+                                clipped !== "" ? <CheckBadgeIcon className="w-5 h-5 text-primary" /> : <ClipboardDocumentIcon className="w-5 h-5 text-white" />
                             }
                         </button>
                     </div>

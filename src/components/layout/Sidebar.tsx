@@ -27,7 +27,7 @@ export function Sidebar() {
                     className={classNames(
                       item.current
                         ? "bg-daoboxg text-black"
-                        : "text-white hover:bg-daoboxg hover:text-black",
+                        : "text-primary hover:bg-daoboxg hover:text-black",
                       "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
                     )}
                   >
@@ -35,7 +35,7 @@ export function Sidebar() {
                       className={classNames(
                         item.current
                           ? "text-black"
-                          : "text-white group-hover:text-black",
+                          : "text-primary group-hover:text-black",
                         "h-6 w-6 shrink-0"
                       )}
                       aria-hidden="true"
@@ -49,10 +49,10 @@ export function Sidebar() {
           <li className="mt-auto">
             <Link
               href="#"
-              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-white hover:bg-daoboxg hover:text-white"
+              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-primary hover:bg-daoboxg hover:text-primary"
             >
               <Cog6ToothIcon
-                className="h-6 w-6 shrink-0 text-white group-hover:text-white"
+                className="h-6 w-6 shrink-0 text-primary group-hover:text-primary"
                 aria-hidden="true"
               />
               Settings
