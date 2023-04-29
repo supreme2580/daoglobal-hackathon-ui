@@ -12,11 +12,11 @@ export const useBalanceAndPower = (account: Address) => {
   let token: TokenAndPower = {};
   const { data, ...rest } = useContractReads({
     contracts: [
-      { ...settingsFollowNFT, functionName: "balanceOf", args: [account!] },
+      { ...settingsFollowNFT, functionName: "balanceOf", args: [account] },
       {
         ...settingsFollowNFT,
         functionName: "getPowerByBlockNumber",
-        args: [account!, BN(blockNumber ?? 0)],
+        args: [account, BN(blockNumber ?? 0)],
       },
     ],
     enabled: !!(account && blockNumber),

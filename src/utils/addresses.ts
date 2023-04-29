@@ -1,7 +1,7 @@
 import { Address } from "wagmi";
 
 export function truncateAddress(
-  address: Address | undefined,
+  address: Address | string | undefined,
   numCharsBefore = 6,
   numCharsAfter = 4
 ) {

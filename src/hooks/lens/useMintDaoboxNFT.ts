@@ -4,6 +4,10 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { DaoBoxProfileId } from "@constants/index";
 import { settingsLensHub } from "./settings";
 
+interface Transaction {
+  hash: string;
+}
+
 export const useMintDaoboxNFT = () => {
   const addRecentTransaction = useAddRecentTransaction();
   const { config } = usePrepareContractWrite({
@@ -18,8 +22,7 @@ export const useMintDaoboxNFT = () => {
     status: sendingStatus,
   } = useContractWrite({
     ...config,
-    onSuccess: (tx: any) => {
-      console.log({ tx });
+    onSuccess: (tx: Transaction) => {
       toast("Minting Follow NFT");
       addRecentTransaction({
         hash: tx.hash,

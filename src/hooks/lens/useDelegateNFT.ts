@@ -3,6 +3,10 @@ import { Address, useContractWrite, usePrepareContractWrite, useWaitForTransacti
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { settingsFollowNFT } from "./settings";
 
+interface Transaction {
+  hash: string;
+}
+
 export const useDelegateNFT = (to: Address) => {
   const addRecentTransaction = useAddRecentTransaction();
 
@@ -18,7 +22,7 @@ export const useDelegateNFT = (to: Address) => {
     status: submitStatus,
   } = useContractWrite({
     ...config,
-    onSuccess: (tx: any) => {
+    onSuccess: (tx: Transaction) => {
       toast("Delegating Tokens");
       addRecentTransaction({
         hash: tx.hash,

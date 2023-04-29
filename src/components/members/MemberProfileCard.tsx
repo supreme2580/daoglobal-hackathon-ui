@@ -10,9 +10,11 @@ import { useDelegateNFT } from "@hooks/lens/useDelegateNFT";
 
 export default function MemberProfileCard() {
   const router = useRouter();
-  let { member } = router.query;
+  const { member } = router.query;
   const memberAddress = member as Address;
   const [clipped, setClipped] = useState("");
+
+  console.log("memberAddress", memberAddress);
 
   const { write, submitStatus } = useDelegateNFT(memberAddress);
 
