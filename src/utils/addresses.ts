@@ -1,9 +1,17 @@
-export function truncateAddress(address: string, start = 4, end = 4) {
-  const match = address.match(
-    `^(0x[a-zA-Z0-9]{${start}})[a-zA-Z0-9]+([a-zA-Z0-9]{${end}})$`
-  );
-  if (!match) return address;
+import { Address } from "wagmi";
 
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  return `${match[1]}…${match[2]}`;
+export function truncateAddress(
+  address: Address | undefined,
+  numCharsBefore = 6,
+  numCharsAfter = 4
+) {
+  if (!address) return "";
+
+  if (address.length <= numCharsBefore + numCharsAfter + 2) {
+    return address;
+  }
+
+  const start = address.slice(0, numCharsBefore);
+  const end = address.slice(-numCharsAfter);
+  return `${start}...${end}`;
 }
