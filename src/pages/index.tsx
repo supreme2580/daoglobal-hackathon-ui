@@ -1,4 +1,5 @@
 import { useBalanceAndPower } from "@hooks/lens/useBalanceAndPower";
+import { useDaoboxMembers } from "@hooks/lens/useDaoboxMembers";
 import { useDelegateNFT } from "@hooks/lens/useDelegateNFT";
 import { useMintDaoboxNFT } from "@hooks/lens/useMintDaoboxNFT";
 import { type NextPage } from "next";
@@ -8,6 +9,8 @@ const Home: NextPage = () => {
   const { token } = useBalanceAndPower("0x47d80912400ef8f8224531EBEB1ce8f2ACf4b75a");
   const { write: mint } = useMintDaoboxNFT();
   const { write: delegate } = useDelegateNFT("0x47d80912400ef8f8224531EBEB1ce8f2ACf4b75a");
+  const { data } = useDaoboxMembers();
+  console.log(data);
 
   return (
     <>
