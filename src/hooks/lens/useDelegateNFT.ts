@@ -7,13 +7,14 @@ interface Transaction {
   hash: string;
 }
 
-export const useDelegateNFT = (to: Address) => {
+export const useDelegateNFT = (to: Address | undefined) => {
   const addRecentTransaction = useAddRecentTransaction();
 
   const { config } = usePrepareContractWrite({
     ...settingsFollowNFT,
     functionName: "delegate",
-    args: [to],
+    args: [to!],
+    enabled: !!to,
   });
 
   const {
@@ -22,6 +23,7 @@ export const useDelegateNFT = (to: Address) => {
     status: submitStatus,
   } = useContractWrite({
     ...config,
+
     onSuccess: (tx: Transaction) => {
       toast("Delegating Tokens");
       addRecentTransaction({

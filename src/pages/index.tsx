@@ -1,14 +1,17 @@
-import { useBalanceAndPower } from "@hooks/lens/useBalanceAndPower";
-import { useDaoboxMembers } from "@hooks/lens/useDaoboxMembers";
-import { useDelegateNFT } from "@hooks/lens/useDelegateNFT";
-import { useMintDaoboxNFT } from "@hooks/lens/useMintDaoboxNFT";
+import { useBalanceAndPower } from "../hooks/lens/useBalanceAndPower";
+import { useDaoboxMembers } from "../hooks/lens/useDaoboxMembers";
+import { useDelegateNFT } from "../hooks/lens/useDelegateNFT";
+import { useMintDaoboxNFT } from "../hooks/lens/useMintDaoboxNFT";
+import { useAccount } from "wagmi";
+
 import { type NextPage } from "next";
 import Head from "next/head";
 
 const Home: NextPage = () => {
-  const { token } = useBalanceAndPower("0x47d80912400ef8f8224531EBEB1ce8f2ACf4b75a");
+  const { address } = useAccount();
+  const { token } = useBalanceAndPower(address);
   const { write: mint } = useMintDaoboxNFT();
-  const { write: delegate } = useDelegateNFT("0x47d80912400ef8f8224531EBEB1ce8f2ACf4b75a");
+  const { write: delegate } = useDelegateNFT(address);
   const { data } = useDaoboxMembers();
   console.log(data);
 

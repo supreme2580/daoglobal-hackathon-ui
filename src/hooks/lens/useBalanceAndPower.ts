@@ -7,16 +7,16 @@ export interface TokenAndPower {
   power?: number;
 }
 
-export const useBalanceAndPower = (account: Address) => {
+export const useBalanceAndPower = (account: Address | undefined) => {
   const { data: blockNumber } = useBlockNumber();
   let token: TokenAndPower = {};
   const { data, ...rest } = useContractReads({
     contracts: [
-      { ...settingsFollowNFT, functionName: "balanceOf", args: [account] },
+      { ...settingsFollowNFT, functionName: "balanceOf", args: [account!] },
       {
         ...settingsFollowNFT,
         functionName: "getPowerByBlockNumber",
-        args: [account, BN(blockNumber ?? 0)],
+        args: [account!, BN(blockNumber ?? 0)],
       },
     ],
     enabled: !!(account && blockNumber),
