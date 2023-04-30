@@ -1,8 +1,8 @@
-import { Address, erc20ABI } from "wagmi";
+import { type Address, erc20ABI } from "wagmi";
 import { BigNumberish, ethers } from "ethers";
-import { DaoAction } from "@daobox/use-aragon";
+import { type DaoAction } from "@daobox/use-aragon";
 
-interface TransferEncoderProps {
+export interface TransferEncoderProps {
   to: Address;
   amount: number | string;
   token: Address;
@@ -21,10 +21,7 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
       };
     }
 
-    const encodedData = iface.encodeFunctionData("transfer", [
-      item.to,
-      BigInt(item.amount),
-    ]);
+    const encodedData = iface.encodeFunctionData("transfer", [item.to, BigInt(item.amount)]);
 
     const uint8ArrayData = ethers.utils.arrayify(encodedData);
 

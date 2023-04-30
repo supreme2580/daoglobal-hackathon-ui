@@ -48,7 +48,6 @@ export const CreateProposalDetailsStep: React.FC<Props> = ({ onComplete, proposa
     console.log({ values });
     onComplete(values);
   };
-  console.log({ resources: watch("resources") });
 
   return (
     <form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>

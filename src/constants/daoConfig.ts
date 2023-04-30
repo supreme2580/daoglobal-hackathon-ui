@@ -1,4 +1,5 @@
 import { BN } from "@lib/numbers";
+import { ethers } from "ethers";
 import { Address } from "wagmi";
 
 export const daoAddressOrEns: Address = "0xe2e445489b0356D3087efF7e79DB7Ff3f16c4fEA";
@@ -8,3 +9,20 @@ export const DaoBoxFollowNft: Address = "0x03bD27B6FE4f0B3F2C2C9a4289cA2bfcE1DDE
 export const LensHub: Address = "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
 
 export const DaoBoxProfileId = BN(115969);
+
+export const availableTokens = [
+  {
+    name: "Goerli",
+    symbol: "ETH",
+    decimal: 18,
+    balance: 1000,
+    address: ethers.constants.AddressZero,
+  },
+  {
+    name: "Mumbai",
+    symbol: "MATIC",
+    decimal: 18,
+    balance: 100,
+    address: ethers.constants.AddressZero,
+  },
+];
