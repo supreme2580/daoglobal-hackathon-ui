@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type UseFormRegister } from "react-hook-form";
-import { AllowedFormData } from "./TextInput";
+import type { AllowedFormData } from "./TextInput";
 
 interface Props extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   register: UseFormRegister<AllowedFormData>;
@@ -24,10 +24,7 @@ export const TextArea: React.FC<Props> = ({
         <span className="label-text font-semibold text-primary">{label}</span>
       </label>
       <textarea
-        className={classNames(
-          "textarea-bordered textarea-accent textarea h-24",
-          inputClass
-        )}
+        className={classNames("textarea-bordered textarea-accent textarea h-24", inputClass)}
         {...register(name)}
         {...props}
       ></textarea>
