@@ -1,10 +1,10 @@
 import { Address, erc20ABI } from "wagmi";
-import { ethers } from "ethers";
+import { BigNumberish, ethers } from "ethers";
 import { DaoAction } from "@daobox/use-aragon";
 
 interface TransferEncoderProps {
   to: Address;
-  amount: number;
+  amount: number | string;
   token: Address;
 }
 
@@ -13,7 +13,7 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
 
   const encodedActions: DaoAction[] = data.map((item) => {
     // If the token is ETH, we need to send it to the 0x0 address
-    if (item.to === `0x${"0".repeat(40)}`) {
+    if (item.token === `0x${"0".repeat(40)}`) {
       return {
         to: item.to,
         value: BigInt(item.amount),
