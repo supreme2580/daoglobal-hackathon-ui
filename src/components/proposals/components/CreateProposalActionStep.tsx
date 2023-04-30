@@ -22,7 +22,6 @@ interface Props {
   onCancel?: () => void;
 }
 
-type LoadingStatuses = "loading" | "success" | "error" | "idle";
 export const CreateProposalsActionStep: React.FC<Props> = ({
   onComplete,
   proposal,
@@ -31,7 +30,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
 }) => {
   const [proposalSubmitted, setProposalSubmitted] = useState(false);
   // const [submitMode, setMode] = useState<LoadingStatuses>("idle");
-  const { mutate, isLoading } = useNewProposal({
+  const { mutate, isLoading, isSuccess, isError } = useNewProposal({
     pluginAddress: lensVotingAddress,
     title: proposal.title,
     summary: proposal.summary,
@@ -44,7 +43,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
       : [],
     endDate: new Date(voting.end_date),
     creatorVote: Number(voting.creator_vote),
-    onSuccess: (_, variables, context) => {
+    onSuccess: (_) => {
       setProposalSubmitted(true);
       // onComplete?.(context);
     },
@@ -64,9 +63,9 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
       <div>
         <h2>If option &ldquo;Yes&rdquo; wins</h2>
 
-        <div className="border-neutral mt-4 flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 p-8">
+        <div className="border-neutral mt-4 flex w-full flex-col items-center justify-center gap-5 rounded-lg border-2 p-8">
           <h2 className="text-xl font-bold">Add Action</h2>
-          <p className="max-w-md text-secondary">
+          <p className="max-w-md text-center text-secondary">
             This action will execute if the vote passes. A common automatic action is transferring
             funds to a guild or person if their proposal passes a vote.
           </p>
@@ -97,22 +96,30 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
         >
           <Dialog.Panel className="m relative flex max-h-full w-full max-w-2xl flex-col items-center justify-center overflow-auto rounded-lg bg-secondary p-10">
             <div>
-              <CheckIcon width={40} height={40} stroke="green" />
+              <CheckIcon width={40} height={40} stroke={isError ? "red" : "green"} />
             </div>
 
-            <div className="mt-8 text-center">
-              <p>Your Proposal is Submitted</p>
-              <p className="mt-4">
-                Lorem ipsum dolor sit amet consectetur. Pellentesque scelerisque in pellentesque
-                viverra id urna.
-              </p>
-            </div>
+            {isSuccess ? (
+              <div className="mt-8 text-center">
+                <p>Your Proposal is Submitted</p>
+                <p className="mt-4">
+                  You have successfully created a proposal. You can share this with your members and
+                  let them give their decisions
+                </p>
+              </div>
+            ) : (
+              <div className="mt-8 text-center">
+                <p>Proposal creation failed</p>
+                <p className="mt-4">Proposal creation failed, please try again</p>
+              </div>
+            )}
 
-            <div className="mt-8">
+            <div className="mt-8 flex items-center justify-center gap-4">
+              {isError && (
+                <PrimaryButton onClick={() => setProposalSubmitted(false)}>Cancel</PrimaryButton>
+              )}
               <PrimaryButton onClick={() => closeNotifModal()}>Back home</PrimaryButton>
             </div>
-
-            {/* ... */}
           </Dialog.Panel>
         </div>
       </Dialog>

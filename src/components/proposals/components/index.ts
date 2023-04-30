@@ -1,5 +1,5 @@
 export * from "./ProposalCard";
 export * from "./ProposalsTab";
-export * from "./CreateProposalStep1";
-export * from "./CreateProposalStep2";
+export * from "./CreateProposalDetailStep";
+export * from "./CreateProposalVoteOptionsStep";
 export * from "./ProposalsVotingInfo";
