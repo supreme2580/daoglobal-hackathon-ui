@@ -43,6 +43,7 @@ export const ProposalVotingSchema = z
       .refine((vote) => !!vote && ["1", "2", "3", "null"].includes(vote), {
         message: "Invalid vote",
       }),
+    start_date: z.string().optional(),
     end_date: z.string().nonempty({ message: "End date must be provided" }),
     voteDuration: z.number().min(1000, { message: "Vote duration is too small" }),
   })
@@ -53,9 +54,14 @@ export const ProposalVotingSchema = z
 
       return end - now > voteDuration * 1000;
     },
-    {
-      message: "End date must be more than 24 hours",
-      path: ["end_date"],
+    ({ voteDuration }) => {
+      const duration = Math.round(voteDuration / (24 * 60 * 60));
+      return {
+        message: `Minimum voting duration not met. Minimum is ${duration} ${
+          duration > 1 ? "days" : "day"
+        }`,
+        path: ["end_date"],
+      };
     }
   );
 
@@ -86,6 +92,7 @@ export const defaultProposalVotingValues = (
     vote_type: "null",
     creator_vote: "null" as unknown as undefined,
     end_date: new Date().toDateString(),
+    start_date: new Date().toDateString(),
     voteDuration: minDuration ?? 86400,
   };
 

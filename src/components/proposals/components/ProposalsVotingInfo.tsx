@@ -96,10 +96,9 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
         <div className="flex flex-1 flex-col rounded-lg bg-secondary p-4">
           <h2 className="pb-2 text-lg font-bold">{proposal?.metadata.title}</h2>
 
-          <p>
-            {proposal?.metadata.summary} <button className="font-bold">Read more</button>
-          </p>
+          <p>{proposal?.metadata.summary} </p>
 
+          <button className="mt-3 text-left font-bold">Read more</button>
           <div className="flex flex-1 flex-col justify-evenly">
             {proposal?.status === ProposalStatus.ACTIVE ? (
               <div className="mt-8 flex items-end gap-2" key="NULL">

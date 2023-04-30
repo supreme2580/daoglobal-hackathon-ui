@@ -41,6 +41,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
           url: link ?? "",
         }))
       : [],
+    startDate: new Date(voting.start_date ?? ""),
     endDate: new Date(voting.end_date),
     creatorVote: Number(voting.creator_vote),
     onSuccess: (_) => {
