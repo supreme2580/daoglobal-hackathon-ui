@@ -1,6 +1,12 @@
-import { DaoBoxFollowNft, LensHub } from "@constants/index";
+import { DaoBoxFollowNft, LensHub, votingPluginAddress } from "@constants/index";
 import LensHubABI from "abi/LensHubABI";
 import FollowABI from "../../abi/LensFollowABI";
+import LensVoting from "abi/LensVoting";
+
+export const settingsLensVoting = {
+  address: votingPluginAddress,
+  abi: LensVoting,
+};
 
 export const settingsFollowNFT = {
   address: DaoBoxFollowNft,
