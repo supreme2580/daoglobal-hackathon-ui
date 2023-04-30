@@ -6,7 +6,7 @@ import { type CreateProposalDetail, type CreateProposalVoting } from "types";
 import { availableTokens, votingPluginAddress } from "@constants/daoConfig";
 import { toast } from "react-toastify";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
-import { TransferEncoderProps } from "@lib/transferEncoder";
+import { TransferEncoderProps, transferEncoder } from "@lib/transferEncoder";
 import { truncateAddress } from "@utils/addresses";
 import { ethers } from "ethers";
 
@@ -39,6 +39,9 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
           url: link ?? "",
         }))
       : [],
+    actions: transferEncoder(
+      actions.map(({ to, amount, selected }) => ({ to, amount, token: selected?.address ?? "" }))
+    ),
     startDate: new Date(voting.start_date ?? ""),
     endDate: new Date(voting.end_date),
     creatorVote: Number(voting.creator_vote),

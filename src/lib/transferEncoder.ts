@@ -3,9 +3,9 @@ import { BigNumberish, ethers } from "ethers";
 import { type DaoAction } from "@daobox/use-aragon";
 
 export interface TransferEncoderProps {
-  to: Address;
+  to: string;
   amount: number | string;
-  token: Address;
+  token: string;
 }
 
 export const transferEncoder = (data: TransferEncoderProps[]) => {
