@@ -1,6 +1,9 @@
+import { useMintDaoboxNFT } from "@hooks/lens/useMintDaoboxNFT";
 import Button from "./Button";
 
 export default function MembersCardCount({ memberCount }: { memberCount: number | undefined }) {
+  const { write: mint } = useMintDaoboxNFT();
+
   return (
     <div className="card w-full bg-[#191B1E] text-neutral-content">
       <div className="flex h-full w-full flex-col space-y-2.5 px-8 py-8 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
@@ -10,9 +13,9 @@ export default function MembersCardCount({ memberCount }: { memberCount: number 
         </div>
         <div>
           <Button
-            text="Manage Members"
+            text="Mint Token"
             clickFunction={() => {
-              console.log("Clicked");
+              mint?.();
             }}
           />
         </div>
