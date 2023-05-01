@@ -235,7 +235,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
               <span className="font-bold text-gray-500">Minimum Approval</span>
 
               <span className="text-primary">
-                {(proposal?.settings.minParticipation ?? 0) * 100}%
+                {Math.round((proposal?.settings.minParticipation ?? 0) * 100)}%
               </span>
             </p>
             <p className="flex justify-between text-black">
