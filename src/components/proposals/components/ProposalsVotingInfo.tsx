@@ -27,9 +27,7 @@ const VoteOptions = [
 ];
 
 export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
-  const [proposedVote, setProposedVote] = useState<VoteValues | undefined>(
-    undefined
-  );
+  const [proposedVote, setProposedVote] = useState<VoteValues | undefined>(undefined);
   const { address } = useAccount();
   const { mutate, isLoading: isVoting } = useVoteOnProposal({
     proposalId,
@@ -45,11 +43,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
   });
   const [showCount, setShowCount] = useState(5);
 
-  const calculateVotePercentage = (
-    now: number,
-    end: string | Date,
-    start: string | Date
-  ) => {
+  const calculateVotePercentage = (now: number, end: string | Date, start: string | Date) => {
     const endTime = new Date(end).getTime();
     const startTime = new Date(start).getTime();
 
@@ -84,17 +78,17 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
     () => [
       {
         name: "Yes",
-        value: Number(proposal?.result.yes) || 7,
+        value: Number(proposal?.result.yes) || 0,
         color: "#02AB76",
       },
       {
         name: "Abstain",
-        value: Number(proposal?.result.abstain) || 2,
+        value: Number(proposal?.result.abstain) || 0,
         color: "#F4D371",
       },
       {
         name: "No",
-        value: Number(proposal?.result.no) || 10,
+        value: Number(proposal?.result.no) || 0,
         color: "#F15232",
       },
     ],
@@ -120,11 +114,10 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
       {/* <ToastContainer /> */}
       <div className="flex w-full items-stretch justify-start gap-3">
         <div className="flex flex-1 flex-col rounded-lg bg-secondary p-4">
-          <h2 className="text-lg font-bold pb-2">{proposal?.metadata.title}</h2>
+          <h2 className="pb-2 text-lg font-bold">{proposal?.metadata.title}</h2>
 
           <p>
-            {proposal?.metadata.summary}{" "}
-            <button className="font-bold">Read more</button>
+            {proposal?.metadata.summary} <button className="font-bold">Read more</button>
           </p>
 
           <div className="flex flex-1 flex-col justify-evenly">
@@ -149,10 +142,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                 {VoteOptions.map(({ id, value }) => (
                   <>
                     {isVoting && proposedVote === id ? (
-                      <button
-                        className="loading btn-square btn"
-                        key={id}
-                      ></button>
+                      <button className="loading btn-square btn" key={id}></button>
                     ) : (
                       <button
                         key={id}
@@ -194,18 +184,10 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             <PieChart width={300} height={215} margin={{ top: 50 }}>
               <Legend
                 wrapperStyle={{ top: 0 }}
-                formatter={(value, { color }) => (
-                  <span style={{ color: "green" }}>{value}</span>
-                )}
+                formatter={(value, { color }) => <span style={{ color: "green" }}>{value}</span>}
                 align="left"
               />
-              <Pie
-                data={chartData}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                nameKey="name"
-              >
+              <Pie data={chartData} outerRadius={80} fill="#8884d8" dataKey="value" nameKey="name">
                 {chartData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
@@ -218,9 +200,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
 
       <div className="mt-4 flex w-full items-stretch justify-start gap-3">
         <div className="flex-1 rounded-lg bg-secondary p-4">
-          <h2 className="text-lg font-bold">
-            {proposal?.votes.length ?? 0} Voters
-          </h2>
+          <h2 className="text-lg font-bold">{proposal?.votes.length ?? 0} Voters</h2>
 
           <div className="mt-4 w-full">
             {proposal?.votes.length ? (
@@ -238,12 +218,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                       {proposal.votes.slice(0, showCount).map((vote, id) => (
                         <tr key={id} className="border-neutral border-t-2">
                           <td>{truncateAddress(vote.address)}</td>
-                          <td>
-                            {
-                              VoteOptions.find(({ id }) => id === vote.vote)
-                                ?.value
-                            }
-                          </td>
+                          <td>{VoteOptions.find(({ id }) => id === vote.vote)?.value}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -253,9 +228,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                 {proposal.votes.length > 5 && (
                   <button
                     className="text-md btn-ghost btn flex items-center gap-3 text-accent"
-                    onClick={() =>
-                      setShowCount((prev) => (prev === 5 ? 10 : 5))
-                    }
+                    onClick={() => setShowCount((prev) => (prev === 5 ? 10 : 5))}
                   >
                     Show {showCount === 5 ? "More" : "Less"}{" "}
                     <ChevronDownIcon width={20} height={20} />
