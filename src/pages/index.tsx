@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className="text-3xl text-daoboxg">DAOGlobal Dashboard UI</h1>
-      <div className="stats bg-primary text-primary-content">
+      {/* <div className="stats bg-primary text-primary-content">
         <div className="stat">
           <div className="stat-title">Token Balance</div>
           <div className="stat-value">{token.balance ? token.balance : 0}</div>
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
