@@ -7,7 +7,7 @@ type Props = {
   pid?: string;
 };
 
-const TabStates = ["Voting", "Assets", "Transactions"];
+const TabStates = ["Voting", "Actions"];
 
 export const ProposalsByIDView: React.FC<Props> = ({ pid }) => {
   if (!pid) {
@@ -25,9 +25,7 @@ export const ProposalsByIDView: React.FC<Props> = ({ pid }) => {
                     disabled={tab !== "Voting"}
                     className={classNames(
                       `btn rounded-none border-0 bg-transparent px-4 py-1 ${
-                        selected
-                          ? "font-bold text-primary"
-                          : "font-normal text-secondary"
+                        selected ? "font-bold text-primary" : "font-normal text-secondary"
                       } hover:border-success hover:bg-transparent focus:outline-none disabled:bg-transparent`,
                       selected && "rounded-2 border-b-2 border-primary",
                       tabIndex > 0 && "ml-3"

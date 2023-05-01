@@ -1,5 +1,4 @@
 import { useBalanceAndPower } from "../hooks/lens/useBalanceAndPower";
-import { useDaoboxMembers } from "../hooks/lens/useDaoboxMembers";
 import { useDelegateNFT } from "../hooks/lens/useDelegateNFT";
 import { useMintDaoboxNFT } from "../hooks/lens/useMintDaoboxNFT";
 import { useAccount } from "wagmi";
@@ -12,8 +11,6 @@ const Home: NextPage = () => {
   const { token } = useBalanceAndPower(address);
   const { write: mint } = useMintDaoboxNFT();
   const { write: delegate } = useDelegateNFT(address);
-  const { data } = useDaoboxMembers();
-  console.log(data);
 
   return (
     <>
@@ -23,7 +20,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className="text-3xl text-daoboxg">DAOGlobal Dashboard UI</h1>
-      <div className="stats bg-primary text-primary-content">
+      {/* <div className="stats bg-primary text-primary-content">
         <div className="stat">
           <div className="stat-title">Token Balance</div>
           <div className="stat-value">{token.balance ? token.balance : 0}</div>
@@ -43,7 +40,7 @@ const Home: NextPage = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
