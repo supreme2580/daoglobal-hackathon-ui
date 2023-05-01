@@ -1,5 +1,4 @@
 import { useBalanceAndPower } from "../hooks/lens/useBalanceAndPower";
-import { useDaoboxMembers } from "../hooks/lens/useDaoboxMembers";
 import { useDelegateNFT } from "../hooks/lens/useDelegateNFT";
 import { useMintDaoboxNFT } from "../hooks/lens/useMintDaoboxNFT";
 import { useAccount } from "wagmi";
@@ -12,8 +11,6 @@ const Home: NextPage = () => {
   const { token } = useBalanceAndPower(address);
   const { write: mint } = useMintDaoboxNFT();
   const { write: delegate } = useDelegateNFT(address);
-  const { data } = useDaoboxMembers();
-  console.log(data);
 
   return (
     <>
