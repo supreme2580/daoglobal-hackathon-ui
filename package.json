@@ -17,6 +17,8 @@
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.17",
     "@hookform/resolvers": "^3.1.0",
+    "@lens-protocol/react-web": "^1.0.1",
+    "@lens-protocol/wagmi": "^1.0.1",
     "@rainbow-me/rainbowkit": "~0.12.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
@@ -26,7 +28,7 @@
     "daisyui": "^2.51.5",
     "dayjs": "^1.11.7",
     "draft-js": "^0.11.7",
-    "ethers": "^5.7.0",
+    "ethers": "^5.7.2",
     "lodash": "^4.17.21",
     "next": "^13.2.4",
     "react": "18.2.0",
@@ -43,6 +45,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "next-transpile-modules": "^10.0.0",
     "@iconify/react": "^4.1.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/draft-js": "^0.11.10",

@@ -8,14 +8,12 @@ import "@styles/globals.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { client as wagmiClient, chains } from "../lib/wagmiClient";
-import {
-  RainbowKitProvider,
-  darkTheme,
-  lightTheme,
-} from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { AppShell } from "../components/layout/AppShell";
 import { useEffect, useState } from "react";
 import { useReadLocalStorage } from "usehooks-ts";
+import { LensProvider } from "@lens-protocol/react-web";
+import { lensConfig } from "@lib/lensConfig";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const [mounted, setMounted] = useState(false);
@@ -42,14 +40,16 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         modalSize="compact"
         theme={currentMode()}
       >
-        <AragonProvider>
-          {mounted && (
-            <AppShell>
-              <Component {...pageProps} />
-            </AppShell>
-          )}
-          <ToastContainer position="bottom-right" />
-        </AragonProvider>
+        <LensProvider config={lensConfig}>
+          <AragonProvider>
+            {mounted && (
+              <AppShell>
+                <Component {...pageProps} />
+              </AppShell>
+            )}
+            <ToastContainer position="bottom-right" />
+          </AragonProvider>
+        </LensProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
