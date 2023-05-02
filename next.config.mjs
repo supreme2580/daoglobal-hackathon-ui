@@ -20,5 +20,8 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  swcMinify: true,
+  transpilePackages: ["@lens-protocol"],
 };
 export default NextTranspileModules(["@lens-protocol/wagmi"])(config);
