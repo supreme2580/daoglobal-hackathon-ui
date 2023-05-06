@@ -11,7 +11,7 @@ const Proposals: NextPage = () => {
   });
   const { proposal } = useOpProposal(1);
   console.log({ proposal });
-  // console.log({ proposals });
+  console.log({ proposals });
 
   const { write } = useNewOpProposal({
     metadata: {
