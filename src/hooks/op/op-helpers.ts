@@ -16,8 +16,8 @@ export const parseProposalDetails = (data: any, proposalId: number) => {
   if (data) {
     const proposal: ProposalDetails = {
       proposalId,
-      disputeStatus: data[0] as DisputeStatus,
-      status: data[1] as OPProposalStatus,
+      disputeStatus: data[0],
+      status: data[1],
       executionFromTime: data[2],
       pausedAtTime: data[3],
       disputeId: data[4],
@@ -28,7 +28,7 @@ export const parseProposalDetails = (data: any, proposalId: number) => {
       challengerPaidFees: data[9],
       allowFailureMap: data[10],
       metadata: data[11],
-      actions: data[12] as Action[],
+      actions: data[12],
     };
     return proposal;
   }

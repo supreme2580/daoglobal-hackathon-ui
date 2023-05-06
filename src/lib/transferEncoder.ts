@@ -1,10 +1,10 @@
 import { type Address, erc20ABI } from "wagmi";
-import { BigNumberish, ethers } from "ethers";
+import { BigNumber, BigNumberish, ethers } from "ethers";
 import { type DaoAction } from "@daobox/use-aragon";
 
 export interface TransferEncoderProps {
   to: string;
-  amount: number | string;
+  amount: number | string | BigNumber;
   token: string;
 }
 
@@ -32,5 +32,6 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
     };
   });
 
+  console.log({ encodedActions });
   return encodedActions;
 };

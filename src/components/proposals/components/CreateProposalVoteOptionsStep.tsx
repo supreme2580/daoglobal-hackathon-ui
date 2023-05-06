@@ -54,9 +54,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
           Select an option
         </option>
         <option value={VotingTypes.Token_Voting}>Token Voting</option>
-        <option value={VotingTypes.Optimistic_Proposal} disabled>
-          Optimistic Voting
-        </option>
+        <option value={VotingTypes.Optimistic_Proposal}>Optimistic Voting</option>
       </SelectInput>
 
       <div className="w-full">

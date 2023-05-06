@@ -29,10 +29,16 @@ export const navigation = () => {
       current: getWindow()?.location.pathname == "/treasury",
     },
     {
-      name: "Proposals",
-      href: "/proposals",
+      name: "Lens Voting",
+      href: "/lens-voting",
       icon: QueueListIcon,
-      current: getWindow()?.location.pathname == "/proposals",
+      current: getWindow()?.location.pathname == "/lens-voting",
+    },
+    {
+      name: "Proposals",
+      href: "/ops",
+      icon: QueueListIcon,
+      current: getWindow()?.location.pathname == "/ops",
     },
     {
       name: "Feed",

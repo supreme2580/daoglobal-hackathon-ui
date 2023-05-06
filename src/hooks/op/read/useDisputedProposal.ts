@@ -3,16 +3,17 @@ import { BigNumber } from "@ethersproject/bignumber";
 
 import { opConfig, BN, parseProposalDetails } from "../op-helpers";
 import { ProposalDetails } from "types/op";
+import { useOpProposal } from "./useOpProposal";
 
 export const useDisputedProposal = (id: number | bigint | BigNumber) => {
-  let proposal: ProposalDetails | undefined;
+  // let proposal: ProposalDetails | undefined;
   const { data, error, status } = useContractRead({
     ...opConfig,
     functionName: "disputedProposals",
-    args: [BN(id)],
+    args: [BigNumber.from(id)],
     enabled: !!id,
   });
 
-  if (data) proposal = parseProposalDetails(data, Number(id));
+  const { proposal } = useOpProposal(data!);
   return { proposal, error, status };
 };

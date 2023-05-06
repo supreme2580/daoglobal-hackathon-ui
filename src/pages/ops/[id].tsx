@@ -2,7 +2,7 @@ import { ProposalsByIDView } from "@components/proposals";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-const ProposalsByID = () => {
+const OPProposalsByID = () => {
   const router = useRouter();
   const { id } = router.query;
   return (
@@ -18,4 +18,4 @@ const ProposalsByID = () => {
   );
 };
 
-export default ProposalsByID;
+export default OPProposalsByID;

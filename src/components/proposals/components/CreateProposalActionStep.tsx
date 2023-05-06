@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { TransferEncoderProps, transferEncoder } from "@lib/transferEncoder";
 import { truncateAddress } from "@utils/addresses";
-import { ethers } from "ethers";
+import { constants, ethers, utils } from "ethers";
 
 interface Props {
   proposal: CreateProposalDetail;
@@ -40,7 +40,11 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
         }))
       : [],
     actions: transferEncoder(
-      actions.map(({ to, amount, selected }) => ({ to, amount, token: selected?.address ?? "" }))
+      actions.map(({ to, amount, selected }) => ({
+        to,
+        amount: utils.parseUnits(amount.toString(), "wei"),
+        token: selected?.address ?? "",
+      }))
     ),
     startDate: new Date(voting.start_date ?? ""),
     endDate: new Date(voting.end_date),
@@ -75,7 +79,6 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
     );
     setActions(newTokens);
   };
-  console.log({ actions });
 
   const addAction = () => {
     const actions_length = actions.length;
@@ -126,6 +129,19 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
                         <input
                           type="text"
                           placeholder="Paste an address"
+                          value={action.to === constants.AddressZero ? "" : action.to}
+                          onChange={({ target }) =>
+                            setActions((prev) =>
+                              prev.map((act) =>
+                                act.id === action.id
+                                  ? {
+                                      ...act,
+                                      to: target.value,
+                                    }
+                                  : act
+                              )
+                            )
+                          }
                           className="input-bordered input w-full"
                         />
                       </div>
@@ -136,6 +152,19 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
                         <input
                           type="number"
                           placeholder="Type here"
+                          value={action.amount.toString()}
+                          onChange={({ target }) =>
+                            setActions((prev) =>
+                              prev.map((act) =>
+                                act.id === action.id
+                                  ? {
+                                      ...act,
+                                      amount: target.value,
+                                    }
+                                  : act
+                              )
+                            )
+                          }
                           className="input-bordered input w-full"
                         />
                       </div>
