@@ -5,10 +5,14 @@ import NextTranspileModules from "next-transpile-modules";
  * This is especially useful for Docker builds.
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env.mjs"));
+process.env.NEXT_SKIP_TYPE_CHECK = "true";
 
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you

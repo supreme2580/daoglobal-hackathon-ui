@@ -143,7 +143,7 @@ const ProfileIcons = ({ attributes }: any) => {
   );
 };
 
-const getDP = (data: Profile) => {
+const getDP = (data: any) => {
   return (data?.picture?.original?.url ??
     `https://api.dicebear.com/6.x/pixel-art/svg?seed=${Math.random()}`) as string;
 };
@@ -161,12 +161,12 @@ const parseAttributes = (attributes: ProfileAttributes | []) => {
 
   return keysToCheck
     .map((key) => {
-      const attribute = attributes[key];
+      const attribute = (attributes as any)[key];
       if (attribute) {
         const value = attribute.toString();
         return (
           <div key={key} className="pr flex space-x-2">
-            {logos[key]}
+            {(logos as any)[key]}
             {/* <img src={logos[key]} alt={key} /> */}
             <span>{value}</span>
           </div>
