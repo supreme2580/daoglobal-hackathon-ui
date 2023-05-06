@@ -1,23 +1,18 @@
-import config from "../test-config";
-import { Address } from "wagmi";
-import OptimisticProposalsABI from "~/abi/OptimisticProposalsABI";
 import { ethers } from "ethers";
-import {
-  ProposalDetails,
-  DisputeStatus,
-  Action,
-  OPProposalStatus,
-} from "~/types";
+
+import OptimisticProposalsABI from "abi/OptimisticProposalsABI";
+
+import { ProposalDetails, DisputeStatus, OPProposalStatus, Action } from "types/op";
+import { opVotingAddress } from "@constants/daoConfig";
 
 export const BN = ethers.BigNumber.from;
+
 export const opConfig = {
-  address: config.plugin as Address,
+  address: opVotingAddress,
   abi: OptimisticProposalsABI,
 };
 
 export const parseProposalDetails = (data: any, proposalId: number) => {
-  // console.log("data in parse", data, proposalId);
-  // console.log("id in parse", proposalId);
   if (data) {
     const proposal: ProposalDetails = {
       proposalId,

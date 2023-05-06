@@ -1,11 +1,7 @@
 import { PrimaryButton, SelectInput, TextInput } from "@components/inputs";
 import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  VoteValues,
-  useFetchVotingSettings,
-  useNewProposal,
-} from "@daobox/use-aragon";
+import { VoteValues, useFetchVotingSettings, useNewProposal } from "@daobox/use-aragon";
 import {
   ProposalVotingSchema,
   type CreateProposalDetail,
@@ -14,7 +10,7 @@ import {
   defaultProposalVotingValues,
 } from "types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { votingPluginAddress } from "@constants/daoConfig";
+import { lensVotingAddress } from "@constants/daoConfig";
 
 interface Props {
   proposal?: CreateProposalDetail;
@@ -22,13 +18,10 @@ interface Props {
   onCancel?: () => void;
 }
 
-export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
-  onComplete,
-  onCancel,
-}) => {
+export const CreateProposalVoteOptionsStep: React.FC<Props> = ({ onComplete, onCancel }) => {
   const [isEndTimeNow, setEndTime] = useState(true);
   const { data } = useFetchVotingSettings({
-    pluginAddress: votingPluginAddress,
+    pluginAddress: lensVotingAddress,
   });
   const {
     register,
@@ -45,10 +38,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
   };
 
   return (
-    <form
-      className="flex w-full flex-col gap-10"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="flex w-full flex-col gap-10" onSubmit={handleSubmit(onSubmit)}>
       <SelectInput
         name="vote_type"
         hasError={errors.vote_type?.message}
@@ -68,8 +58,8 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
         <div>
           <h3 className="text-xl font-bold">End date</h3>
           <p className="text-sm text-secondary">
-            Define how long the voting should last in days, or add an exact date
-            and time for it to conclude.
+            Define how long the voting should last in days, or add an exact date and time for it to
+            conclude.
           </p>
         </div>
 
@@ -116,11 +106,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
       </SelectInput>
 
       <div className="mt-6 flex w-full items-center justify-end gap-4">
-        <PrimaryButton
-          className="btn-ghost"
-          type="reset"
-          onClick={() => onCancel?.()}
-        >
+        <PrimaryButton className="btn-ghost" type="reset" onClick={() => onCancel?.()}>
           Back
         </PrimaryButton>
 
