@@ -16,12 +16,15 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
     if (item.token === `0x${"0".repeat(40)}`) {
       return {
         to: item.to,
-        value: BigInt(item.amount),
+        value: BigInt(item.amount.toString()),
         data: Uint8Array.from([]),
       };
     }
 
-    const encodedData = iface.encodeFunctionData("transfer", [item.to, BigInt(item.amount)]);
+    const encodedData = iface.encodeFunctionData("transfer", [
+      item.to,
+      BigInt(item.amount.toString()),
+    ]);
 
     const uint8ArrayData = ethers.utils.arrayify(encodedData);
 

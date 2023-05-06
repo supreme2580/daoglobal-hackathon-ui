@@ -1,7 +1,7 @@
 import { paginatedIndexesConfig, useContractInfiniteReads } from "wagmi";
 
 import { useOpProposalsCount } from "./useOpProposalsCount";
-import { opConfig, BN, parseProposalDetails, ProposalDetailTuple } from "../op-helpers";
+import { opConfig, BN, parseProposalDetails } from "../op-helpers";
 import { ProposalDetails, UseProposalProps } from "types/op";
 import { BigNumber } from "ethers";
 
@@ -33,7 +33,7 @@ export const useOpProposals = ({ perPage = 2 }: UseProposalProps = {}) => {
   if (data) {
     // console.log("data", data);
     proposals = data.pages.map((page, pageIndex) => {
-      return (page as unknown as ProposalDetailTuple[]).map((proposal, proposalIndex) => {
+      return page.map((proposal, proposalIndex) => {
         const proposalId = index - perPage * pageIndex - proposalIndex;
         // console.log("proposalId", proposalId);
         return parseProposalDetails(proposal, proposalId);

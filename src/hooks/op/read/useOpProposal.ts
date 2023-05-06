@@ -1,7 +1,7 @@
 import { useContractRead } from "wagmi";
 import { BigNumber } from "@ethersproject/bignumber";
 
-import { opConfig, BN, parseProposalDetails, ProposalDetailTuple } from "../op-helpers";
+import { opConfig, BN, parseProposalDetails } from "../op-helpers";
 import { ProposalDetails } from "types";
 
 export const useOpProposal = (id: number | bigint | BigNumber) => {
@@ -13,7 +13,7 @@ export const useOpProposal = (id: number | bigint | BigNumber) => {
     enabled: !!id,
   });
 
-  if (data) proposal = parseProposalDetails(data as unknown as ProposalDetailTuple, Number(id));
+  if (data) proposal = parseProposalDetails(data, Number(id));
   console.log("proposal", proposal);
   return { proposal, isSuccess, isError, isLoading, error, status };
 };

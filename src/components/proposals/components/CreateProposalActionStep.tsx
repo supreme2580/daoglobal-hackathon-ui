@@ -3,7 +3,7 @@ import { CheckIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React, { Fragment, useState } from "react";
 import { useNewProposal } from "@daobox/use-aragon";
 import { type CreateProposalDetail, type CreateProposalVoting } from "types";
-import { availableTokens, votingPluginAddress } from "@constants/daoConfig";
+import { availableTokens, lensVotingAddress, votingPluginAddress } from "@constants/daoConfig";
 import { toast } from "react-toastify";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { TransferEncoderProps, transferEncoder } from "@lib/transferEncoder";
