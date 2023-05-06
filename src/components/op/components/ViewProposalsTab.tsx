@@ -1,19 +1,9 @@
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import { Fragment, useCallback } from "react";
-import {
-  useFetchDao,
-  useFetchDaos,
-  useFetchProposals,
-  useFetchMembers,
-  useFetchVotingSettings,
-  useFetchProposal,
-  ProposalStatus,
-  SortDirection,
-} from "@daobox/use-aragon";
-import { capitalize } from "lodash";
+import { useFetchProposals, ProposalStatus, SortDirection } from "@daobox/use-aragon";
 import { daoAddressOrEns } from "@constants/daoConfig";
-import { ProposalCard } from "../../cards/ProposalCard";
+import { ProposalCard } from "@components/cards";
 
 const TabStates = [
   ProposalStatus.PENDING,
@@ -23,7 +13,7 @@ const TabStates = [
   ProposalStatus.DEFEATED,
 ];
 
-export const ProposalsTab = () => {
+export const ViewProposalsTab = () => {
   const { data, isLoading } = useFetchProposals({
     daoAddressOrEns,
     direction: SortDirection.DESC,

@@ -1,4 +1,4 @@
-import { Address, useBlockNumber, useContractReads } from "wagmi";
+import { type Address, useBlockNumber, useContractReads } from "wagmi";
 import { BN } from "@lib/numbers";
 import { settingsFollowNFT } from "./settings";
 

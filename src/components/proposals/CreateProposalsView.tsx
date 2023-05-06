@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import {
-  CreateProposalDetailsStep,
-  CreateProposalVoteOptionsStep,
-} from "./components";
+import { CreateProposalDetailsStep, CreateProposalVoteOptionsStep } from "./components";
 import { Dialog } from "@headlessui/react";
 import { type CreateProposalVoting, type CreateProposalDetail } from "types";
 import { PrimaryButton } from "@components/inputs";
 import { PlusSmallIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { CreateProposalsActionStep } from "./components/CreateProposalStep3";
+import { CreateProposalsActionStep } from "./components/CreateProposalActionStep";
 
 export const CreateProposalsView = () => {
   const [isOpen, setOpen] = useState(false);
@@ -29,11 +26,7 @@ export const CreateProposalsView = () => {
       >
         <span className="flex-1">New Proposal</span>
       </PrimaryButton>
-      <Dialog
-        open={isOpen}
-        onClose={() => setOpen(false)}
-        className="relative z-50"
-      >
+      <Dialog open={isOpen} onClose={() => setOpen(false)} className="relative z-50">
         <div
           className="fixed inset-0 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
           aria-hidden="true"
@@ -45,9 +38,7 @@ export const CreateProposalsView = () => {
             >
               <XMarkIcon width={18} height={18} />
             </button>
-            <Dialog.Title className="text-4xl font-bold">
-              Create Proposal
-            </Dialog.Title>
+            <Dialog.Title className="text-4xl font-bold">Create Proposal</Dialog.Title>
 
             <div className="mt-4">
               <p>
@@ -74,6 +65,7 @@ export const CreateProposalsView = () => {
                     setVoteDetail(data);
                     setStep(3);
                   }}
+                  voteOptions={proposalVote}
                   onCancel={() => setStep(1)}
                 />
               )}

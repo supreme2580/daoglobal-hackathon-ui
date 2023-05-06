@@ -15,11 +15,7 @@ export default {
       sans: ["Poppins", "sans-serif"],
     },
   },
-  plugins: [
-    require("daisyui"),
-    require("@tailwindcss/typography"),
-    require("@tailwindcss/forms"),
-  ],
+  plugins: [require("daisyui"), require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 
   daisyui: {
     themes: [

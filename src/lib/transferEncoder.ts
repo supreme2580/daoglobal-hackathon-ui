@@ -1,11 +1,11 @@
-import { Address, erc20ABI } from "wagmi";
-import { BigNumberish, ethers } from "ethers";
-import { DaoAction } from "@daobox/use-aragon";
+import { type Address, erc20ABI } from "wagmi";
+import { BigNumber, BigNumberish, ethers } from "ethers";
+import { type DaoAction } from "@daobox/use-aragon";
 
-interface TransferEncoderProps {
-  to: Address;
-  amount: number | string;
-  token: Address;
+export interface TransferEncoderProps {
+  to: string;
+  amount: number | string | BigNumber;
+  token: string;
 }
 
 export const transferEncoder = (data: TransferEncoderProps[]) => {
@@ -16,14 +16,14 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
     if (item.token === `0x${"0".repeat(40)}`) {
       return {
         to: item.to,
-        value: BigInt(item.amount),
+        value: BigInt(item.amount.toString()),
         data: Uint8Array.from([]),
       };
     }
 
     const encodedData = iface.encodeFunctionData("transfer", [
       item.to,
-      BigInt(item.amount),
+      BigInt(item.amount.toString()),
     ]);
 
     const uint8ArrayData = ethers.utils.arrayify(encodedData);
@@ -35,5 +35,6 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
     };
   });
 
+  console.log({ encodedActions });
   return encodedActions;
 };

@@ -1,24 +1,29 @@
 import { PrimaryButton, SelectInput, TextInput } from "@components/inputs";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { VoteValues, useFetchVotingSettings, useNewProposal } from "@daobox/use-aragon";
+import { VoteValues, useFetchVotingSettings } from "@daobox/use-aragon";
 import {
   ProposalVotingSchema,
   type CreateProposalDetail,
   VotingTypes,
-  CreateProposalVoting,
+  type CreateProposalVoting,
   defaultProposalVotingValues,
 } from "types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { lensVotingAddress } from "@constants/daoConfig";
 
 interface Props {
+  voteOptions?: CreateProposalVoting;
   proposal?: CreateProposalDetail;
   onComplete?: (data: CreateProposalVoting) => void;
   onCancel?: () => void;
 }
 
-export const CreateProposalVoteOptionsStep: React.FC<Props> = ({ onComplete, onCancel }) => {
+export const CreateProposalVoteOptionsStep: React.FC<Props> = ({
+  voteOptions,
+  onComplete,
+  onCancel,
+}) => {
   const [isEndTimeNow, setEndTime] = useState(true);
   const { data } = useFetchVotingSettings({
     pluginAddress: lensVotingAddress,
@@ -28,7 +33,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({ onComplete, onC
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: defaultProposalVotingValues(undefined, data?.minDuration),
+    defaultValues: defaultProposalVotingValues(voteOptions, data?.minDuration),
     resolver: zodResolver(ProposalVotingSchema),
   });
 
@@ -49,9 +54,7 @@ export const CreateProposalVoteOptionsStep: React.FC<Props> = ({ onComplete, onC
           Select an option
         </option>
         <option value={VotingTypes.Token_Voting}>Token Voting</option>
-        <option value={VotingTypes.Optimistic_Proposal} disabled>
-          Optimistic Voting
-        </option>
+        <option value={VotingTypes.Optimistic_Proposal}>Optimistic Voting</option>
       </SelectInput>
 
       <div className="w-full">

@@ -3,6 +3,7 @@ import { paginatedIndexesConfig, useContractInfiniteReads } from "wagmi";
 import { useOpProposalsCount } from "./useOpProposalsCount";
 import { opConfig, BN, parseProposalDetails } from "../op-helpers";
 import { ProposalDetails, UseProposalProps } from "types/op";
+import { BigNumber } from "ethers";
 
 type ProposalPages = Array<Array<ProposalDetails | undefined>>;
 
@@ -20,7 +21,7 @@ export const useOpProposals = ({ perPage = 2 }: UseProposalProps = {}) => {
           {
             ...opConfig,
             functionName: "getProposal",
-            args: [BN(index)] as const,
+            args: [BigNumber.from(index)] as const,
           },
         ];
       },

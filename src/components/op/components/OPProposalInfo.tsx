@@ -11,10 +11,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { capitalize, lowerCase } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import { PieChart, Pie, Legend, Cell, Tooltip } from "recharts";
+import { toast } from "react-toastify";
 import { useAccount } from "wagmi";
-import { ProposalChartSummary } from "../ProposalChart";
 
 type Props = {
   proposalId: string;
@@ -27,7 +25,7 @@ const VoteOptions = [
   { id: VoteValues.NO, value: "No" },
 ];
 
-export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
+export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
   const [proposedVote, setProposedVote] = useState<VoteValues | undefined>(undefined);
   const { address } = useAccount();
   const { mutate, isLoading: isVoting } = useVoteOnProposal({
@@ -118,24 +116,6 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
                     Minutes
                   </span>
                 </p>
-                {VoteOptions.map(({ id, value }) => (
-                  <>
-                    {isVoting && proposedVote === id ? (
-                      <button className="loading btn-square btn" key={id}></button>
-                    ) : (
-                      <button
-                        key={id}
-                        className={classNames(
-                          "btn",
-                          voteOfAddress === id ? "btn-primary" : "btn-outline"
-                        )}
-                        onClick={() => setProposedVote(id)}
-                      >
-                        {value}
-                      </button>
-                    )}
-                  </>
-                ))}
               </div>
             ) : (
               <p className="badge rounded-md px-10 py-4 text-info" key="STATUS">
@@ -156,7 +136,7 @@ export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
             </div>
           </div>
         </div>
-        <ProposalChartSummary proposal={proposal!} />
+        {/* <ProposalChartSummary proposal={proposal!} /> */}
       </div>
 
       <div className="mt-4 flex w-full items-stretch justify-start gap-3">
