@@ -19,14 +19,7 @@ export const DaoBoxProfileId = BN(115969);
 
 export const availableTokens = [
   {
-    name: "Goerli",
-    symbol: "ETH",
-    decimal: 18,
-    balance: 1000,
-    address: ethers.constants.AddressZero,
-  },
-  {
-    name: "Mumbai",
+    name: "Polygon Mainnet",
     symbol: "MATIC",
     decimal: 18,
     balance: 100,
