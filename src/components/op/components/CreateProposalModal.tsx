@@ -13,11 +13,10 @@ export const CreateProposalsModal = () => {
   const [isOpen, setOpen] = useState(false);
   const [currentStep, setStep] = useState<1 | 2 | 3>(1);
   const [proposalsDetail, setDetail] = useState<CreateProposalDetail>();
-  const [proposalVote, setVoteDetail] = useState<CreateProposalVoting>();
 
   const proceedToStep2 = (value: CreateProposalDetail) => {
     setDetail(value);
-    setStep(2);
+    setStep(3);
   };
 
   return (
@@ -61,18 +60,6 @@ export const CreateProposalsModal = () => {
                 />
               )}
 
-              {currentStep === 2 && (
-                <CreateProposalVoteOptionsStep
-                  onComplete={(data: CreateProposalVoting) => {
-                    console.log("DATA ", data);
-                    setVoteDetail(data);
-                    setStep(3);
-                  }}
-                  voteOptions={proposalVote}
-                  onCancel={() => setStep(1)}
-                />
-              )}
-
               {currentStep === 3 && (
                 <CreateProposalsActionStep
                   onComplete={(actions) => {
@@ -80,8 +67,7 @@ export const CreateProposalsModal = () => {
                     setOpen(false);
                   }}
                   proposal={proposalsDetail!}
-                  voting={proposalVote!}
-                  onCancel={() => setStep(2)}
+                  onCancel={() => setStep(1)}
                 />
               )}
             </div>

@@ -13,17 +13,11 @@ import { useNewOpProposal } from "@hooks/op/write";
 
 interface Props {
   proposal: CreateProposalDetail;
-  voting: CreateProposalVoting;
   onComplete?: (actions?: unknown) => void;
   onCancel?: () => void;
 }
 
-export const CreateProposalsActionStep: React.FC<Props> = ({
-  onComplete,
-  proposal,
-  voting,
-  onCancel,
-}) => {
+export const CreateProposalsActionStep: React.FC<Props> = ({ onComplete, proposal, onCancel }) => {
   const [actions, setActions] = useState<
     (TransferEncoderProps & { id: number } & { selected?: (typeof availableTokens)[0] })[]
   >([]);
@@ -34,7 +28,6 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
       description: proposal.summary,
       resources: proposal?.resources || [],
       startDate: new Date().getTime() / 1000,
-      endDate: new Date(voting.end_date).getTime() / 1000,
     },
     actions: transferEncoder(
       actions.map(
@@ -231,7 +224,12 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
         {isLoading ? (
           <button className="loading btn">Submit</button>
         ) : (
-          <PrimaryButton type="button" onClick={() => write?.()} className={"text-white"}>
+          <PrimaryButton
+            type="button"
+            disabled={!actions.length}
+            onClick={() => write?.()}
+            className={"text-white"}
+          >
             Submit
           </PrimaryButton>
         )}

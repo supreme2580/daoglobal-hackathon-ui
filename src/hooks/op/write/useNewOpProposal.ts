@@ -20,10 +20,9 @@ interface NewOpProposalParams {
 interface OpMetadata {
   title: string;
   description: string;
-  summary?: string;
-  endDate: number;
-  startDate: number;
   resources: any[];
+  summary?: string;
+  startDate?: number;
 }
 
 export const useNewOpProposal = ({

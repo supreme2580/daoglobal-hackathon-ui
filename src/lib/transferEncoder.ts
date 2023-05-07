@@ -21,7 +21,6 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
         data: Uint8Array.from([]) as unknown as `0x${string}`,
       };
     }
-    console.log({ item });
     const encodedData = iface.encodeFunctionData("transfer", [
       item.to,
       BigNumber.from(item.amount.toString() || 0),
@@ -36,6 +35,5 @@ export const transferEncoder = (data: TransferEncoderProps[]) => {
     };
   });
 
-  console.log({ encodedActions });
   return encodedActions;
 };
