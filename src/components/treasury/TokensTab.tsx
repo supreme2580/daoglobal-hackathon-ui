@@ -2,7 +2,7 @@ import TokenIcon from "@components/icons/token";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { AssetBalanceSortBy, useFetchDaoBalances } from "@daobox/use-aragon";
 
-import daoAddressOrEns from "@constants/daoConfig";
+// import daoAddressOrEns from "@constants/daoConfig";
 
 export default function TokenTab() {
     const cities = [
