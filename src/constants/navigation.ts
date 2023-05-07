@@ -38,13 +38,7 @@ export const navigation = () => {
       name: "Proposals",
       href: "/ops",
       icon: QueueListIcon,
-      current: (getWindow()?.location.pathname ?? "").includes("/ops"),
-    },
-    {
-      name: "Feed",
-      href: "/feed",
-      icon: DocumentDuplicateIcon,
-      current: (getWindow()?.location.pathname ?? "").includes("/feed"),
+      current: getWindow()?.location.pathname == "/ops",
     },
   ];
   return data;
