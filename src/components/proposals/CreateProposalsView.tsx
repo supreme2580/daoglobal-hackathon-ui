@@ -74,6 +74,9 @@ export const CreateProposalsView = () => {
                 <CreateProposalsActionStep
                   onComplete={(actions) => {
                     console.log("ACTIONS", actions);
+                    setDetail(undefined);
+                    setVoteDetail(undefined);
+                    setStep(1);
                     setOpen(false);
                   }}
                   proposal={proposalsDetail!}
