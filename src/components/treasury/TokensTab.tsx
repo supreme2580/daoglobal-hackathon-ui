@@ -5,32 +5,6 @@ import { AssetBalanceSortBy, useFetchDaoBalances } from "@daobox/use-aragon";
 // import daoAddressOrEns from "@constants/daoConfig";
 
 export default function TokenTab() {
-    const cities = [
-        {
-            city: "Athens",
-            rating: "2 open PR",
-        },
-        {
-            city: "Luzern",
-            rating: "1 open PR",
-        },
-        {
-            city: "Zürich",
-            rating: "0 open PR",
-        },
-        {
-            city: "Vienna",
-            rating: "1 open PR",
-        },
-        {
-            city: "Ermatingen",
-            rating: "0 open PR",
-        },
-        {
-            city: "Lisbon",
-            rating: "0 open PR",
-        },
-    ];
 
     const { data, isLoading, isError } = useFetchDaoBalances({
       daoAddressOrEns: "0xe2e445489b0356D3087efF7e79DB7Ff3f16c4fEA",
@@ -42,14 +16,9 @@ export default function TokenTab() {
 
     return (
       <div>
-        {data?.map((asset, index) => (
-          <div key={index}>
-            {JSON.stringify(asset, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2)}
-          </div>
-        ))}
         <ul role="list" className="card divide-y divide-gray-200 p-8 shadow-xl">
-          {cities.map((item, index) => (
-            <li key={index} className="px-4 py-4 sm:px-0">
+          {data?.map((asset, index) => (
+            <div key={index} className="px-4 py-4 sm:px-0">
               {/* Your content */}
               <div className="flex w-full justify-center space-x-1.5">
                 <div>
@@ -91,7 +60,8 @@ export default function TokenTab() {
                   </div>
                 </div>
               </div>
-            </li>
+              {JSON.stringify(asset, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2)}
+            </div>
           ))}
           <button className="remove-text-transform btn-neutral btn-xs btn-md btn mt-4 max-w-fit text-white sm:w-auto">
             <div className="flex items-center">
