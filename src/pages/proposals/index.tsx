@@ -34,9 +34,6 @@ const Proposals: NextPage = () => {
         <meta name="description" content="DAOBox DAO Proposals" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <button className="btn" onClick={() => write?.()}>
-        New OP Proposal
-      </button>
 
       {proposals[0] &&
         proposals[0].map((proposal, index) => <ProposalCard key={index} proposal={proposal} />)}

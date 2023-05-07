@@ -3,49 +3,49 @@ import classNames from "classnames";
 import { Fragment, useCallback } from "react";
 import { useFetchProposals, ProposalStatus, SortDirection } from "@daobox/use-aragon";
 import { daoAddressOrEns } from "@constants/daoConfig";
-import { ProposalCard } from "@components/cards";
+import { useOpProposals } from "@hooks/op/read";
+import { OPProposalStatus, ProposalDetails } from "types";
+import { useCancelProposal } from "@hooks/op/write/useCancelProposal";
+import { useChallengeProposal } from "@hooks/op/write";
+import { useExecuteProposal } from "@hooks/op/write/useExecuteProposal";
+import { ProposalCard } from "./ProposalCard";
 
-const TabStates = [
-  ProposalStatus.PENDING,
-  ProposalStatus.ACTIVE,
-  ProposalStatus.SUCCEEDED,
-  ProposalStatus.EXECUTED,
-  ProposalStatus.DEFEATED,
+export const TabStates = [
+  { id: OPProposalStatus.Active, title: "Active" },
+  { id: OPProposalStatus.Cancelled, title: "Cancelled" },
+  { id: OPProposalStatus.Executed, title: "Executed" },
+  { id: OPProposalStatus.Paused, title: "Paused" },
+  { id: OPProposalStatus.RuledAllowed, title: "Ruled Allowed" },
+  { id: OPProposalStatus.RuledRejected, title: "Ruled Rejected" },
 ];
 
 export const ViewProposalsTab = () => {
-  const { data, isLoading } = useFetchProposals({
-    daoAddressOrEns,
-    direction: SortDirection.DESC,
+  const page = 1;
+  const { proposals: propoData } = useOpProposals({
+    perPage: 10,
   });
+  console.log({ propoData });
 
   const proposals = useCallback(
-    (status: ProposalStatus | "All") => {
-      if (data) {
-        if (status === "All") {
-          return data;
+    (status: OPProposalStatus | 0) => {
+      if (propoData?.[0]?.length) {
+        if (status === 0) {
+          return propoData[0];
         } else {
-          const filteredProposals = data.filter(({ status: pStat }) => status === pStat);
+          const details = propoData[0] as ProposalDetails[];
+          const filteredProposals = details.filter(({ status: pStat }) => status === pStat);
           return filteredProposals;
         }
       }
     },
-    [data]
+    [propoData]
   );
-
-  if (isLoading) {
-    return (
-      <div className="centered">
-        <button className="loading btn-square btn"></button>
-      </div>
-    );
-  }
 
   return (
     <Tab.Group>
       <Tab.List className="col-span-1">
-        {["All", ...TabStates].map((tab, tabIndex) => (
-          <Tab as={Fragment} key={tab}>
+        {[{ id: 0, title: "All" }, ...TabStates].map((tab, tabIndex) => (
+          <Tab as={Fragment} key={tab.id}>
             {({ selected }) => {
               return (
                 <button
@@ -57,7 +57,7 @@ export const ViewProposalsTab = () => {
                     tabIndex > 0 && "ml-3"
                   )}
                 >
-                  {tab}
+                  {tab.title}
                 </button>
               );
             }}
@@ -65,17 +65,17 @@ export const ViewProposalsTab = () => {
         ))}
       </Tab.List>
       <Tab.Panels>
-        {["All", ...TabStates].map((tab) => {
-          const filteredProposals = proposals(tab as ProposalStatus | "All");
+        {[{ id: 0, title: "All" }, ...TabStates].map((tab) => {
+          const filteredProposals = proposals(tab.id as OPProposalStatus | 0);
 
           return (
-            <Tab.Panel key={tab} className="grid grid-cols-2 gap-4">
+            <Tab.Panel key={tab.id} className="grid grid-cols-2 gap-4">
               {filteredProposals?.length ? (
                 filteredProposals.map((proposal) => (
-                  <ProposalCard key={proposal.id} {...proposal} />
+                  <ProposalCard key={proposal?.proposalId ?? 0} {...proposal!} />
                 ))
               ) : (
-                <p key={tab}>No {tab === "All" ? "" : tab} Proposals</p>
+                <p key={tab.id}>No {tab.id === 0 ? "" : tab.title} Proposals</p>
               )}
             </Tab.Panel>
           );

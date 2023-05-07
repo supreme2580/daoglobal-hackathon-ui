@@ -1,4 +1,5 @@
 import { OptimisticProposalsView } from "@components/op";
+import { ProposalsView } from "@components/proposals";
 import { type NextPage } from "next";
 import Head from "next/head";
 
@@ -11,7 +12,7 @@ const Proposals: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <OptimisticProposalsView />
+      <ProposalsView />
     </>
   );
 };
