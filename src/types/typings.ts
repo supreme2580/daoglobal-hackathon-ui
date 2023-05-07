@@ -6,6 +6,7 @@ export interface NavItemsType {
 
 export interface ButtonType {
     text: string;
+    icon?: JSX.Element;
     clickFunction: () => void
 }
 
