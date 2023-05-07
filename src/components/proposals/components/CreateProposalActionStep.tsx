@@ -106,7 +106,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
 
         <div className="border-neutral mt-4 flex w-full flex-col items-center justify-center gap-5 rounded-lg border-2 p-8">
           <h2 className="text-xl font-bold">Add Action</h2>
-          <p className="max-w-md text-center text-secondary">
+          <p className="max-w-md text-center">
             This action will execute if the vote passes. A common automatic action is transferring
             funds to a guild or person if their proposal passes a vote.
           </p>

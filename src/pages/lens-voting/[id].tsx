@@ -1,4 +1,4 @@
-import { ProposalsByIDView } from "@components/op";
+import { ProposalsByIDView } from "@components/proposals";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
