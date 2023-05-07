@@ -1,6 +1,7 @@
 import { BN } from "@lib/numbers";
 import { ethers } from "ethers";
 import { type Address } from "wagmi";
+import { Mailchain } from "@mailchain/sdk";
 
 export const daoAddressOrEns: Address = "0xe2e445489b0356D3087efF7e79DB7Ff3f16c4fEA";
 export const lensVotingAddress: Address = "0xbf8de4316e2778e26b12dad8906467b23bb9a293";
@@ -26,3 +27,9 @@ export const availableTokens = [
     address: ethers.constants.AddressZero,
   },
 ];
+
+export const mailchainSecretRecoveryPhrase =
+  process.env.NEXT_MAILCHAIN_SECRET_PHRASE ??
+  "improve cost term task fashion cradle base cook discover make armor edge magnet huge issue brown moment forum lake fitness people quit arctic urban";
+
+export const mailchainSender = "bolajahmad@mailchain.com";

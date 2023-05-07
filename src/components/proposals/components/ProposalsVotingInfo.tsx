@@ -13,8 +13,10 @@ import { capitalize, lowerCase } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { PieChart, Pie, Legend, Cell, Tooltip } from "recharts";
-import { useAccount } from "wagmi";
+import { Address, useAccount } from "wagmi";
 import { ProposalChartSummary } from "../ProposalChart";
+import { Mailchain } from "@mailchain/sdk";
+import { mailchainSecretRecoveryPhrase, mailchainSender } from "@constants/daoConfig";
 
 type Props = {
   proposalId: string;
@@ -30,18 +32,38 @@ const VoteOptions = [
 export const ProposalVotingInfo: React.FC<Props> = ({ proposalId }) => {
   const [proposedVote, setProposedVote] = useState<VoteValues | undefined>(undefined);
   const { address } = useAccount();
+  const { data: proposal, isLoading } = useFetchProposal({
+    proposalId,
+  });
+  console.log({ proposal });
   const { mutate, isLoading: isVoting } = useVoteOnProposal({
     proposalId,
     vote: proposedVote!,
-    onSuccess: () => toast("Voting Successful"),
+    onSuccess: async () => {
+      toast("Voting Successful");
+      const mailchainInstance = Mailchain.fromSecretRecoveryPhrase(mailchainSecretRecoveryPhrase);
+      const { data, error } = await mailchainInstance.sendMail({
+        from: mailchainSender,
+        to: [`${proposal?.dao.address as Address}@ethereum.mailchain.com`],
+        subject: `A new vote has been recorded on your proposal`,
+        content: {
+          text: `DAO Member with address ${address as Address} has voted on your proposal`,
+          html: `<p>Proposal Executed successfully</p>`,
+        },
+      });
+      if (error) {
+        toast.warn("Could not notify proposer");
+        return;
+      }
+
+      console.log({ data });
+    },
     onError: (error) => {
       console.log({ error });
       toast.error(error.message);
     },
   });
-  const { data: proposal, isLoading } = useFetchProposal({
-    proposalId,
-  });
+
   const [showCount, setShowCount] = useState(5);
 
   const calculateVotePercentage = (now: number, end: string | Date, start: string | Date) => {

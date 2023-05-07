@@ -3,17 +3,13 @@ import { Dialog } from "@headlessui/react";
 import { type CreateProposalVoting, type CreateProposalDetail } from "types";
 import { PrimaryButton } from "@components/inputs";
 import { PlusSmallIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  CreateProposalDetailsStep,
-  CreateProposalVoteOptionsStep,
-} from "@components/proposals/components";
+import { CreateProposalDetailsStep } from "@components/proposals/components";
 import { CreateProposalsActionStep } from "./CreateOPActionStep";
 
 export const CreateProposalsModal = () => {
   const [isOpen, setOpen] = useState(false);
   const [currentStep, setStep] = useState<1 | 2 | 3>(1);
   const [proposalsDetail, setDetail] = useState<CreateProposalDetail>();
-
   const proceedToStep2 = (value: CreateProposalDetail) => {
     setDetail(value);
     setStep(3);
@@ -65,6 +61,7 @@ export const CreateProposalsModal = () => {
                   onComplete={(actions) => {
                     console.log("ACTIONS", actions);
                     setOpen(false);
+                    setDetail(undefined);
                   }}
                   proposal={proposalsDetail!}
                   onCancel={() => setStep(1)}

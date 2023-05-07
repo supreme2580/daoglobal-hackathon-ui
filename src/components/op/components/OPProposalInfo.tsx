@@ -5,11 +5,14 @@ import { BigNumber } from "ethers";
 import { capitalize } from "lodash";
 import React, { useMemo } from "react";
 import { OPProposalStatus } from "types";
-import { useAccount } from "wagmi";
+import { Address, useAccount } from "wagmi";
 import { TabStates } from "./ViewProposalsTab";
 import { useCancelProposal } from "@hooks/op/write/useCancelProposal";
 import { useChallengeProposal } from "@hooks/op/write";
 import { useExecuteProposal } from "@hooks/op/write/useExecuteProposal";
+import { mailchainSecretRecoveryPhrase, mailchainSender } from "@constants/daoConfig";
+import { toast } from "react-toastify";
+import { Mailchain } from "@mailchain/sdk";
 
 type Props = {
   proposalId: string;
@@ -22,14 +25,46 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
   const { write: cancelProposal } = useCancelProposal(Number(proposalId));
   const { write: challangeProposal } = useChallengeProposal(Number(proposalId));
   const { write: executeProposal } = useExecuteProposal(Number(proposalId));
-  const handleExecute = () => {
+  const handleExecute = async () => {
     executeProposal?.();
+    const mailchainInstance = Mailchain.fromSecretRecoveryPhrase(mailchainSecretRecoveryPhrase);
+    const { data, error } = await mailchainInstance.sendMail({
+      from: mailchainSender,
+      to: [`${proposal?.proposer as Address}@ethereum.mailchain.com`],
+      subject: `Proposal has been executed`,
+      content: {
+        text: address,
+        html: `<p>Proposal Executed successfully</p>`,
+      },
+    });
+    if (error) {
+      toast.warn("Could not notify proposer");
+      return;
+    }
+
+    console.log({ data });
   };
   const handleCancel = () => {
     cancelProposal?.();
   };
-  const handleChallange = () => {
+  const handleChallenge = async () => {
     challangeProposal?.();
+    const mailchainInstance = Mailchain.fromSecretRecoveryPhrase(mailchainSecretRecoveryPhrase);
+    const { data, error } = await mailchainInstance.sendMail({
+      from: mailchainSender,
+      to: [`${proposal?.proposer as Address}@ethereum.mailchain.com`],
+      subject: `Proposal has been challenged`,
+      content: {
+        text: address,
+        html: `<p>Your proposal has been executed successfully</p>`,
+      },
+    });
+    if (error) {
+      toast.warn("Could not notify proposer");
+      return;
+    }
+
+    console.log({ data });
   };
   const [days, hours, minutes] = useMemo(() => {
     let timeLeft = Math.floor(dayjs(proposal?.pausedAtTime.toNumber()).diff(new Date()) / 1000);
@@ -96,9 +131,11 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
                       Cancel
                     </button>
                   )}
-                  <button className="btn-primary btn" onClick={() => handleChallange()}>
-                    Challenge
-                  </button>
+                  {address === proposal.proposer ? null : (
+                    <button className="btn-primary btn" onClick={() => handleChallenge()}>
+                      Challenge
+                    </button>
+                  )}
                 </div>
               </div>
             ) : (
