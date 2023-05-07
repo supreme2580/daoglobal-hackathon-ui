@@ -1,64 +1,38 @@
-import {
-  ProposalStatus,
-  VoteValues,
-  useFetchProposal,
-  useVoteOnProposal,
-} from "@daobox/use-aragon";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { truncateAddress } from "@utils/addresses";
-import classNames from "classnames";
+import { useOpProposal } from "@hooks/op/read";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { capitalize, lowerCase } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
-import { toast } from "react-toastify";
+import { BigNumber } from "ethers";
+import { capitalize } from "lodash";
+import React, { useMemo } from "react";
+import { OPProposalStatus } from "types";
 import { useAccount } from "wagmi";
+import { TabStates } from "./ViewProposalsTab";
+import { useCancelProposal } from "@hooks/op/write/useCancelProposal";
+import { useChallengeProposal } from "@hooks/op/write";
+import { useExecuteProposal } from "@hooks/op/write/useExecuteProposal";
 
 type Props = {
   proposalId: string;
 };
 dayjs.extend(relativeTime);
 
-const VoteOptions = [
-  { id: VoteValues.YES, value: "Yes" },
-  { id: VoteValues.ABSTAIN, value: "Abstain" },
-  { id: VoteValues.NO, value: "No" },
-];
-
 export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
-  const [proposedVote, setProposedVote] = useState<VoteValues | undefined>(undefined);
   const { address } = useAccount();
-  const { mutate, isLoading: isVoting } = useVoteOnProposal({
-    proposalId,
-    vote: proposedVote!,
-    onSuccess: () => toast("Voting Successful"),
-    onError: (error) => {
-      console.log({ error });
-      toast.error(error.message);
-    },
-  });
-  const { data: proposal, isLoading } = useFetchProposal({
-    proposalId,
-  });
-  const [showCount, setShowCount] = useState(5);
-
-  const calculateVotePercentage = (now: number, end: string | Date, start: string | Date) => {
-    const endTime = new Date(end).getTime();
-    const startTime = new Date(start).getTime();
-
-    const percentage = ((now - startTime) * 100) / endTime;
-    return Math.round(percentage);
+  const { proposal, isLoading } = useOpProposal(BigNumber.from(proposalId));
+  const { write: cancelProposal } = useCancelProposal(Number(proposalId));
+  const { write: challangeProposal } = useChallengeProposal(Number(proposalId));
+  const { write: executeProposal } = useExecuteProposal(Number(proposalId));
+  const handleExecute = () => {
+    executeProposal?.();
   };
-
-  const voteOfAddress = useMemo(() => {
-    const vote_of_address = proposal?.votes.find(({ address: addr }) => {
-      return lowerCase(addr) == lowerCase(address);
-    });
-    return vote_of_address?.vote;
-  }, [proposal?.votes, address]);
-
+  const handleCancel = () => {
+    cancelProposal?.();
+  };
+  const handleChallange = () => {
+    challangeProposal?.();
+  };
   const [days, hours, minutes] = useMemo(() => {
-    let timeLeft = Math.floor(dayjs(proposal?.endDate).diff(new Date()) / 1000);
+    let timeLeft = Math.floor(dayjs(proposal?.pausedAtTime.toNumber()).diff(new Date()) / 1000);
 
     //convert to hours
     const days = timeLeft / (60 * 60 * 24);
@@ -72,12 +46,7 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
 
     return [Math.floor(days), Math.floor(hours), Math.floor(minutes)];
   }, [proposal]);
-
-  useEffect(() => {
-    if (proposedVote) {
-      mutate();
-    }
-  }, [proposedVote, mutate]);
+  const metadata = proposal?.metadata as unknown as Record<string, string>;
 
   if (isLoading) {
     return (
@@ -92,13 +61,15 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
       {/* <ToastContainer /> */}
       <div className="flex w-full items-stretch justify-start gap-3">
         <div className="flex flex-1 flex-col rounded-lg bg-secondary p-4">
-          <h2 className="pb-2 text-lg font-bold">{proposal?.metadata.title}</h2>
+          <h2 className="pb-2 text-lg font-bold">
+            <span className="test-lg font-bold">Title:</span> {metadata?.title}
+          </h2>
 
-          <p>{proposal?.metadata.summary} </p>
+          <p>Summary: {metadata?.description}</p>
 
-          <button className="mt-3 text-left font-bold">Read more</button>
+          <button className="mt-3 text-left text-sm font-bold  italic">Read more</button>
           <div className="flex flex-1 flex-col justify-evenly">
-            {proposal?.status === ProposalStatus.ACTIVE ? (
+            {proposal?.status === OPProposalStatus.Active ? (
               <div className="mt-8 flex items-end gap-2" key="NULL">
                 <p className="flex flex-1 items-center gap-2 text-lg">
                   <span className="flex flex-col items-center text-sm">
@@ -116,14 +87,27 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
                     Minutes
                   </span>
                 </p>
+                <div className="flex w-full justify-center space-x-4 p-2">
+                  <button className="btn-primary btn" onClick={() => handleExecute()}>
+                    Execute
+                  </button>
+                  {address === proposal.proposer && (
+                    <button className="btn-primary btn" onClick={() => handleCancel()}>
+                      Cancel
+                    </button>
+                  )}
+                  <button className="btn-primary btn" onClick={() => handleChallange()}>
+                    Challenge
+                  </button>
+                </div>
               </div>
             ) : (
-              <p className="badge rounded-md px-10 py-4 text-info" key="STATUS">
-                Proposal {capitalize(proposal?.status)}
+              <p className="badge mt-10 rounded-md px-10 py-4 text-info" key="STATUS">
+                Proposal {capitalize(TabStates.find(({ id }) => id === proposal?.status)?.title)}
               </p>
             )}
 
-            <div className="mt-4 w-full">
+            {/* <div className="mt-4 w-full">
               <progress
                 className="progress progress-success w-full"
                 value={calculateVotePercentage(
@@ -133,73 +117,34 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
                 )}
                 max="100"
               ></progress>
-            </div>
+            </div> */}
           </div>
         </div>
-        {/* <ProposalChartSummary proposal={proposal!} /> */}
       </div>
 
       <div className="mt-4 flex w-full items-stretch justify-start gap-3">
-        <div className="flex-1 rounded-lg bg-secondary p-4">
-          <h2 className="text-lg font-bold">{proposal?.votes.length ?? 0} Voters</h2>
-
-          <div className="mt-4 w-full">
-            {proposal?.votes.length ? (
-              <>
-                <div className="overflow-x-auto">
-                  <table className="table w-full">
-                    {/* head */}
-                    <thead>
-                      <tr>
-                        <th>Members</th>
-                        <th>Options</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {proposal.votes.slice(0, showCount).map((vote, id) => (
-                        <tr key={id} className="border-neutral border-t-2">
-                          <td>{truncateAddress(vote.address)}</td>
-                          <td>{VoteOptions.find(({ id }) => id === vote.vote)?.value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {proposal.votes.length > 5 && (
-                  <button
-                    className="text-md btn-ghost btn flex items-center gap-3 text-accent"
-                    onClick={() => setShowCount((prev) => (prev === 5 ? 10 : 5))}
-                  >
-                    Show {showCount === 5 ? "More" : "Less"}{" "}
-                    <ChevronDownIcon width={20} height={20} />
-                  </button>
-                )}
-              </>
-            ) : (
-              <p className="border-neutral border-t-2 p-1 text-center text-lg text-error">
-                No votes recorded
-              </p>
-            )}
-          </div>
-        </div>
         <div className="flex-1 rounded-lg bg-secondary p-4">
           <h2 className="text-lg font-bold">Voting Info</h2>
 
           <div className="mt-4">
             <p className="flex justify-between text-black">
-              <span className="font-bold text-gray-500">Start Date</span>
+              <span className="font-bold text-gray-500">Challenge deadline</span>
 
               <span className="text-primary">
-                {dayjs(proposal?.startDate).format("YYYY/MM/DD HH:mm A")}
+                {dayjs(proposal?.pausedAtTime.toNumber()).format("YYYY/MM/DD HH:mm A")}
               </span>
             </p>
             <p className="mt-2 flex justify-between text-black">
-              <span className="font-bold text-gray-500">End Date</span>
+              <span className="font-bold text-gray-500">Execution date</span>
 
               <span className="text-primary">
-                {dayjs(proposal?.endDate).format("YYYY/MM/DD HH:mm A")}
+                {dayjs(proposal?.executionFromTime.toNumber()).format("YYYY/MM/DD HH:mm A")}
               </span>
+            </p>
+            <p className="mt-2 flex justify-between text-black">
+              <span className="font-bold text-gray-500">Proposer address</span>
+
+              <span className="text-primary">{proposal?.proposer}</span>
             </p>
           </div>
           <div className="divider"></div>
@@ -212,16 +157,9 @@ export const OPProposalInfo: React.FC<Props> = ({ proposalId }) => {
               <span className="text-primary">Approve</span>
             </p>
             <p className="flex justify-between text-black">
-              <span className="font-bold text-gray-500">Minimum Approval</span>
-
-              <span className="text-primary">
-                {Math.round((proposal?.settings.minParticipation ?? 0) * 100)}%
-              </span>
-            </p>
-            <p className="flex justify-between text-black">
               <span className="font-bold text-gray-500">Strategy</span>
 
-              <span className="text-primary">Token Weighted</span>
+              <span className="text-primary">Optimistic Proposal</span>
             </p>
           </div>
         </div>

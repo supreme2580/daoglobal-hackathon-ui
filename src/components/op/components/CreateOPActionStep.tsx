@@ -9,59 +9,32 @@ import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { TransferEncoderProps, transferEncoder } from "@lib/transferEncoder";
 import { truncateAddress } from "@utils/addresses";
 import { constants, ethers, utils } from "ethers";
-import { Address } from "wagmi";
+import { useNewOpProposal } from "@hooks/op/write";
 
 interface Props {
   proposal: CreateProposalDetail;
-  voting: CreateProposalVoting;
   onComplete?: (actions?: unknown) => void;
   onCancel?: () => void;
 }
 
-export const CreateProposalsActionStep: React.FC<Props> = ({
-  onComplete,
-  proposal,
-  voting,
-  onCancel,
-}) => {
+export const CreateProposalsActionStep: React.FC<Props> = ({ onComplete, proposal, onCancel }) => {
   const [actions, setActions] = useState<
     (TransferEncoderProps & { id: number } & { selected?: (typeof availableTokens)[0] })[]
   >([]);
   const [proposalSubmitted, setProposalSubmitted] = useState(false);
-  // const [submitMode, setMode] = useState<LoadingStatuses>("idle");
-  const { mutate, isLoading, isSuccess, isError } = useNewProposal({
-    pluginAddress: lensVotingAddress,
-    title: proposal.title,
-    summary: proposal.summary,
-    description: "",
-    resources: proposal.resources?.length
-      ? proposal.resources?.map(({ name, link }) => ({
-          name: name ?? "",
-          url: link ?? "",
-        }))
-      : [],
+  const { write, isLoading, error, status } = useNewOpProposal({
+    metadata: {
+      title: proposal.title,
+      description: proposal.summary,
+      resources: proposal?.resources || [],
+      startDate: new Date().getTime() / 1000,
+    },
     actions: transferEncoder(
-      actions.map(({ to, amount, selected }) => ({
-        to,
-        amount,
-        token: selected?.address ?? "",
-      }))
-    ).map(({ to, value, data }) => ({
-      data: data as unknown as Uint8Array,
-      to,
-      value: BigInt(value.toString()),
-    })),
-    startDate: new Date(voting.start_date ?? ""),
-    endDate: new Date(voting.end_date),
-    creatorVote: Number(voting.creator_vote),
-    onSuccess: (_) => {
-      setProposalSubmitted(true);
-      // onComplete?.(context);
-    },
-    onError: (error) => {
-      console.log({ error });
-      toast.error(error.message);
-    },
+      actions.map(
+        ({ amount, to, selected }) =>
+          ({ to, amount, token: selected?.address } as unknown as TransferEncoderProps)
+      )
+    ),
   });
 
   const closeNotifModal = () => {
@@ -106,7 +79,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
 
         <div className="border-neutral mt-4 flex w-full flex-col items-center justify-center gap-5 rounded-lg border-2 p-8">
           <h2 className="text-xl font-bold">Add Action</h2>
-          <p className="max-w-md text-center text-secondary">
+          <p className="max-w-md text-center">
             This action will execute if the vote passes. A common automatic action is transferring
             funds to a guild or person if their proposal passes a vote.
           </p>
@@ -251,7 +224,12 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
         {isLoading ? (
           <button className="loading btn">Submit</button>
         ) : (
-          <PrimaryButton type="button" onClick={() => mutate()} className={"text-white"}>
+          <PrimaryButton
+            type="button"
+            disabled={!actions.length}
+            onClick={() => write?.()}
+            className={"text-white"}
+          >
             Submit
           </PrimaryButton>
         )}
@@ -264,10 +242,10 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
         >
           <Dialog.Panel className="m relative flex max-h-full w-full max-w-2xl flex-col items-center justify-center overflow-auto rounded-lg bg-secondary p-10">
             <div>
-              <CheckIcon width={40} height={40} stroke={isError ? "red" : "green"} />
+              <CheckIcon width={40} height={40} stroke={!!error ? "red" : "green"} />
             </div>
 
-            {isSuccess ? (
+            {status === "success" ? (
               <div className="mt-8 text-center">
                 <p>Your Proposal is Submitted</p>
                 <p className="mt-4">
@@ -283,7 +261,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
             )}
 
             <div className="mt-8 flex items-center justify-center gap-4">
-              {isError && (
+              {!!error && (
                 <PrimaryButton onClick={() => setProposalSubmitted(false)}>Cancel</PrimaryButton>
               )}
               <PrimaryButton onClick={() => closeNotifModal()}>Back home</PrimaryButton>

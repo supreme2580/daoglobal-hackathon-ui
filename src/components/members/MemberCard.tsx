@@ -47,17 +47,14 @@ export default function MemberCard({ member }: { member: Address }) {
             </div>
             <p className="text-start text-primary">Voting power: {token?.power ?? 0}</p>
           </div>
-          <Link
-            href={"/members/member"}
-            className="flex max-w-fit items-center justify-start space-x-0.5"
-          >
+          <div className="flex max-w-fit items-center justify-start space-x-0.5">
             <div>
               <p className="text-start text-sm text-daoboxg">View member profile</p>
             </div>
             <div>
               <ArrowRightIcon className="h-4 w-4 text-daoboxg" />
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </Link>

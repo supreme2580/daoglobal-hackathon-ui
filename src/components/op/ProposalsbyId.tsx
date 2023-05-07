@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import React, { Fragment } from "react";
 import { OPProposalInfo } from "./components/OPProposalInfo";
+import { useNewOpProposal } from "@hooks/op/write";
+import { BigNumber } from "ethers";
+import { Address } from "wagmi";
 
 type Props = {
   pid?: string;
