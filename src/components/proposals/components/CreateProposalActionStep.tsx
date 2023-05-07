@@ -9,6 +9,7 @@ import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { TransferEncoderProps, transferEncoder } from "@lib/transferEncoder";
 import { truncateAddress } from "@utils/addresses";
 import { constants, ethers, utils } from "ethers";
+import { Address } from "wagmi";
 
 interface Props {
   proposal: CreateProposalDetail;
@@ -42,10 +43,14 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
     actions: transferEncoder(
       actions.map(({ to, amount, selected }) => ({
         to,
-        amount: utils.parseUnits(amount.toString(), "wei"),
+        amount,
         token: selected?.address ?? "",
       }))
-    ),
+    ).map(({ to, value, data }) => ({
+      data: data as unknown as Uint8Array,
+      to,
+      value: BigInt(value.toString()),
+    })),
     startDate: new Date(voting.start_date ?? ""),
     endDate: new Date(voting.end_date),
     creatorVote: Number(voting.creator_vote),
