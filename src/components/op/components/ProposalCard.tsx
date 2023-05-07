@@ -1,10 +1,8 @@
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import { truncateAddress } from "@utils/addresses";
-import { upperCase } from "lodash";
-import { type TokenVotingProposalListItem } from "@aragon/sdk-client";
 import { useRouter } from "next/router";
-import { ProposalDetails } from "types";
+import { type ProposalDetails } from "types";
 import { TabStates } from "@components/op/components/ViewProposalsTab";
 
 dayjs.extend(relativeTime);

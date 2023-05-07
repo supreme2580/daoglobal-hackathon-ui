@@ -27,9 +27,9 @@ export const ViewProposalsTab = () => {
   console.log({ propoData });
 
   const proposals = useCallback(
-    (status: OPProposalStatus | 0) => {
+    (status: OPProposalStatus | -1) => {
       if (propoData?.[0]?.length) {
-        if (status === 0) {
+        if (status === -1) {
           return propoData[0];
         } else {
           const details = propoData[0] as ProposalDetails[];
@@ -44,7 +44,7 @@ export const ViewProposalsTab = () => {
   return (
     <Tab.Group>
       <Tab.List className="col-span-1">
-        {[{ id: 0, title: "All" }, ...TabStates].map((tab, tabIndex) => (
+        {[{ id: -1, title: "All" }, ...TabStates].map((tab, tabIndex) => (
           <Tab as={Fragment} key={tab.id}>
             {({ selected }) => {
               return (
@@ -65,7 +65,7 @@ export const ViewProposalsTab = () => {
         ))}
       </Tab.List>
       <Tab.Panels>
-        {[{ id: 0, title: "All" }, ...TabStates].map((tab) => {
+        {[{ id: -1, title: "All" }, ...TabStates].map((tab) => {
           const filteredProposals = proposals(tab.id as OPProposalStatus | 0);
 
           return (

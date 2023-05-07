@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { BigNumber, BigNumberish, BytesLike, ethers } from "ethers";
 import { Address, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import { BN, opConfig } from "../op-helpers";
@@ -11,7 +12,7 @@ import { toast } from "react-toastify";
 
 interface NewOpProposalParams {
   metadata: OpMetadata;
-  actions: Action[];
+  actions: any[];
   allowFailureMap?: BigNumberish;
   funds?: BigNumberish;
 }
@@ -20,6 +21,9 @@ interface OpMetadata {
   title: string;
   description: string;
   summary?: string;
+  endDate: number;
+  startDate: number;
+  resources: any[];
 }
 
 export const useNewOpProposal = ({
@@ -47,7 +51,7 @@ export const useNewOpProposal = ({
     },
   });
 
-  const { data, status, write, error } = useContractWrite({
+  const { data, status, write, error, isLoading } = useContractWrite({
     ...config,
     onSuccess: (tx) => {
       toast("Creating Proposal");
@@ -81,5 +85,13 @@ export const useNewOpProposal = ({
     }
   };
 
-  return { data, status, write: writeWithMetadata, error, prepareStatus, transactionStatus };
+  return {
+    data,
+    status,
+    write: writeWithMetadata,
+    isLoading,
+    error,
+    prepareStatus,
+    transactionStatus,
+  };
 };
