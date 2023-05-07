@@ -36,7 +36,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <RainbowKitProvider
         chains={chains}
         showRecentTransactions={true}
-        initialChain={goerli}
         modalSize="compact"
         theme={currentMode()}
       >
