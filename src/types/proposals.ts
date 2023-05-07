@@ -37,12 +37,7 @@ export const ProposalVotingSchema = z
     vote_type: z
       .enum([VotingTypes.Optimistic_Proposal, VotingTypes.Token_Voting, "null"])
       .refine((vote) => !!vote && vote !== "null", { message: "Invalid voting type" }),
-    creator_vote: z
-      .enum(["1", "2", "3"])
-      .optional()
-      .refine((vote) => !!vote && ["1", "2", "3", "null"].includes(vote), {
-        message: "Invalid vote",
-      }),
+    creator_vote: z.enum(["1", "2", "3", "null"]).optional(),
     start_date: z.string().optional(),
     end_date: z.string().nonempty({ message: "End date must be provided" }),
     voteDuration: z.number().min(1000, { message: "Vote duration is too small" }),

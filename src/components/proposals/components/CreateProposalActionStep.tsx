@@ -51,9 +51,7 @@ export const CreateProposalsActionStep: React.FC<Props> = ({
       to,
       value: BigInt(value.toString()),
     })),
-    startDate: new Date(voting.start_date ?? ""),
     endDate: new Date(voting.end_date),
-    creatorVote: Number(voting.creator_vote),
     onSuccess: (_) => {
       setProposalSubmitted(true);
       // onComplete?.(context);
