@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Head from "next/head";
 import {
   useProfilesOwnedBy,
@@ -6,16 +8,28 @@ import {
   usePublications,
   ProfileId,
 } from "@lens-protocol/react-web";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { useBalanceAndPower } from "@hooks/lens/useBalanceAndPower";
-import { useAccount } from "wagmi";
+import { useDelegateNFT } from "@hooks/lens/useDelegateNFT";
+import { Address, useAccount } from "wagmi";
 
 import { AiOutlineTwitter } from "react-icons/ai";
 import { GoLocation, GoGlobe } from "react-icons/go";
 
 import { FollowOnLens, Theme, Size, Publication } from "@lens-protocol/widgets-react";
+import { useRouter } from "next/router";
 
 const Member = () => {
+  const { query } = useRouter();
+  const memberAddress = query.member as string;
+  const { data } = useProfilesOwnedBy({
+    address: memberAddress,
+    limit: 5,
+  });
+  const profile = data?.[0];
+  if (!memberAddress) {
+    return null;
+  }
   return (
     <>
       <Head>
@@ -26,35 +40,43 @@ const Member = () => {
           {/* Left column */}
           <div className={`grid grid-cols-1 gap-4 lg:col-span-2`}>
             <div className="h-screen ">
-              <Feed />
+              <Feed profileId={profile?.id.toString()} member={memberAddress} />
             </div>
           </div>
 
           {/* Right column */}
           <div className="grid grid-cols-1 gap-4">
-            <ProfileBar />
+            <ProfileBar profile={profile} member={memberAddress} />
           </div>
         </div>
       </div>
     </>
   );
 };
-
-function Feed() {
+interface FeedProps {
+  member?: string;
+  profileId?: string;
+}
+const Feed: React.FC<FeedProps> = ({ profileId }) => {
   const { data: publications } = usePublications({
-    profileId: "0x2e5f" as ProfileId,
+    profileId: profileId as ProfileId,
     limit: 4,
   });
 
   return (
     <div className="h-screen">
       <ul role="list" className="w-full  space-y-3">
-        {publications &&
-          publications.map((item) => <Publication publicationId={item.id} theme={Theme.dark} />)}
+        {publications?.length ? (
+          publications.map((item) => (
+            <Publication key={item.id} publicationId={item.id} theme={Theme.dark} />
+          ))
+        ) : (
+          <div className="text-error">No publications found for inexistent member</div>
+        )}
       </ul>
     </div>
   );
-}
+};
 
 function ProfileAvatar({ profileData }: { profileData: Profile }) {
   const { name, bio, handle, ownedBy, stats } = profileData ?? {};
@@ -95,43 +117,51 @@ function Stats({ data }: { data: Profile }) {
   );
 }
 
-function ProfileButtons() {
+const ProfileButtons: React.FC<ProfileProps> = ({ profile, member }) => {
+  const { write } = useDelegateNFT(member as Address);
   return (
     <div className="flex items-center justify-center space-x-6 py-4 pt-2 align-middle">
       <div className="tooltip tooltip-bottom" data-tip="Follow this member on lens">
-        <FollowOnLens handle="stani" theme={Theme.mint} size={Size.medium} />
+        <FollowOnLens
+          handle={profile?.handle.split(".")[0] ?? ""}
+          theme={Theme.mint}
+          size={Size.medium}
+        />
       </div>
       <div className="tooltip tooltip-bottom" data-tip="Delegate your voting power to this member">
-        <button className="btn">delegate</button>
+        <button className="btn" onClick={() => write?.()}>
+          delegate
+        </button>
       </div>
     </div>
   );
+};
+
+interface ProfileProps {
+  member: string;
+  profile?: Profile;
 }
 
-function ProfileBar() {
-  const { data } = useProfilesOwnedBy({
-    address: "0x47d80912400ef8f8224531EBEB1ce8f2ACf4b75a",
-  });
-  console.log(data);
-  const defaultProfile: Profile | undefined = data?.[0] ?? undefined;
-
-  const attributes = defaultProfile?.attributes ?? [];
+const ProfileBar: React.FC<ProfileProps> = ({ profile, member }) => {
+  const attributes = profile?.attributes ?? {};
 
   return (
     <div className="flex-col justify-center align-middle">
-      {defaultProfile && (
+      {profile ? (
         <>
-          <ProfileAvatar profileData={defaultProfile} />
+          <ProfileAvatar profileData={profile} />
           <ProfileIcons attributes={attributes} />
-          <Stats data={defaultProfile} />
-          <ProfileButtons />
+          <Stats data={profile} />
+          <ProfileButtons profile={profile} member={member} />
         </>
+      ) : (
+        <div className="text-error">Profile does not exist</div>
       )}
     </div>
   );
-}
+};
 
-const ProfileIcons = ({ attributes }: any) => {
+const ProfileIcons = ({ attributes }: { attributes: ProfileAttributes }) => {
   const icons = parseAttributes(attributes);
 
   return (
@@ -161,7 +191,7 @@ const parseAttributes = (attributes: ProfileAttributes | []) => {
 
   return keysToCheck
     .map((key) => {
-      const attribute = (attributes as any)[key];
+      const attribute = (attributes as any)[key] as string;
       if (attribute) {
         const value = attribute.toString();
         return (

@@ -10,7 +10,7 @@ export function Topbar(props: TopbarProps) {
   const { setSidebarOpen } = props;
   const { openConnectModal } = useConnectModal();
   return (
-    <div className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+    <div className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 bg-base-100/70 px-4 shadow-sm backdrop-blur-md sm:gap-x-6 sm:px-6 lg:px-8 ">
       <button
         type="button"
         className="-m-2.5 p-2.5 text-primary lg:hidden"
@@ -28,17 +28,19 @@ export function Topbar(props: TopbarProps) {
           <SwitchTheme />
 
           {/* Separator */}
-          <div
-            className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
-            aria-hidden="true"
-          />
+          <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
           {/* RainbowKit Injector */}
-          {
-            openConnectModal ? <button className="btn btn-xs btn-md remove-text-transform btn-success text-white w-full sm:w-auto" onClick={openConnectModal}>
+          {openConnectModal ? (
+            <button
+              className="remove-text-transform btn-success btn-xs btn-md btn w-full text-white sm:w-auto"
+              onClick={openConnectModal}
+            >
               Connect Wallet
-            </button> : <ConnectButton />
-          }
+            </button>
+          ) : (
+            <ConnectButton />
+          )}
         </div>
       </div>
     </div>

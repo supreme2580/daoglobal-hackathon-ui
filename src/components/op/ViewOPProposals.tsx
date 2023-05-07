@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import { CreateProposalsView } from "@components/proposals";
 import React from "react";
 import { ViewProposalsTab } from "./components/ViewProposalsTab";
+import { CreateProposalsModal } from "./components/CreateProposalModal";
 
 export const OptimisticProposalsView: React.FC = () => {
   return (
@@ -11,7 +10,7 @@ export const OptimisticProposalsView: React.FC = () => {
           <div className="flex items-center justify-between rounded-lg bg-[#191B1E] px-4 py-8 text-white">
             <h1 className="text-4xl font-bold">Proposals</h1>
 
-            <CreateProposalsView />
+            <CreateProposalsModal />
           </div>
         </div>
 

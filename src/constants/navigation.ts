@@ -20,19 +20,19 @@ export const navigation = () => {
       name: "Members",
       href: "/members",
       icon: UsersIcon,
-      current: getWindow()?.location.pathname == "/members",
+      current: (getWindow()?.location.pathname ?? "").includes("/members"),
     },
     {
       name: "Treasury",
       href: "/treasury",
       icon: FolderIcon,
-      current: getWindow()?.location.pathname == "/treasury",
+      current: (getWindow()?.location.pathname ?? "").includes("/treasury"),
     },
     {
       name: "Lens Voting",
       href: "/lens-voting",
       icon: QueueListIcon,
-      current: getWindow()?.location.pathname == "/lens-voting",
+      current: (getWindow()?.location.pathname ?? "").includes("/lens-voting"),
     },
     {
       name: "Proposals",
