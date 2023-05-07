@@ -40,12 +40,6 @@ export const navigation = () => {
       icon: QueueListIcon,
       current: getWindow()?.location.pathname == "/ops",
     },
-    {
-      name: "Feed",
-      href: "/feed",
-      icon: DocumentDuplicateIcon,
-      current: getWindow()?.location.pathname == "/feed",
-    },
   ];
   return data;
 };

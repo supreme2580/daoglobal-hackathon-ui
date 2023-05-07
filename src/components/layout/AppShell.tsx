@@ -17,7 +17,6 @@ export const navigation = [
   { name: "Members", href: "/members", icon: UsersIcon, current: false },
   { name: "Treasury", href: "/treasury", icon: FolderIcon, current: false },
   { name: "Voting", href: "/voting", icon: CalendarIcon, current: false },
-  { name: "Feed", href: "/feed", icon: DocumentDuplicateIcon, current: false },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
