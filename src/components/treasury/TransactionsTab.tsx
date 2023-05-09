@@ -16,7 +16,7 @@ export default function TransactionsTab() {
           setData(res.data.result)
           return res.data.result
       })
-      axios.get('https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd').then(res => {
+      axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd&apiKey=${process.env.NEXT_PUBLIC_COINGECKO_API_KEY}`).then(res => {
         return res
       }).then(res => {
         setMaticPrice(res.data['matic-network'].usd)

@@ -5,13 +5,16 @@ import { TransactionCardType } from "types/typings";
 import Moment from "react-moment";
 import moment from "moment"
 import { useRouter } from "next/router";
+import WithdrawalIcon from "@components/icons/withdraw";
 
 export default function TransactionCard({ type, value, timestamp, price, hash }: TransactionCardType) {
   const router = useRouter()
   return (
     <div className="flex w-full justify-center space-x-1.5">
       <div>
-        <DepositIcon />
+        {
+          type == "Deposit" ? <DepositIcon /> : <WithdrawalIcon />
+        }
       </div>
       <div className="flex w-full justify-between">
         <div>
@@ -28,7 +31,7 @@ export default function TransactionCard({ type, value, timestamp, price, hash }:
           <div className="flex h-full flex-col justify-center">
             <TransactionModal />
             <input type="checkbox" id="my-modal-6" className="modal-toggle" />
-            <button onClick={() => router.push(`https://polygonscan.com/tx/${hash}`)}>
+            <button onClick={() => window.open(`https://polygonscan.com/tx/${hash}`, '_blank', 'noopener,noreferrer')}>
               <ChevronRightIcon className="h-6 w-6" />
             </button>
           </div>
