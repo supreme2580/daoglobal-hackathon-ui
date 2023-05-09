@@ -1,51 +1,41 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import TransactionCard from "./TransactionCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { daoAddressOrEns } from "@constants/daoConfig";
-import { Alchemy, AssetTransfersCategory, Network, AssetTransfersResult, SortingOrder } from "alchemy-sdk";
+import axios from "axios";
 
 export default function TransactionsTab() {
-  const [data, setData] = useState<AssetTransfersResult[]>();
-
-    const config = {
-      apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID,
-      network: Network.MATIC_MAINNET,
-    };
-    const alchemy = new Alchemy(config);
-    
-    alchemy.core.getAssetTransfers({
-      fromBlock: "0x0",
-      fromAddress: daoAddressOrEns,
-      category: [
-        AssetTransfersCategory.EXTERNAL, 
-        AssetTransfersCategory.INTERNAL, 
-        AssetTransfersCategory.ERC20, 
-        AssetTransfersCategory.ERC721, 
-        AssetTransfersCategory.ERC1155, 
-        AssetTransfersCategory.SPECIALNFT
-      ],
-      order: SortingOrder.DESCENDING
-    }).then(res => {
-      return res
-    }).then(res => {
-      setData(res.transfers)
-      console.log("history: ", res)
-      return res
-    }).catch(error => {
+  const [data, setData] = useState<any[]>();
+  const [maticPrice, setMaticPrice] = useState<string>()
+  useEffect(() => {
+    const API_ENDPOINT = `https://api.polygonscan.com/api?module=account&action=txlist&address=${daoAddressOrEns}&startblock=0&endblock=99999999&page=1&offset=100&sort=asc&apikey=${process.env.NEXT_PUBLIC_POLYGONSCAN_API_KEY}`;
+    try {
+      axios.get(API_ENDPOINT).then(res => {
+          return res
+      }).then(res => {
+          setData(res.data.result)
+          return res.data.result
+      })
+      axios.get('https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd').then(res => {
+        return res
+      }).then(res => {
+        setMaticPrice(res.data['matic-network'].usd)
+      });      
+    } catch (error) {
       console.log(error)
-    });
+    }
+  }, [])
 
   return (
     <div>
       <ul role="list" className="card divide-y divide-gray-200 p-8 shadow-xl">
-        {data?.map((item, index) => (
+        {data?.map((item: any, index: any) => (
           <li key={index} className="px-4 py-4 sm:px-0">
-            {/* Your content */}
             <TransactionCard
-              type={item.to == daoAddressOrEns ? "Deposit" : "Sent"}
-              asset={item.asset || ""}
-              hash={item.hash}
-              value={item.value?.toFixed(4).toString() || "0"}
+              type={item.to == daoAddressOrEns.toLocaleLowerCase() ? "Deposit" : "Sent"}
+              timestamp={item.timeStamp}
+              value={Number(Number(item.value)/(10**18))?.toFixed(4).toString()}
+              price={Number(maticPrice)}
             />
           </li>
         ))}

@@ -9,7 +9,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@alch/alchemy-web3": "^1.4.7",
     "@aragon/osx-ethers": "^1.2.1",
     "@aragon/sdk-client": "^1.4.0",
     "@babel/core": "^7.21.4",
@@ -27,6 +26,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@tremor/react": "^2.1.0",
     "alchemy-sdk": "2.8.0",
+    "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "daisyui": "^2.51.5",
     "dayjs": "^1.11.7",
