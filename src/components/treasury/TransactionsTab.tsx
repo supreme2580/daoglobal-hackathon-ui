@@ -35,7 +35,8 @@ export default function TransactionsTab() {
               type={item.to == daoAddressOrEns.toLocaleLowerCase() ? "Deposit" : "Sent"}
               timestamp={item.timeStamp}
               value={Number(Number(item.value)/(10**18))?.toFixed(4).toString()}
-              price={Number(maticPrice)}
+              price={Number(maticPrice) || 0}
+              hash={item.hash}
             />
           </li>
         ))}

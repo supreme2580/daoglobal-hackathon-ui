@@ -29,5 +29,6 @@ export interface TransactionCardType {
     type: string,
     timestamp: number,
     value: string,
-    price: number
+    price: number,
+    hash: string
 }
