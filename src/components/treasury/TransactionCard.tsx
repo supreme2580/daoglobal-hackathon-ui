@@ -23,7 +23,7 @@ export default function TransactionCard({ type, value, timestamp, price }: Trans
           <div className="flex h-full w-fit space-x-2">
             <div>
               <p className="font-semibold">{value} Matic</p>
-              <p className="text-sm">{(Number(value) * price).toFixed(4)}</p>
+              <p className="text-sm">${(Number(value) * price).toFixed(4)}</p>
             </div>
           </div>
           <div className="flex h-full flex-col justify-center">
