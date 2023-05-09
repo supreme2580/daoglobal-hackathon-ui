@@ -15,7 +15,7 @@ export default function TransactionsTab() {
     
     alchemy.core.getAssetTransfers({
       fromBlock: "0x0",
-      fromAddress: "0xa3db2cb625bae87d12ad769c47791a04ba1e5b29",
+      fromAddress: daoAddressOrEns,
       category: [
         AssetTransfersCategory.EXTERNAL, 
         AssetTransfersCategory.INTERNAL, 
@@ -42,7 +42,7 @@ export default function TransactionsTab() {
           <li key={index} className="px-4 py-4 sm:px-0">
             {/* Your content */}
             <TransactionCard
-              type={item.to == "0xa3db2cb625bae87d12ad769c47791a04ba1e5b29" ? "Deposit" : "Sent"}
+              type={item.to == daoAddressOrEns ? "Deposit" : "Sent"}
               asset={item.asset || ""}
               hash={item.hash}
               value={item.value?.toFixed(4).toString() || "0"}

@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@alch/alchemy-web3": "^1.4.7",
     "@aragon/osx-ethers": "^1.2.1",
     "@aragon/sdk-client": "^1.4.0",
     "@babel/core": "^7.21.4",
