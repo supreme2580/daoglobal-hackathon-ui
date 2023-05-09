@@ -27,6 +27,7 @@ export interface Tabs {
 
 export interface TransactionCardType {
     type: string,
-    timestamp: number,
-    value: string
+    asset: string,
+    hash: string,
+    value: string,
 }
