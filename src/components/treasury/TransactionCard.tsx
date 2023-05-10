@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import WithdrawalIcon from "@components/icons/withdraw";
 
 export default function TransactionCard({ type, value, timestamp, price, hash }: TransactionCardType) {
-  const router = useRouter()
   return (
     <div className="flex w-full justify-center space-x-1.5">
       <div>
