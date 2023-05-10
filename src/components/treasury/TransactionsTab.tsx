@@ -30,6 +30,8 @@ export default function TransactionsTab() {
         return res
       }).then(res => {
         setMaticPrice(res.data['matic-network'].usd)
+      }).catch(error => {
+        console.log(error)
       }); 
     } catch (error) {
       console.log(error)

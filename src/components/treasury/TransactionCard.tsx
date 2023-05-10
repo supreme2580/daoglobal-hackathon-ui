@@ -4,7 +4,6 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import { TransactionCardType } from "types/typings";
 import Moment from "react-moment";
 import moment from "moment"
-import { useRouter } from "next/router";
 import WithdrawalIcon from "@components/icons/withdraw";
 
 export default function TransactionCard({ type, value, timestamp, price, hash }: TransactionCardType) {
