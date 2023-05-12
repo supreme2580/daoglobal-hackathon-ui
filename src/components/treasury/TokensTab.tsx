@@ -1,23 +1,90 @@
 import TokenIcon from "@components/icons/token";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { AssetBalanceSortBy, useFetchDaoBalances } from "@daobox/use-aragon";
+import { useFetchDaoBalances } from "@daobox/use-aragon";
+import axios from "axios";
+import { daoAddressOrEns } from "@constants/daoConfig";
+import { useEffect, useState } from "react";
+import { TokensType } from "types/typings";
 
-// import daoAddressOrEns from "@constants/daoConfig";
+export default function TokensTab() {
 
-export default function TokenTab() {
+    const [tokens, setTokens] = useState<TokensType[]>()
 
-    const { data, isLoading, isError } = useFetchDaoBalances({
-      daoAddressOrEns: "0xe2e445489b0356D3087efF7e79DB7Ff3f16c4fEA",
-    });
-    console.log({data});
+    useEffect(() => {
+      const url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`
+      const data = JSON.stringify({
+        "jsonrpc": "2.0",
+        "method": "alchemy_getTokenBalances",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "params": [
+          `${daoAddressOrEns}`,
+          "erc20",
+        ],
+        "id": 42
+      });
+      
+      const config = {
+        method: 'post',
+        url: url,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error!!!</div>;
+      axios(config).then(response => {
+        const balances = response['data']['result']
+        const tokensList: TokensType[] = []
+        let i = 0
+        balances['tokenBalances'].filter((token: any) => {
+          let balance = token['tokenBalance']
+          if (balance !== '0') {
+            i++
+              const metadataParams = JSON.stringify({
+              "jsonrpc": "2.0",
+              "method": "alchemy_getTokenMetadata",
+              "params": [
+                  `${token['contractAddress']}`
+              ],
+              "id": 42
+            });
+          
+            const metadataConfig = {
+              method: 'post',
+              url: url,
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data : metadataParams
+            };
+
+            axios(metadataConfig).then((metadata: any) => {
+              balance = balance/Math.pow(10, metadata.data.result['decimals']);
+              balance = balance.toFixed(4);
+              const data = {
+                balance: balance,
+                logo: metadata.data.result['logo'],
+                name: metadata.data.result['name'],
+                symbol: metadata.data.result['symbol']
+              }
+              tokensList.push(data)
+              console.log(i, tokensList)
+              if (tokensList.length == i) {
+                setTokens(tokensList)
+              }
+            }).catch(error => console.log('error', error))
+          }
+        })
+      }).catch(error => console.log("error: ", error))      
+    }, [])
+
 
     return (
       <div>
         <ul role="list" className="card divide-y divide-gray-200 p-8 shadow-xl">
-          {data?.map((asset, index) => (
+          {tokens?.map((item, index) => (
             <div key={index} className="px-4 py-4 sm:px-0">
               {/* Your content */}
               <div className="flex w-full justify-center space-x-1.5">
@@ -27,13 +94,13 @@ export default function TokenTab() {
                 <div className="flex w-full justify-between">
                   <div>
                     <p className="space-x-1.5 font-semibold">
-                      <span>USD Coin</span>
+                      <span>{item.symbol}</span>
                       <span>
                         <div className="badge-gray-200 badge">100%</div>
                       </span>
                     </p>
                     <p className="flex space-x-1.5 text-sm">
-                      <span>100k usdc </span>
+                      <span>{item.balance} {item.symbol} </span>
                       <span className="flex h-full flex-col items-center justify-center">
                         <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gray-200" />
                       </span>
@@ -60,7 +127,7 @@ export default function TokenTab() {
                   </div>
                 </div>
               </div>
-              {JSON.stringify(asset, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2)}
+              {JSON.stringify(item, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2)}
             </div>
           ))}
           <button className="remove-text-transform btn-neutral btn-xs btn-md btn mt-4 max-w-fit text-white sm:w-auto">

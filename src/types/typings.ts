@@ -32,3 +32,10 @@ export interface TransactionCardType {
     price: number,
     hash: string
 }
+
+export interface TokensType {
+    balance: string,
+    logo: string,
+    name: string,
+    symbol: string
+}
