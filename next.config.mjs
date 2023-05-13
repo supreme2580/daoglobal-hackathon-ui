@@ -13,6 +13,14 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "static.alchemyapi.io"
+      }
+    ]
+  },
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you

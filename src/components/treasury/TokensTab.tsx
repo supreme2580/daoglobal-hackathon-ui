@@ -1,10 +1,9 @@
-import TokenIcon from "@components/icons/token";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { useFetchDaoBalances } from "@daobox/use-aragon";
 import axios from "axios";
 import { daoAddressOrEns } from "@constants/daoConfig";
 import { useEffect, useState } from "react";
 import { TokensType } from "types/typings";
+import Image from "next/image";
 
 export default function TokensTab() {
 
@@ -89,12 +88,14 @@ export default function TokensTab() {
               {/* Your content */}
               <div className="flex w-full justify-center space-x-1.5">
                 <div>
-                  <TokenIcon />
+                  <div className="w-12 h-12 relative">
+                    <Image src={item.logo} layout="fill" alt="logo" />
+                  </div>
                 </div>
                 <div className="flex w-full justify-between">
                   <div>
                     <p className="space-x-1.5 font-semibold">
-                      <span>{item.symbol}</span>
+                      <span>{item.name}</span>
                       <span>
                         <div className="badge-gray-200 badge">100%</div>
                       </span>
@@ -127,7 +128,6 @@ export default function TokensTab() {
                   </div>
                 </div>
               </div>
-              {JSON.stringify(item, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2)}
             </div>
           ))}
           <button className="remove-text-transform btn-neutral btn-xs btn-md btn mt-4 max-w-fit text-white sm:w-auto">
