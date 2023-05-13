@@ -1,4 +1,4 @@
-import { ButtonType } from '../../types/typings';
+import { ButtonType } from "../../types/typings";
 
 export default function Button({ text, icon, clickFunction }: ButtonType) {
   return (

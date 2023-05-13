@@ -9,12 +9,7 @@ export function Sidebar() {
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
-        <Image
-          src={logo}
-          alt="DAOBox Logo"
-          width={300}
-          className="block h-8 w-auto"
-        />
+        <Image src={logo} alt="DAOBox Logo" width={300} className="block h-8 w-auto" />
       </div>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -33,9 +28,7 @@ export function Sidebar() {
                   >
                     <item.icon
                       className={classNames(
-                        item.current
-                          ? "text-black"
-                          : "text-primary group-hover:text-black",
+                        item.current ? "text-black" : "text-primary group-hover:text-black",
                         "h-6 w-6 shrink-0"
                       )}
                       aria-hidden="true"

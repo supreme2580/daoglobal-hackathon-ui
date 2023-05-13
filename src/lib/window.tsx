@@ -1,5 +1,5 @@
 export const getWindow = () => {
-    if (typeof window != "undefined") {
-        return window
-    }
-}
+  if (typeof window != "undefined") {
+    return window;
+  }
+};

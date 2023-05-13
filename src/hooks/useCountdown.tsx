@@ -37,9 +37,7 @@ interface CountdownControllers {
  *
  * @deprecated new useCountdown interface is already available (see https://usehooks-ts.com/react-hook/use-countdown), the old version will retire on usehooks-ts@3
  */
-function useCountdown(
-  countdownOption: UseCountdownType
-): [number, CountdownHelpers];
+function useCountdown(countdownOption: UseCountdownType): [number, CountdownHelpers];
 
 /**
  * New interface with default value
@@ -51,9 +49,7 @@ function useCountdown(
  * @param  {?boolean} countdownOption.isIncrement - `false` by default, true if the countdown is increment.
  * @returns [counter, CountdownControllers]
  */
-function useCountdown(
-  countdownOption: CountdownOption
-): [number, CountdownControllers];
+function useCountdown(countdownOption: CountdownOption): [number, CountdownControllers];
 
 function useCountdown(
   countdownOption: UseCountdownType | CountdownOption
@@ -63,10 +59,7 @@ function useCountdown(
    */
   let isDeprecated = false;
 
-  let countStart,
-    intervalMs,
-    isIncrement: boolean | undefined,
-    countStop: number | undefined;
+  let countStart, intervalMs, isIncrement: boolean | undefined, countStop: number | undefined;
 
   if ("seconds" in countdownOption) {
     console.warn(
@@ -87,12 +80,7 @@ function useCountdown(
   isIncrement = isIncrement ?? false;
   countStop = countStop ?? 0;
 
-  const {
-    count,
-    increment,
-    decrement,
-    reset: resetCounter,
-  } = useCounter(countStart);
+  const { count, increment, decrement, reset: resetCounter } = useCounter(countStart);
 
   /**
    * Note: used to control the useInterval

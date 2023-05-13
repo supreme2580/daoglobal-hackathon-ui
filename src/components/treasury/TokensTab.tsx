@@ -6,139 +6,151 @@ import { TokensType } from "types/typings";
 import Image from "next/image";
 
 export default function TokensTab() {
+  const [tokens, setTokens] = useState<TokensType[]>();
 
-    const [tokens, setTokens] = useState<TokensType[]>()
+  useEffect(() => {
+    const url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`;
+    const data = JSON.stringify({
+      jsonrpc: "2.0",
+      method: "alchemy_getTokenBalances",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params: [`${daoAddressOrEns}`, "erc20"],
+      id: 42,
+    });
 
-    useEffect(() => {
-      const url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`
-      const data = JSON.stringify({
-        "jsonrpc": "2.0",
-        "method": "alchemy_getTokenBalances",
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "params": [
-          `${daoAddressOrEns}`,
-          "erc20",
-        ],
-        "id": 42
-      });
-      
-      const config = {
-        method: 'post',
-        url: url,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
+    const config = {
+      method: "post",
+      url: url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
 
-      axios(config).then(response => {
-        const balances = response['data']['result']
-        const tokensList: TokensType[] = []
-        let i = 0
-        balances['tokenBalances'].filter((token: any) => {
-          let balance = token['tokenBalance']
-          if (balance !== '0') {
-            i++
-              const metadataParams = JSON.stringify({
-              "jsonrpc": "2.0",
-              "method": "alchemy_getTokenMetadata",
-              "params": [
-                  `${token['contractAddress']}`
-              ],
-              "id": 42
+    axios(config)
+      .then((response) => {
+        const balances = response["data"]["result"];
+        const tokensList: TokensType[] = [];
+        let i = 0;
+        balances["tokenBalances"].filter((token: any) => {
+          let balance = token["tokenBalance"];
+          if (balance !== "0") {
+            i++;
+            const metadataParams = JSON.stringify({
+              jsonrpc: "2.0",
+              method: "alchemy_getTokenMetadata",
+              params: [`${token["contractAddress"]}`],
+              id: 42,
             });
-          
+
             const metadataConfig = {
-              method: 'post',
+              method: "post",
               url: url,
               headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
               },
-              data : metadataParams
+              data: metadataParams,
             };
 
-            axios(metadataConfig).then((metadata: any) => {
-              balance = balance/Math.pow(10, metadata.data.result['decimals']);
-              balance = balance.toFixed(4);
-              const data = {
-                balance: balance,
-                logo: metadata.data.result['logo'],
-                name: metadata.data.result['name'],
-                symbol: metadata.data.result['symbol']
-              }
-              tokensList.push(data)
-              console.log(i, tokensList)
-              if (tokensList.length == i) {
-                setTokens(tokensList)
-              }
-            }).catch(error => console.log('error', error))
+            axios(metadataConfig)
+              .then((metadata: any) => {
+                balance = balance / Math.pow(10, metadata.data.result["decimals"]);
+                balance = balance.toFixed(4);
+                axios.get(`/api/coin-details?symbol=${metadata.data.result["symbol"]}`).then(res => {
+                  return res
+                }).then(res => {
+                  const data = {
+                    balance: balance,
+                    logo: metadata.data.result["logo"],
+                    name: metadata.data.result["name"],
+                    symbol: metadata.data.result["symbol"],
+                    price: res.data.data[metadata.data.result["symbol"]].quote.USD?.price.toFixed(4),
+                    value: (balance * res.data.data[metadata.data.result["symbol"]].quote.USD?.price).toFixed(2).toString(),
+                    percent_change_24hrs: (balance * res.data.data[metadata.data.result["symbol"]].quote.USD?.percent_change_24h).toFixed(2).toString()
+                  };
+                  tokensList.push(data);
+                  if (tokensList.length == i) {
+                    setTokens(tokensList);
+                  }
+                  console.log(tokens)
+                  return res.data.data[metadata.data.result["symbol"]]
+                }).catch(error => {
+                  console.log("error: ", error)
+                })
+              })
+              .catch((error) => console.log("error", error));
           }
-        })
-      }).catch(error => console.log("error: ", error))      
-    }, [])
+        });
+      })
+      .catch((error) => console.log("error: ", error));
 
+  }, []);
 
-    return (
-      <div>
-        <ul role="list" className="card divide-y divide-gray-200 p-8 shadow-xl">
-          {tokens?.map((item, index) => (
-            <div key={index} className="px-4 py-4 sm:px-0">
-              {/* Your content */}
-              <div className="flex w-full justify-center space-x-1.5">
-                <div>
-                  <div className="w-12 h-12 relative">
-                    <Image src={item.logo} layout="fill" alt="logo" />
-                  </div>
+  return (
+    <div>
+      <ul role="list" className="card divide-y divide-gray-200 p-8 shadow-xl">
+        {tokens?.map((item, index) => (
+          <div key={index} className="px-4 py-4 sm:px-0">
+            {/* Your content */}
+            <div className="flex w-full justify-center space-x-1.5">
+              <div>
+                <div className="relative h-12 w-12">
+                  <Image src={item.logo} layout="fill" alt="logo" />
                 </div>
-                <div className="flex w-full justify-between">
-                  <div>
-                    <p className="space-x-1.5 font-semibold">
-                      <span>{item.name}</span>
-                      <span>
-                        <div className="badge-gray-200 badge">100%</div>
-                      </span>
-                    </p>
-                    <p className="flex space-x-1.5 text-sm">
-                      <span>{item.balance} {item.symbol} </span>
-                      <span className="flex h-full flex-col items-center justify-center">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gray-200" />
-                      </span>
-                      <span> $1.00</span>
-                    </p>
+              </div>
+              <div className="flex w-full justify-between">
+                <div>
+                  <p className="space-x-1.5 font-semibold">
+                    <span>{item.name}</span>
+                    <span>
+                      <div className="badge-gray-200 badge">100%</div>
+                    </span>
+                  </p>
+                  <p className="flex space-x-1.5 text-sm">
+                    <span>
+                      {item.balance} {item.symbol}{" "}
+                    </span>
+                    <span className="flex h-full flex-col items-center justify-center">
+                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gray-200" />
+                    </span>
+                    <span>{item.price}</span>
+                  </p>
+                </div>
+                <div className="flex w-fit space-x-1.5">
+                  <div className="flex h-full w-fit space-x-2">
+                    <div className="max-w-10 flex flex-col items-start">
+                      <p className="font-semibold text-start">${item.value}</p>
+                      <p className="flex space-x-1.5 text-sm">
+                        <span>+107.71</span>
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex w-fit space-x-1.5">
-                    <div className="flex h-full w-fit space-x-2">
-                      <div>
-                        <p className="font-semibold">$100,200.00</p>
-                        <p className="flex space-x-1.5 text-sm">
-                          <span>+107.71</span>
-                          <span>
-                            <div className="badge-success badge text-base-100">+0.11%</div>
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex h-full flex-col justify-center">
-                      <button>
-                        <ChevronRightIcon className="h-6 w-6" />
-                      </button>
-                    </div>
+                  <div className="flex h-full items-center justify-center">
+                        <span>
+                          <div className={`badge ${Number(item.percent_change_24hrs) >= 0 ? "badge-success" : "badge-error"} badge-success text-base-100 text-start`}>
+                            {Number(item.percent_change_24hrs) >= 0 && "+"}{item.percent_change_24hrs}
+                          </div>
+                        </span>
+                    <button>
+                      <ChevronRightIcon className="h-6 w-6" />
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-          <button className="remove-text-transform btn-neutral btn-xs btn-md btn mt-4 max-w-fit text-white sm:w-auto">
-            <div className="flex items-center">
-              <span>See all tokens</span>
-              <span>
-                <ChevronRightIcon className="h-6 w-6" />
-              </span>
-            </div>
-          </button>
-        </ul>
-      </div>
-    );
+          </div>
+        ))}
+        <button className="remove-text-transform btn-neutral btn-xs btn-md btn mt-4 max-w-fit text-white sm:w-auto">
+          <div className="flex items-center">
+            <span>See all tokens</span>
+            <span>
+              <ChevronRightIcon className="h-6 w-6" />
+            </span>
+          </div>
+        </button>
+      </ul>
+    </div>
+  );
 }

@@ -17,9 +17,9 @@ const config = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "static.alchemyapi.io"
-      }
-    ]
+        hostname: "static.alchemyapi.io",
+      },
+    ],
   },
 
   /**

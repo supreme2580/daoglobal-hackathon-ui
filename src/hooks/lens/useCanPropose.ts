@@ -12,7 +12,7 @@ export const useCanCreateProposal = (account: Address | undefined) => {
   let token: TokenAndPower = {};
   const { data, ...rest } = useContractReads({
     contracts: [
-      { ...settingsLensVoting, functionName: "minProposerVotingPower"},
+      { ...settingsLensVoting, functionName: "minProposerVotingPower" },
       {
         ...settingsFollowNFT,
         functionName: "getPowerByBlockNumber",

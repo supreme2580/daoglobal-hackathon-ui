@@ -6,7 +6,7 @@ import Head from "next/head";
 import { useReadLocalStorage } from "usehooks-ts";
 
 const Treasury: NextPage = () => {
-  const tab = useReadLocalStorage("tab")
+  const tab = useReadLocalStorage("tab");
   return (
     <>
       <Head>

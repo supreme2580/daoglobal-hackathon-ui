@@ -45,18 +45,10 @@ export const ProposalChartSummary: React.FC<Props> = ({ proposal }) => {
         <PieChart width={300} height={215} margin={{ top: 50 }}>
           <Legend
             wrapperStyle={{ top: 0 }}
-            formatter={(value, { color }) => (
-              <span style={{ color: "black" }}>{value}</span>
-            )}
+            formatter={(value, { color }) => <span style={{ color: "black" }}>{value}</span>}
             align="left"
           />
-          <Pie
-            data={chartData}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-            nameKey="name"
-          >
+          <Pie data={chartData} outerRadius={80} fill="#8884d8" dataKey="value" nameKey="name">
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}

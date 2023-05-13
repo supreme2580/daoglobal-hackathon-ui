@@ -26,10 +26,7 @@ export const SelectInput: React.FC<Props> = ({
       </label>
       <select
         {...register(name)}
-        className={classNames(
-          "select-bordered select-accent select",
-          selectClass
-        )}
+        className={classNames("select-bordered select-accent select", selectClass)}
         defaultValue=""
         {...props}
       >
