@@ -66,9 +66,9 @@ export default function TokensTab() {
                     logo: metadata.data.result["logo"],
                     name: metadata.data.result["name"],
                     symbol: metadata.data.result["symbol"],
-                    price: res.data.data[metadata.data.result["symbol"]].quote.USD?.price.toFixed(4),
+                    price: res.data.data[metadata.data.result["symbol"]].quote.USD?.price.toFixed(2),
                     value: (balance * res.data.data[metadata.data.result["symbol"]].quote.USD?.price).toFixed(2).toString(),
-                    percent_change_24hrs: (balance * res.data.data[metadata.data.result["symbol"]].quote.USD?.percent_change_24h).toFixed(2).toString()
+                    percent_change_24hrs: (balance * res.data.data[metadata.data.result["symbol"]].quote.USD?.percent_change_24h).toFixed(2).toString(),
                   };
                   tokensList.push(data);
                   if (tokensList.length == i) {
@@ -118,19 +118,22 @@ export default function TokensTab() {
                     <span>{item.price}</span>
                   </p>
                 </div>
-                <div className="flex w-fit space-x-1.5">
+                <div className="flex w-fit space-x-3">
                   <div className="flex h-full w-fit space-x-2">
-                    <div className="max-w-10 flex flex-col items-start">
+                    <div className="w-10 flex flex-col items-start">
                       <p className="font-semibold text-start">${item.value}</p>
-                      <p className="flex space-x-1.5 text-sm">
-                        <span>+107.71</span>
+                      <p className="flex space-x-1.5 text-sm w-full">
+                        <span className="text-start">
+                          {Number(item.percent_change_24hrs) >= 0.00 ? "+" : "-"}
+                          {Number(Number(item.balance)-(Number(item.price) * Number(item.balance))).toFixed(2)}
+                        </span>
                       </p>
                     </div>
                   </div>
                   <div className="flex h-full items-center justify-center">
-                        <span>
-                          <div className={`badge ${Number(item.percent_change_24hrs) >= 0 ? "badge-success" : "badge-error"} badge-success text-base-100 text-start`}>
-                            {Number(item.percent_change_24hrs) >= 0 && "+"}{item.percent_change_24hrs}
+                        <span className="w-full">
+                          <div className={`badge ${Number(item.percent_change_24hrs) >= 0.00 ? "badge-success" : "badge-error"} badge-success text-base-100 text-start`}>
+                            {Number(item.percent_change_24hrs) >= 0.00 ? "+" : ""}{item.percent_change_24hrs}
                           </div>
                         </span>
                     <button>
