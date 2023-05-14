@@ -6,7 +6,7 @@ import Head from "next/head";
 import { useReadLocalStorage } from "usehooks-ts";
 
 const Treasury: NextPage = () => {
-  const tab = useReadLocalStorage("tab");
+  const readTab = useReadLocalStorage("tab");
   return (
     <>
       <Head>
@@ -19,7 +19,7 @@ const Treasury: NextPage = () => {
       <main className="bg-base flex h-full w-full justify-center">
         <div className="w-full max-w-7xl space-y-6">
           <TreasuryTabs />
-          {tab == "tokens" || null ? <TokensTab /> : <TransactionsTab />}
+          {readTab == "tokens" ? <TokensTab /> : readTab == null ? <TokensTab /> : <TransactionsTab />}
         </div>
       </main>
     </>
