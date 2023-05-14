@@ -96,7 +96,7 @@ export default function TokensTab() {
   return (
     <div>
       <ul role="list" className="card divide-y divide-gray-200 p-8 shadow-xl">
-        {tokens?.map((item, index) => (
+        {tokens?.sort((a, b) => { return Number(b.value)-Number(a.value) })?.map((item, index) => (
           <div key={index} className="px-4 py-4 sm:px-0">
             {/* Your content */}
             <div className="flex w-full justify-center space-x-1.5">
