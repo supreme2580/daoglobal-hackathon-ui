@@ -7,6 +7,8 @@ import Image from "next/image";
 
 export default function TokensTab() {
   const [tokens, setTokens] = useState<TokensType[]>();
+  const [totalValue, setTotalValue] = useState<number>()
+  const value: number[] = []
 
   useEffect(() => {
     const url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`;
@@ -71,8 +73,12 @@ export default function TokensTab() {
                     percent_change_24hrs: (balance * res.data.data[metadata.data.result["symbol"]].quote.USD?.percent_change_24h).toFixed(2).toString(),
                   };
                   tokensList.push(data);
+                  if (Number(data.value) > 0.00) {
+                    value.push(Number(data.value))
+                  }
                   if (tokensList.length == i) {
                     setTokens(tokensList);
+                    setTotalValue(value.reduce((a, b) => { return a + b }))
                   }
                   console.log(tokens)
                   return res.data.data[metadata.data.result["symbol"]]
@@ -85,7 +91,6 @@ export default function TokensTab() {
         });
       })
       .catch((error) => console.log("error: ", error));
-
   }, []);
 
   return (
@@ -105,7 +110,7 @@ export default function TokensTab() {
                   <p className="space-x-1.5 font-semibold">
                     <span>{item.name}</span>
                     <span>
-                      <div className="badge-gray-200 badge">100%</div>
+                      <div className="badge-gray-200 badge">{totalValue != undefined && totalValue != 0 ? ((Number(item.value)/totalValue)*100).toFixed(2): "0"}%</div>
                     </span>
                   </p>
                   <p className="flex space-x-1.5 text-sm">
