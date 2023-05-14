@@ -30,13 +30,16 @@ export default function TransactionsTab() {
       console.log(error);
     }
     try {
-      axios.get("/api/coin-details?symbol=MATIC").then(res => {
-        return res
-      }).then((res) => {
+      axios
+        .get("/api/coin-details?symbol=MATIC")
+        .then((res) => {
           return res;
         })
         .then((res) => {
-          console.log(res)
+          return res;
+        })
+        .then((res) => {
+          console.log(res);
           setMaticPrice(res.data.data["MATIC"].quote.USD?.price.toFixed(2));
         })
         .catch((error) => {
